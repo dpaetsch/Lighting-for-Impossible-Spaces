@@ -14,8 +14,6 @@ public class SphereObject : MonoBehaviour {
 	[Header("Stencil Buffer Info")]
 	public int layer = 1;
 
-
-
 	void OnValidate() {
 		
 		updateMaterial();

@@ -3,7 +3,6 @@ using UnityEngine;
 using static UnityEngine.Mathf;
 using UnityEngine.Rendering;
 using System.Diagnostics;
-using System.Linq; // for Min() function in dictionaries
 
 [ExecuteAlways, ImageEffectAllowedInSceneView]
 public class RayTracingManager : MonoBehaviour {
@@ -24,7 +23,7 @@ public class RayTracingManager : MonoBehaviour {
     [Header("Bounding Volume Hierarchy")]
     [SerializeField] bool useBVH; // If true, the shader will use a BVH for the triangles
     [SerializeField] bool useFullObjectsInBVH; // If true, the BVH will use the full objects (for meshes) instead of just triangles 
-    [SerializeField] bool skipConstruction = true; // If true, the BVH will use colors for each depth level
+    [SerializeField] bool skipConstruction; // If true, the BVH will use colors for each depth level
     [SerializeField] bool showBVHDepth;  // if true, it will show the bounding box of the depth of the BVH
     [SerializeField] bool accumulateBVHColors; // If true, the BVH will accumulate colors for each depth level
     [SerializeField, Range(0, 16)] int bvhDepth = 1; // Depth of the BVH tree, 0 means no BVH
@@ -34,9 +33,7 @@ public class RayTracingManager : MonoBehaviour {
     [ReadOnly] [SerializeField] int numWrapperObjects; 
 
     [Header("Stencil Buffer Info")]
-    [SerializeField, Range(0,5)] public int currentLayer = 0; 
-    [SerializeField, Range(0,5)] public int nextLayer = 1; // Layer that is also activated (for player movement)
-    [SerializeField] public bool singleLayer;
+    [SerializeField, Range(1,2)] int currentLayer = 1;
 
     [Header("Debug Info")]
     [SerializeField] bool showIntersectionCount; // If true, the bounce count will be shown (red pixels
@@ -73,9 +70,6 @@ public class RayTracingManager : MonoBehaviour {
     // --- Materials ---
     Material rayTracingMaterial;  
 
-    // --- Active Layer Info ---
-    Dictionary<int, int> activeLayers; // Dictionary to keep track of active layers and their indices in the roomObjects array
-
     // --- Lists --- 
     RoomObject[] roomObjects;
     MeshObject[] meshObjects;
@@ -107,16 +101,10 @@ public class RayTracingManager : MonoBehaviour {
     ComputeBuffer wrapperInfoBuffer;
 
 
-
     // Called after each camera (e.g. game or scene camera) has finished rendering into the src texture.
     void OnRenderImage(RenderTexture src, RenderTexture target) {
-
-
-        bool activeMode = useRayTracing || useSimpleShape || useImportanceSampling; // If there is an active viewing mode 
-        bool shouldApplyShader = Camera.current.name != "SceneCamera" || useShaderInSceneView; // If it is not the scene camera or if the shader should be applied in the scene view
-        
-
-        if (shouldApplyShader && activeMode) {
+        bool shouldApplyShader = Camera.current.name != "SceneCamera" || useShaderInSceneView;
+        if (shouldApplyShader && (useRayTracing || useSimpleShape || useImportanceSampling)) {
             InitFrame();
             Graphics.Blit(null, target, rayTracingMaterial);  // Run the ray tracing shader and draw the result to the screen
         }  else {
@@ -128,31 +116,23 @@ public class RayTracingManager : MonoBehaviour {
 		ShaderHelper.InitMaterial(rayTracingShader, ref rayTracingMaterial); // Create materials used in blits
         UpdateCameraParams(Camera.current);
 
-        SanityChecks();
-
-
-        if(singleLayer){
-            nextLayer = currentLayer; // If single layer, next layer is the same as current layer
-        }
-
-        bool showDebug = false;
         
-        if(showDebug) UnityEngine.Debug.Log($"======= Camera: {Camera.current.name}" );
+        UnityEngine.Debug.Log($"======= Camera: {Camera.current.name}" );
 
         var sw1 = Stopwatch.StartNew();
         CreateObjectlists();
         sw1.Stop();
-        if(showDebug)UnityEngine.Debug.Log($"CreateObjectLists: {sw1.ElapsedMilliseconds} ms");
+        UnityEngine.Debug.Log($"CreateObjectLists: {sw1.ElapsedMilliseconds} ms");
 
         var sw2 = Stopwatch.StartNew();
         CreateBVH(); // Create the BVH for the objects in the scene
         sw2.Stop();
-        if(showDebug)UnityEngine.Debug.Log($"CreateBVH: {sw2.ElapsedMilliseconds} ms");
+        UnityEngine.Debug.Log($"CreateBVH: {sw2.ElapsedMilliseconds} ms");
 
         var sw3 = Stopwatch.StartNew();
         AssignInfoLists(); // Assign the info lists to the arrays
         sw3.Stop();
-        if(showDebug)UnityEngine.Debug.Log($"AssignInfoLists: {sw3.ElapsedMilliseconds} ms");
+        UnityEngine.Debug.Log($"AssignInfoLists: {sw3.ElapsedMilliseconds} ms");
         
         SendBuffersToShader(); // Sends the buffers to the shader
         SendParametersToShader(); // Sends the parameters to the shader
@@ -179,32 +159,12 @@ public class RayTracingManager : MonoBehaviour {
         numRooms = roomObjects.Length;
         System.Array.Sort(roomObjects, (a, b) => a.layer.CompareTo(b.layer));
 
-
-        // See which layers actually exist (sort or virtualization)
-        activeLayers = new Dictionary<int, int>();
-        for (int i = 0; i < numRooms; i++) {
-            int layer = roomObjects[i].layer;
-            if (!activeLayers.ContainsKey(layer)) {
-                activeLayers[layer] = i; // Store the index of the first room with this layer
-            }
-        }
-
         // -- Initialize the rooms 
         for(int i = 0; i < numRooms; i++){ 
-            //roomObjects[i].layer = i; // layers start at 0
+            roomObjects[i].layer = i+1; // layers start at 1, not 0
             roomObjects[i].numSpheres = 0;
             roomObjects[i].numMeshes = 0; 
             roomObjects[i].numStencils = 0;
-            roomObjects[i].numTriangles = 0;
-            roomObjects[i].numbvhNodes = 0; 
-            roomObjects[i].numWrappers = 0;
-
-            roomObjects[i].trianglesIndex = 0; 
-            roomObjects[i].spheresIndex = 0; 
-            roomObjects[i].stencilIndex = 0; 
-            roomObjects[i].bvhNodesIndex = 0; 
-            roomObjects[i].wrappersIndex = 0;
-            roomObjects[i].meshIndex = 0;
         }
 
         meshObjects = FindObjectsOfType<MeshObject>();
@@ -254,15 +214,14 @@ public class RayTracingManager : MonoBehaviour {
             numTriangles += triangleCount;
 
             int layer = meshObject.layer;
-            int roomIndex = activeLayers[layer]; // Get the index of the room for this layer
-
             if(prevLayer!= layer) {
-                roomObjects[roomIndex].trianglesIndex = triangleStartIndex; 
+                roomObjects[layer-1].trianglesIndex = triangleStartIndex; 
                 prevLayer = layer;
             }
-            roomObjects[roomIndex].numMeshes++;  
-            roomObjects[roomIndex].numTriangles += triangleCount;  
+            roomObjects[layer-1].numMeshes++;  
+            roomObjects[layer-1].numTriangles += triangleCount;  
             
+
             triangleStartIndex += meshObject.triangleCount; // Update the start index for the next mesh
 
             // Add to lights if emissive
@@ -281,7 +240,7 @@ public class RayTracingManager : MonoBehaviour {
             SphereObject sphereObject = sphereObjects[i];
             sphereObject.calculateBounds();
             int layer = sphereObject.layer;
-            roomObjects[layer].numSpheres++;
+            roomObjects[layer-1].numSpheres++;
 
             // Add to lights if emissive            
             if (sphereObject.isLightSource){ 
@@ -298,16 +257,12 @@ public class RayTracingManager : MonoBehaviour {
         for(int i = 0; i < numStencils; i++) {
             stencilObjects[i].ExtractQuadParameters();
             int layer = stencilObjects[i].layer;
-            int roomIndex = activeLayers[layer]; // Get the index of the room for this layer
-            
-            roomObjects[roomIndex].numStencils++;
-            roomObjects[roomIndex].stencilIndex = i;
+            roomObjects[layer-1].numStencils++;
+            roomObjects[layer-1].stencilIndex = i;
         }
 
-
         // -- Add Index to Rooms --
-        
-        if(numRooms >= 0) {
+        if(numRooms > 0) {
             roomObjects[0].meshIndex = 0;
             roomObjects[0].spheresIndex = 0;
             roomObjects[0].stencilIndex = 0;
@@ -420,10 +375,10 @@ public class RayTracingManager : MonoBehaviour {
                 minBounds = bvhNodes[i].minBounds,
                 maxBounds = bvhNodes[i].maxBounds,
                 isLeaf = bvhNodes[i].isLeaf ? 1 : 0,
-                startWrapperIndex = bvhNodes[i].startWrapperIndex + roomObjects[bvhNodes[i].layer].wrappersIndex, // Offset by the room index
+                startWrapperIndex = bvhNodes[i].startWrapperIndex + roomObjects[bvhNodes[i].layer-1].wrappersIndex, // Offset by the room index
                 lengthOfWrappers = bvhNodes[i].lengthOfWrappers,
-                leftChildIndex = bvhNodes[i].isLeaf? -1 :  bvhNodes[i].leftChildIndex + roomObjects[bvhNodes[i].layer].bvhNodesIndex, // Offset by the room index
-                rightChildIndex = bvhNodes[i].isLeaf? -1 : bvhNodes[i].rightChildIndex + roomObjects[bvhNodes[i].layer].bvhNodesIndex // Offset by the room index
+                leftChildIndex = bvhNodes[i].isLeaf? -1 :  bvhNodes[i].leftChildIndex + roomObjects[bvhNodes[i].layer-1].bvhNodesIndex, // Offset by the room index
+                rightChildIndex = bvhNodes[i].isLeaf? -1 : bvhNodes[i].rightChildIndex + roomObjects[bvhNodes[i].layer-1].bvhNodesIndex // Offset by the room index
             };
         }
 
@@ -434,8 +389,8 @@ public class RayTracingManager : MonoBehaviour {
                 minBounds = wrapperObjects[i].minBounds,
                 maxBounds = wrapperObjects[i].maxBounds,
                 isTriangle = wrapperObjects[i].isTriangle ? 1 : 0,
-                meshIndex = wrapperObjects[i].isTriangle ? wrapperObjects[i].meshIndex + roomObjects[wrapperObjects[i].layer].meshIndex : -1, // mesh index in wrapper + Offset by the room mesh index ( or -1 if it's a sphere)
-                index =  wrapperObjects[i].index + (wrapperObjects[i].isTriangle ? roomObjects[wrapperObjects[i].layer].trianglesIndex :  roomObjects[wrapperObjects[i].layer].spheresIndex) // index of triangle or sphere in wrapper + Offset by the room index               
+                meshIndex = wrapperObjects[i].isTriangle ? wrapperObjects[i].meshIndex + roomObjects[wrapperObjects[i].layer-1].meshIndex : -1, // mesh index in wrapper + Offset by the room mesh index ( or -1 if it's a sphere)
+                index =  wrapperObjects[i].index + (wrapperObjects[i].isTriangle ? roomObjects[wrapperObjects[i].layer-1].trianglesIndex :  roomObjects[wrapperObjects[i].layer-1].spheresIndex) // index of triangle or sphere in wrapper + Offset by the room index               
             };
         }
 
@@ -479,7 +434,6 @@ public class RayTracingManager : MonoBehaviour {
 
     void SendParametersToShader() {
         rayTracingMaterial.SetInt("cameraLayer", currentLayer);
-        rayTracingMaterial.SetInt("nextLayer", nextLayer);
 
         // Ray Tracing Settings
 		rayTracingMaterial.SetInt("NumRaysPerPixel", numRaysPerPixel);
@@ -545,25 +499,10 @@ public class RayTracingManager : MonoBehaviour {
 		sunIntensity = Mathf.Max(0, sunIntensity);
 
         fpsCounter = FindObjectOfType<FPSCounter>();
-        if(fpsCounter != null) {
-            fpsCounter.toggleable(showFPSCounter); 
-        }
+        fpsCounter.toggleable(showFPSCounter); 
 
         //InitFrame(); // Reinitialize the frame when a value is changed in the inspector
 	}
-
-    void SanityChecks(){
-        if(currentLayer < 0 || currentLayer >= numRooms) {
-            UnityEngine.Debug.LogWarning("Current Layer is out of bounds, setting to 0");
-            currentLayer = 0;
-        }
-        if(nextLayer < 0 || nextLayer >= numRooms) {
-            UnityEngine.Debug.LogWarning("Next Layer is out of bounds, setting to 1");
-            nextLayer = 1;
-        }
-
-
-    }
 
 
 }

@@ -29,7 +29,6 @@ Shader "Custom/RayTracing" {
 			static const float PI = 3.1415;
 
 			int cameraLayer; // Layer of the camera
-			int nextLayer; // Layer to display, that we are about to walk into
 
             // RayTracing Settings
 			int NumRaysPerPixel;
@@ -454,7 +453,7 @@ Shader "Custom/RayTracing" {
 				closestHit.dst = 1.#INF; // We haven't hit anything yet, so 'closest' hit is infinitely far away
 
 				// Raycast against all meshes in the current layer and keep info about the closest hit
-				int layerIndex = currentLayer;
+				int layerIndex = currentLayer-1;
 				int numMeshes = RoomInfos[layerIndex].numMeshes;
 				int firstMeshIndex = RoomInfos[layerIndex].meshIndex;
 
@@ -483,7 +482,7 @@ Shader "Custom/RayTracing" {
 				closestHit.dst = 1.#INF;
 
 				//Raycast against all spheres in the current layer and keep info about the closest hit
-				int layerIndex = currentLayer;
+				int layerIndex = currentLayer-1;
 				int numSpheres = RoomInfos[layerIndex].numSpheres;
 				int firstSphereIndex = RoomInfos[layerIndex].spheresIndex;
 
@@ -505,7 +504,7 @@ Shader "Custom/RayTracing" {
 				HitInfo closestHit = (HitInfo)0;
 				closestHit.dst = 1.#INF;  // We haven't hit anything yet, so 'closest' hit is infinitely far away
 
-				int layerIndex = currentLayer;
+				int layerIndex = currentLayer-1;
 				int numStencils = RoomInfos[layerIndex].numStencils;
 				int firstStencilIndex = RoomInfos[layerIndex].stencilIndex;
 
@@ -530,9 +529,7 @@ Shader "Custom/RayTracing" {
 				HitInfo closestHit = (HitInfo)0;
 				closestHit.dst = 1.#INF; // We haven't hit anything yet, so 'closest' hit is infinitely far away
 
-
-				int layerIndex = currentLayer;
-
+				int layerIndex = currentLayer-1;
 
 				int stack[16]; // Stack to hold BVH node indices (fixed size) 
 				int stackIndex = 0;
@@ -622,16 +619,10 @@ Shader "Custom/RayTracing" {
 			HitInfo IterativeRayPropagationThroughPortals(int startLayer, Ray ray) {
 				HitInfo closestHit = (HitInfo)0;
 				closestHit.dst = 1.#INF;
-				HitInfo bufferHit = (HitInfo)0;
-				bufferHit.didHit = false; // Initialize buffer hit as not hit
-				bufferHit.dst = 1.#INF; // Initialize buffer hit to infinitely far away
-				HitInfo previousBestHit = (HitInfo)0;
-				previousBestHit.dst = 1.#INF; // Initialize previous best hit to infinitely far away
-
 
 				int currentLayer = startLayer;
 				int nextLayer;
-				int previousLayer = -1;
+				int previousLayer = 0;
 
 				int maxPropagations = maxPropagationDepth; // Maximum number of times we can go through the layers (for a single ray)
 
@@ -659,21 +650,10 @@ Shader "Custom/RayTracing" {
 
 					}
 
-					// make sure we are not on the first propagation, since we need a buffer hit
-					if(maxPropagations + 1  < maxPropagationDepth){
-						if(closestHit.dst < bufferHit.dst){ // check if the new hit is closer than the previous buffer hit (to avoid glitches)
-							// if yes, then we avoid drawing this new hit, and return the previous hit
-							//return previousBestHit; // Return the previous best hit if we hit something closer than the buffer
-						}
-					}
-
-
 					// Find the closest buffer hit in this layer
 					HitInfo bufferHit = checkClosestBuffer(ray, currentLayer, previousLayer);
 					if(!bufferHit.didHit) return closestHit; // No buffer hit, return the closest hit
 					if(closestHit.dst < bufferHit.dst) return closestHit; // If we hit an object before the buffer, return the hit
-
-					previousBestHit = closestHit; // Save the previous best hit before we move to the next layer
 
 					// If we hit a buffer, get the next layer after the buffer
 					nextLayer = bufferHit.nextLayerIfBuffer;
@@ -736,26 +716,15 @@ Shader "Custom/RayTracing" {
 
 
 			// --- Importance Sampling Function ---
-			float3 ImportanceSample(Ray ray, int currentLayer, int nextLayer) {
+			float3 ImportanceSample(Ray ray, int currentLayer) {
 
 				float3 incomingLight = 0;
 				float3 rayColor = 1;	
 				
-				// Find the object of the pixel
-				// Check current Layer
+				// First, we need to find the object of the pixel
+				HitInfo hitInfo = IterativeRayPropagationThroughPortals(currentLayer, ray);
 
-				HitInfo hitInfo;
-
-				HitInfo hitInfoCurrent = IterativeRayPropagationThroughPortals(currentLayer, ray);
-				HitInfo hitInfoNext = IterativeRayPropagationThroughPortals(nextLayer, ray);
-
-				if (hitInfoCurrent.didHit && hitInfoCurrent.dst < hitInfoNext.dst) {
-					hitInfo = hitInfoCurrent; // If we hit something in the current layer, use that
-				} else if (hitInfoNext.didHit) {
-					hitInfo = hitInfoNext; // If we didn't hit anything in the current layer, use the next layer
-				} else {
-					return incomingLight;
-				}
+				if (!hitInfo.didHit) return incomingLight;
 				
 				// Get the material of the object
 				RayTracingMaterial material = hitInfo.material;
@@ -768,7 +737,7 @@ Shader "Custom/RayTracing" {
 				for(int i = 0; i < NumLights; i++) {
 					LightInfo lightInfo = LightInfos[i];
 
-					if(abs(lightInfo.layer - currentLayer) > 3) continue; // Ignore lights that are not in the same layer or the next one
+					if(abs(lightInfo.layer - currentLayer) > 1) continue; // Ignore lights that are not in the same layer or the next one
 
 					// Send a ray to the light source
 					float3 lightDir = normalize(lightInfo.position - hitInfo.hitPoint);
@@ -809,7 +778,7 @@ Shader "Custom/RayTracing" {
 				int2 stack[16]; // Stack to hold BVH node indices
 				int stackIndex = 0; // Stack index to keep track of the current position in the stack
 
-				int layerIndex = cameraLayer; // Get the current layer index (0-based)
+				int layerIndex = cameraLayer-1; // Get the current layer index (0-based)
 
 				stack[stackIndex++] = int2(RoomInfos[layerIndex].bvhNodesIndex, 1); // push root node of room onto the stack with depth 1
 
@@ -880,7 +849,7 @@ Shader "Custom/RayTracing" {
 				
 				// ------ Importance Sampling -----
 				if(useImportanceSampling) {
-					pixelCol += ImportanceSample(ray, cameraLayer, nextLayer);
+					pixelCol += ImportanceSample(ray, cameraLayer);
 				}
 				
 				// ------ Show BVH Depth -----

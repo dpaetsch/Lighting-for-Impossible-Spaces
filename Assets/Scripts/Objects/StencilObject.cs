@@ -20,8 +20,6 @@ public class StencilObject : MonoBehaviour {
         if (meshFilter == null) meshFilter = GetComponent<MeshFilter>();
         mesh = meshFilter.sharedMesh;
         ExtractQuadParameters();
-        
-
 	}
     
     public void ExtractQuadParameters() {

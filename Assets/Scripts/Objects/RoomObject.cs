@@ -24,21 +24,12 @@ public class RoomObject : MonoBehaviour {
     [ReadOnly] [SerializeField] public int numbvhNodes; // Total number of BVH nodes
     [ReadOnly] [SerializeField] public int bvhNodesIndex; // Index of the first BVH node in the list
 
+
     List<MeshObject> meshObjects;
     List<SphereObject> sphereObjects;
     List<StencilObject> stencilObjects;
 
-
-    [Header("Debug")]
-    [SerializeField] public bool isActive = true; // Whether this room is active in the ray tracing process
-
-
     void OnValidate() {
-        foreach (Transform child in transform) {
-            child.gameObject.SetActive(isActive);
-        }
-
-
         if (meshObjects == null) meshObjects = new List<MeshObject>();
         if (sphereObjects == null) sphereObjects = new List<SphereObject>();
         if (stencilObjects == null) stencilObjects = new List<StencilObject>();
@@ -50,14 +41,6 @@ public class RoomObject : MonoBehaviour {
 
         for (int i = 0; i < numMeshes; i++) {
             numTriangles += meshObjects[i].triangleCount;
-        }
-
-    }
-
-    public void setActive(bool active) {
-        isActive = active;
-        foreach (Collider col in GetComponentsInChildren<Collider>()) {
-            col.enabled = active;
         }
     }
 

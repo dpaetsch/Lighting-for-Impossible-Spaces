@@ -182,8 +182,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 22.89, y: 5.1799994, z: 0.40999955}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 23.390001, y: 5.68, z: 0.9099996}
+  boundsMin: {x: 22.390001, y: 4.68, z: -0.09000039}
   layer: 1
 --- !u!65 &665270
 BoxCollider:
@@ -307,8 +307,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 32.5, y: -2.9900002, z: -22.199999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 33, y: -2.49, z: -21.7}
+  boundsMin: {x: 32, y: -3.49, z: -22.7}
   layer: 1
 --- !u!65 &38493019
 BoxCollider:
@@ -432,8 +432,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 25.449999, y: 2.9499998, z: -3.32}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 25.95, y: 3.45, z: -2.8200004}
+  boundsMin: {x: 24.95, y: 2.45, z: -3.8200004}
   layer: 1
 --- !u!65 &51523438
 BoxCollider:
@@ -557,8 +557,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 37.08, y: 3.96, z: -12.539999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 37.58, y: 4.46, z: -12.040001}
+  boundsMin: {x: 36.58, y: 3.46, z: -13.040001}
   layer: 1
 --- !u!65 &52493554
 BoxCollider:
@@ -994,8 +994,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 23.599998, y: 1.3899999, z: 1.8199997}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 24.100002, y: 1.89, z: 2.3199997}
+  boundsMin: {x: 23.100002, y: 0.89, z: 1.3199997}
   layer: 1
 --- !u!65 &144108328
 BoxCollider:
@@ -1119,8 +1119,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 37.25, y: 2.9499998, z: -22.210001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 37.75, y: 3.45, z: -21.710001}
+  boundsMin: {x: 36.75, y: 2.45, z: -22.710001}
   layer: 1
 --- !u!65 &148316923
 BoxCollider:
@@ -1244,8 +1244,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -16.660002, y: 3.96, z: -4.409999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: -16.160002, y: 4.46, z: -3.9099998}
+  boundsMin: {x: -17.160002, y: 3.46, z: -4.91}
   layer: 1
 --- !u!65 &149489100
 BoxCollider:
@@ -1432,8 +1432,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 3.4700003, y: 3.96, z: 9.430002}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 3.97, y: 4.46, z: 9.93}
+  boundsMin: {x: 2.97, y: 3.46, z: 8.93}
   layer: 1
 --- !u!1 &169756949
 GameObject:
@@ -1494,8 +1494,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -17.54, y: 1.3899999, z: -2.3100004}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: -17.04, y: 1.89, z: -1.8100004}
+  boundsMin: {x: -18.04, y: 0.89, z: -2.8100004}
   layer: 1
 --- !u!65 &169756952
 BoxCollider:
@@ -1619,8 +1619,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -19.050001, y: 5.1799994, z: -10.349999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: -18.550001, y: 5.68, z: -9.85}
+  boundsMin: {x: -19.550001, y: 4.68, z: -10.85}
   layer: 1
 --- !u!65 &179401549
 BoxCollider:
@@ -1786,12 +1786,12 @@ MonoBehaviour:
   useBVH: 1
   useFullObjectsInBVH: 1
   skipConstruction: 0
-  showBVHDepth: 1
-  accumulateBVHColors: 1
+  showBVHDepth: 0
+  accumulateBVHColors: 0
   bvhDepth: 10
   bvhMaxDepth: 16
-  bvhMaxDepthReached: 6
-  numBVHNodes: 25
+  bvhMaxDepthReached: 9
+  numBVHNodes: 167
   numWrapperObjects: 84
   currentLayer: 1
   showIntersectionCount: 0
@@ -1872,8 +1872,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 31.239998, y: 1.3899999, z: 7.0599995}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 31.740002, y: 1.89, z: 7.56}
+  boundsMin: {x: 30.740002, y: 0.89, z: 6.56}
   layer: 1
 --- !u!65 &226573022
 BoxCollider:
@@ -1997,8 +1997,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 6.24, y: 4.38, z: -19.300001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 6.74, y: 4.88, z: -18.8}
+  boundsMin: {x: 5.74, y: 3.88, z: -19.8}
   layer: 1
 --- !u!65 &230277947
 BoxCollider:
@@ -2122,8 +2122,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 8.549999, y: 5.2999997, z: 7.25}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 9.05, y: 5.8, z: 7.75}
+  boundsMin: {x: 8.05, y: 4.8, z: 6.75}
   layer: 1
 --- !u!65 &237327700
 BoxCollider:
@@ -2327,8 +2327,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 8.119999, y: -1.23, z: -14.549999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 8.619999, y: -0.5407673, z: -13.860767}
+  boundsMin: {x: 7.619999, y: -1.9192327, z: -15.239233}
   layer: 1
 --- !u!65 &254387523
 BoxCollider:
@@ -2530,8 +2530,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -18.420002, y: -2.9900002, z: -12.28}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: -17.920002, y: -2.49, z: -11.780001}
+  boundsMin: {x: -18.920002, y: -3.49, z: -12.780001}
   layer: 1
 --- !u!65 &298299796
 BoxCollider:
@@ -2655,8 +2655,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 43.260006, y: -1.23, z: -17.18}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 43.760002, y: -0.5407673, z: -16.490768}
+  boundsMin: {x: 42.760002, y: -1.9192327, z: -17.869232}
   layer: 1
 --- !u!65 &318376820
 BoxCollider:
@@ -2780,8 +2780,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 23.519999, y: -2.9900002, z: -1.5200005}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 24.02, y: -2.49, z: -1.0200005}
+  boundsMin: {x: 23.02, y: -3.49, z: -2.0200005}
   layer: 1
 --- !u!65 &323888690
 BoxCollider:
@@ -2905,8 +2905,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 16.760002, y: -2.9900002, z: -32.43}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 17.260002, y: -2.49, z: -31.93}
+  boundsMin: {x: 16.260002, y: -3.49, z: -32.93}
   layer: 1
 --- !u!65 &385239619
 BoxCollider:
@@ -3030,8 +3030,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 27.360004, y: -2.9900002, z: 3.1299999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 27.86, y: -2.49, z: 3.6299996}
+  boundsMin: {x: 26.86, y: -3.49, z: 2.6299996}
   layer: 1
 --- !u!65 &387809666
 BoxCollider:
@@ -3233,8 +3233,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 35.399998, y: 1.3899999, z: -17.070004}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 35.9, y: 1.89, z: -16.570002}
+  boundsMin: {x: 34.9, y: 0.89, z: -17.570002}
   layer: 1
 --- !u!65 &417041656
 BoxCollider:
@@ -3358,8 +3358,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 25.280005, y: 3.96, z: 6.3500004}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 25.78, y: 4.46, z: 6.85}
+  boundsMin: {x: 24.78, y: 3.46, z: 5.85}
   layer: 1
 --- !u!65 &435844250
 BoxCollider:
@@ -3483,8 +3483,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 18.52, y: 3.96, z: -24.56}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 19.02, y: 4.46, z: -24.060001}
+  boundsMin: {x: 18.02, y: 3.46, z: -25.060001}
   layer: 1
 --- !u!65 &453347391
 BoxCollider:
@@ -3702,8 +3702,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 35.5, y: 0, z: -24.699999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 36, y: 0.5, z: -24.2}
+  boundsMin: {x: 35, y: -0.5, z: -25.2}
   layer: 1
 --- !u!65 &479775880
 BoxCollider:
@@ -4184,8 +4184,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -12.3600025, y: 4.38, z: -13.799999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: -11.860001, y: 4.88, z: -13.3}
+  boundsMin: {x: -12.860001, y: 3.88, z: -14.3}
   layer: 1
 --- !u!65 &604923519
 BoxCollider:
@@ -4309,8 +4309,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -0.45000014, y: 5.1799994, z: -15.849999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 0.049999833, y: 5.68, z: -15.35}
+  boundsMin: {x: -0.95000017, y: 4.68, z: -16.35}
   layer: 1
 --- !u!65 &609732120
 BoxCollider:
@@ -4575,8 +4575,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 3.6399999, y: 2.9499998, z: -0.24000004}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 4.1400003, y: 3.45, z: 0.26}
+  boundsMin: {x: 3.14, y: 2.45, z: -0.74}
   layer: 1
 --- !u!1 &670531203
 GameObject:
@@ -4637,8 +4637,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 39.159996, y: -2.9900002, z: -15.760001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 39.66, y: -2.49, z: -15.260001}
+  boundsMin: {x: 38.66, y: -3.49, z: -16.260002}
   layer: 1
 --- !u!65 &670531206
 BoxCollider:
@@ -4762,8 +4762,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 20.6, y: -2.9900002, z: -27.780006}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 21.100002, y: -2.49, z: -27.280003}
+  boundsMin: {x: 20.100002, y: -3.49, z: -28.280003}
   layer: 1
 --- !u!65 &670765648
 BoxCollider:
@@ -4887,8 +4887,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 2.1100004, y: 2.9499998, z: -19.579998}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 2.61, y: 3.45, z: -19.08}
+  boundsMin: {x: 1.6099999, y: 2.45, z: -20.08}
   layer: 1
 --- !u!65 &685846066
 BoxCollider:
@@ -5012,8 +5012,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -18.34, y: 1.3899999, z: -8.9400015}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: -17.84, y: 1.89, z: -8.440001}
+  boundsMin: {x: -18.84, y: 0.89, z: -9.440001}
   layer: 1
 --- !u!65 &691900394
 BoxCollider:
@@ -5137,8 +5137,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 2.5899997, y: 1.3899999, z: 11.53}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 3.09, y: 1.89, z: 12.03}
+  boundsMin: {x: 2.09, y: 0.89, z: 11.03}
   layer: 1
 --- !u!65 &695901365
 BoxCollider:
@@ -5262,8 +5262,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 24.699999, y: -1.23, z: -29.199999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 25.2, y: -0.5407673, z: -28.510769}
+  boundsMin: {x: 24.2, y: -1.9192327, z: -29.889233}
   layer: 1
 --- !u!65 &765587523
 BoxCollider:
@@ -5387,8 +5387,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 1.9399999, y: 3.96, z: -9.91}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 2.4399998, y: 4.46, z: -9.41}
+  boundsMin: {x: 1.4399998, y: 3.46, z: -10.41}
   layer: 1
 --- !u!65 &772006703
 BoxCollider:
@@ -5512,8 +5512,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -14.579998, y: -2.9900002, z: -7.6299996}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: -14.080001, y: -2.49, z: -7.13}
+  boundsMin: {x: -15.080001, y: -3.49, z: -8.13}
   layer: 1
 --- !u!65 &793786426
 BoxCollider:
@@ -5700,8 +5700,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 1.7899998, y: 1.3899999, z: 4.8999996}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 2.29, y: 1.89, z: 5.4}
+  boundsMin: {x: 1.29, y: 0.89, z: 4.4}
   layer: 1
 --- !u!1 &811381413
 GameObject:
@@ -5825,8 +5825,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 7.77, y: 4.38, z: 0.04}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 8.27, y: 4.88, z: 0.54}
+  boundsMin: {x: 7.27, y: 3.88, z: -0.46}
   layer: 1
 --- !u!1 &849093192
 GameObject:
@@ -6188,8 +6188,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 1.08, y: 5.1799994, z: 3.4900002}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 1.58, y: 5.68, z: 3.99}
+  boundsMin: {x: 0.58000004, y: 4.68, z: 2.99}
   layer: 1
 --- !u!1 &956587180
 GameObject:
@@ -6250,8 +6250,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 23.599998, y: 5.2999997, z: -26.739998}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 24.100002, y: 5.8, z: -26.240002}
+  boundsMin: {x: 23.100002, y: 4.8, z: -27.240002}
   layer: 1
 --- !u!65 &956587183
 BoxCollider:
@@ -6572,8 +6572,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -16.490002, y: 2.9499998, z: -14.079998}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: -15.990002, y: 3.45, z: -13.58}
+  boundsMin: {x: -16.990002, y: 2.45, z: -14.58}
   layer: 1
 --- !u!65 &1045472924
 BoxCollider:
@@ -6951,8 +6951,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 22.820005, y: 4.38, z: -33.949997}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 23.320002, y: 4.88, z: -33.45}
+  boundsMin: {x: 22.320002, y: 3.88, z: -34.45}
   layer: 1
 --- !u!65 &1065706841
 BoxCollider:
@@ -7195,8 +7195,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 16.130003, y: 5.1799994, z: -30.500004}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 16.630001, y: 5.68, z: -30.000002}
+  boundsMin: {x: 15.630001, y: 4.68, z: -31.000002}
   layer: 1
 --- !u!65 &1075016084
 BoxCollider:
@@ -7320,8 +7320,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 43.100002, y: 5.2999997, z: -10.700001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 43.6, y: 5.8, z: -10.2}
+  boundsMin: {x: 42.6, y: 4.8, z: -11.2}
   layer: 1
 --- !u!65 &1103349288
 BoxCollider:
@@ -7445,8 +7445,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 23.699999, y: 0, z: -5.8099995}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 24.2, y: 0.5, z: -5.3100004}
+  boundsMin: {x: 23.2, y: -0.5, z: -6.3100004}
   layer: 1
 --- !u!65 &1107454063
 BoxCollider:
@@ -7570,8 +7570,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 43.039997, y: 1.3899999, z: -11.829999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 43.54, y: 1.89, z: -11.330001}
+  boundsMin: {x: 42.54, y: 0.89, z: -12.330001}
   layer: 1
 --- !u!65 &1140645057
 BoxCollider:
@@ -7695,8 +7695,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 34.690002, y: 5.1799994, z: -18.480001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 35.190002, y: 5.68, z: -17.980001}
+  boundsMin: {x: 34.190002, y: 4.68, z: -18.980001}
   layer: 1
 --- !u!65 &1207339203
 BoxCollider:
@@ -7793,7 +7793,7 @@ MonoBehaviour:
   layer: 1
   numMeshes: 72
   meshIndex: 0
-  numTriangles: 3268512
+  numTriangles: 36288
   trianglesIndex: 0
   numSpheres: 12
   spheresIndex: 0
@@ -7801,7 +7801,7 @@ MonoBehaviour:
   stencilIndex: 0
   numWrappers: 84
   wrappersIndex: 0
-  numbvhNodes: 25
+  numbvhNodes: 167
   bvhNodesIndex: 0
 --- !u!4 &1241111234
 Transform:
@@ -7961,8 +7961,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -10.4800005, y: -1.23, z: -9.049999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: -9.980001, y: -0.5407673, z: -8.360767}
+  boundsMin: {x: -10.980001, y: -1.9192327, z: -9.739233}
   layer: 1
 --- !u!65 &1302482245
 BoxCollider:
@@ -8086,8 +8086,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 9.430002, y: 1.3899999, z: 10.140001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 9.93, y: 1.89, z: 10.64}
+  boundsMin: {x: 8.93, y: 0.89, z: 9.64}
   layer: 1
 --- !u!65 &1411038388
 BoxCollider:
@@ -8211,8 +8211,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 1.0599997, y: 1.3899999, z: -7.8099995}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 1.5599997, y: 1.89, z: -7.3100004}
+  boundsMin: {x: 0.5599997, y: 0.89, z: -8.31}
   layer: 1
 --- !u!65 &1413201209
 BoxCollider:
@@ -8336,8 +8336,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 0.17999983, y: -2.9900002, z: -17.780003}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 0.6799998, y: -2.49, z: -17.28}
+  boundsMin: {x: -0.32000017, y: -3.49, z: -18.28}
   layer: 1
 --- !u!65 &1417604347
 BoxCollider:
@@ -8461,8 +8461,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -11.579999, y: 5.2999997, z: -6.590001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: -11.080001, y: 5.8, z: -6.09}
+  boundsMin: {x: -12.080001, y: 4.8, z: -7.09}
   layer: 1
 --- !u!65 &1476303404
 BoxCollider:
@@ -8586,8 +8586,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 0.25999975, y: 1.3899999, z: -14.440001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 0.75999975, y: 1.89, z: -13.940001}
+  boundsMin: {x: -0.24000025, y: 0.89, z: -14.940001}
   layer: 1
 --- !u!65 &1512637073
 BoxCollider:
@@ -8711,8 +8711,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 41.38, y: 4.38, z: -21.929998}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 41.88, y: 4.88, z: -21.43}
+  boundsMin: {x: 40.88, y: 3.88, z: -22.43}
   layer: 1
 --- !u!65 &1533666891
 BoxCollider:
@@ -8836,8 +8836,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 16.84, y: 1.3899999, z: -29.090004}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 17.34, y: 1.89, z: -28.590002}
+  boundsMin: {x: 16.34, y: 0.89, z: -29.590002}
   layer: 1
 --- !u!65 &1542042630
 BoxCollider:
@@ -8961,8 +8961,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -10.700001, y: 1.3899999, z: -3.6999998}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: -10.2, y: 1.89, z: -3.2}
+  boundsMin: {x: -11.2, y: 0.89, z: -4.2}
   layer: 1
 --- !u!65 &1547457199
 BoxCollider:
@@ -9086,8 +9086,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 30.360003, y: 5.2999997, z: 4.1699986}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 30.86, y: 5.8, z: 4.6699996}
+  boundsMin: {x: 29.86, y: 4.8, z: 3.6699996}
   layer: 1
 --- !u!65 &1566226913
 BoxCollider:
@@ -9211,8 +9211,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 24.480001, y: 1.3899999, z: -23.849998}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 24.980001, y: 1.89, z: -23.350002}
+  boundsMin: {x: 23.980001, y: 0.89, z: -24.350002}
   layer: 1
 --- !u!65 &1598938664
 BoxCollider:
@@ -9336,8 +9336,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 4.0199995, y: -2.9900002, z: -13.130001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 4.52, y: -2.49, z: -12.63}
+  boundsMin: {x: 3.52, y: -3.49, z: -13.63}
   layer: 1
 --- !u!65 &1696173020
 BoxCollider:
@@ -9461,8 +9461,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 7.8999996, y: 1.3899999, z: -9.200001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 8.4, y: 1.89, z: -8.7}
+  boundsMin: {x: 7.4, y: 0.89, z: -9.7}
   layer: 1
 --- !u!65 &1707774872
 BoxCollider:
@@ -9586,8 +9586,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 9.650001, y: -1.23, z: 4.79}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 10.15, y: -0.5407673, z: 5.479233}
+  boundsMin: {x: 9.15, y: -1.9192327, z: 4.100767}
   layer: 1
 --- !u!65 &1733731561
 BoxCollider:
@@ -9711,8 +9711,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: -18.240004, y: 0, z: -16.57}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: -17.740002, y: 0.5, z: -16.07}
+  boundsMin: {x: -18.740002, y: -0.5, z: -17.07}
   layer: 1
 --- !u!65 &1765412935
 BoxCollider:
@@ -9836,8 +9836,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 0.35999978, y: 0, z: -22.070002}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 0.8599998, y: 0.5, z: -21.57}
+  boundsMin: {x: -0.14000022, y: -0.5, z: -22.57}
   layer: 1
 --- !u!65 &1803718759
 BoxCollider:
@@ -9961,8 +9961,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 7.0199995, y: 5.2999997, z: -12.089999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 7.52, y: 5.8, z: -11.59}
+  boundsMin: {x: 6.52, y: 4.8, z: -12.59}
   layer: 1
 --- !u!65 &1816287300
 BoxCollider:
@@ -10086,8 +10086,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 16.94, y: 0, z: -36.72001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 17.44, y: 0.5, z: -36.22}
+  boundsMin: {x: 16.44, y: -0.5, z: -37.22}
   layer: 1
 --- !u!65 &1822065453
 BoxCollider:
@@ -10397,8 +10397,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 1.8899996, y: 0, z: -2.7300003}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 2.3899999, y: 0.5, z: -2.23}
+  boundsMin: {x: 1.39, y: -0.5, z: -3.23}
   layer: 1
 --- !u!1 &1914205958
 GameObject:
@@ -10578,8 +10578,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 1.7100003, y: -2.9900002, z: 1.56}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 2.21, y: -2.49, z: 2.06}
+  boundsMin: {x: 1.21, y: -3.49, z: 1.06}
   layer: 1
 --- !u!65 &1924734280
 BoxCollider:
@@ -10703,8 +10703,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 5.5499997, y: -2.9900002, z: 6.210001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 6.05, y: -2.49, z: 6.71}
+  boundsMin: {x: 5.05, y: -3.49, z: 5.71}
   layer: 1
 --- !u!65 &1942476954
 BoxCollider:
@@ -10828,8 +10828,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 31.460001, y: -1.23, z: 1.7099996}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 31.960001, y: -0.5407673, z: 2.3992324}
+  boundsMin: {x: 30.960001, y: -1.9192327, z: 1.0207669}
   layer: 1
 --- !u!65 &1979069011
 BoxCollider:
@@ -10953,8 +10953,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 18.69, y: 2.9499998, z: -34.230007}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 19.19, y: 3.45, z: -33.730003}
+  boundsMin: {x: 18.19, y: 2.45, z: -34.730003}
   layer: 1
 --- !u!65 &2015487037
 BoxCollider:
@@ -11078,8 +11078,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 36.199997, y: 1.3899999, z: -10.4400015}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 36.7, y: 1.89, z: -9.9400015}
+  boundsMin: {x: 35.7, y: 0.89, z: -10.9400015}
   layer: 1
 --- !u!65 &2015616569
 BoxCollider:
@@ -11271,8 +11271,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 24.400002, y: 1.3899999, z: 8.449999}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 24.900002, y: 1.89, z: 8.949999}
+  boundsMin: {x: 23.900002, y: 0.89, z: 7.949999}
   layer: 1
 --- !u!65 &2054557544
 BoxCollider:
@@ -11634,8 +11634,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 29.58, y: 4.38, z: -3.0400007}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 30.080002, y: 4.88, z: -2.5400004}
+  boundsMin: {x: 29.080002, y: 3.88, z: -3.5400004}
   layer: 1
 --- !u!65 &2070370012
 BoxCollider:
@@ -11759,8 +11759,8 @@ MonoBehaviour:
     emissionStrength: 0
   isLightSource: 0
   center: {x: 17.640001, y: 1.3899999, z: -22.460001}
-  boundsMax: {x: 0, y: 0, z: 0}
-  boundsMin: {x: 0, y: 0, z: 0}
+  boundsMax: {x: 18.140001, y: 1.89, z: -21.960003}
+  boundsMin: {x: 17.140001, y: 0.89, z: -22.960003}
   layer: 1
 --- !u!65 &2130445240
 BoxCollider:
