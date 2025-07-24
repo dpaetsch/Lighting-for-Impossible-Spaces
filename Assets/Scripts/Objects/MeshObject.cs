@@ -9,15 +9,6 @@ public class MeshObject : MonoBehaviour {
     public MeshRenderer meshRenderer;
     public Mesh mesh;
 
-    public bool isCube;
-
-    // Movement Detection
-    public bool isDirty = false;
-    private Vector3 prevPosition;
-    private Quaternion prevRotation;
-    private Vector3 prevScale;
-    
-
     [ReadOnly] public int triangleCount; 
 
     [ReadOnly] public int localTriangleStartIndex; // index of the first triangle in the local list (in the room)
@@ -29,47 +20,24 @@ public class MeshObject : MonoBehaviour {
 
 
     [Header("Material")]
-    public MaterialData material;
+    public RayTracingMaterial material;
 
     [ReadOnly] public bool isLightSource;
-    [ReadOnly] public int materialID;
-
-
     [ReadOnly] public Vector3 center;
 
+    // List<TriangleObject> localTriangles;
     List<TriangleObject> worldTriangles;
 
     [ReadOnly] public Vector3 boundsMax;
     [ReadOnly] public Vector3 boundsMin;
 
     private Bounds bounds;
-
-   
-
-
-    public void Start(){ 
-        if(isCube){
-            // Create a new cube mesh
-            GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            Mesh cubeMesh = cube.GetComponent<MeshFilter>().sharedMesh;
-            Destroy(cube); // We only needed the mesh
-
-            // Replace this object's mesh
-            GetComponent<MeshFilter>().mesh = Instantiate(cubeMesh);
-        }
-
-            prevPosition = transform.position;
-            prevRotation = transform.rotation;
-            prevScale = transform.lossyScale;
-    }
+    
 
 
     private void OnValidate() {
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
-
-        isDirty = true; 
-        Debug.Log("Setting isDirty to true!");
 
         if(meshFilter == null || meshRenderer == null || meshFilter.sharedMesh == null) {
             Debug.LogError("Some mesh is not assigned."); return;
@@ -82,26 +50,6 @@ public class MeshObject : MonoBehaviour {
         isLightSource = material.emissionStrength > 0f && material.emissionColor.maxColorComponent > 0f;
 
         center = GetCenter();
-    }
-
-
-    public void checkIsDirty(){
-        if (transform.position != prevPosition || transform.rotation != prevRotation || transform.lossyScale != prevScale) {
-            isDirty = true;
-            prevPosition = transform.position;
-            prevRotation = transform.rotation;
-            prevScale = transform.lossyScale;
-        }
-    }
-
-
-    void Update() {
-        if (transform.position != prevPosition || transform.rotation != prevRotation || transform.lossyScale != prevScale) {
-            isDirty = true;
-            prevPosition = transform.position;
-            prevRotation = transform.rotation;
-            prevScale = transform.lossyScale;
-        }
     }
 
     public void InitializeTrianglesAndBounds() {

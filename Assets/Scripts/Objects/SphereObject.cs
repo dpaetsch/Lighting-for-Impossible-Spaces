@@ -5,11 +5,8 @@ using UnityEngine;
 public class SphereObject : MonoBehaviour {
 	public MeshRenderer meshRenderer;
 
-	[ReadOnly] public bool isDirty = false;
-
-	public MaterialData material;
+	public RayTracingMaterial material;
 	public bool isLightSource;
-	[ReadOnly] public int materialID;
 
 	[ReadOnly] public Vector3 boundsMax;
 	[ReadOnly] public Vector3 boundsMin;
@@ -19,15 +16,10 @@ public class SphereObject : MonoBehaviour {
 	public int virtualizedLayer = 1; // see roomObject
 
 	void OnValidate() {
-		isDirty = true;
 		
 		updateMaterial();
 		isLightSource = material.emissionStrength > 0f && material.emissionColor.maxColorComponent > 0f;
 	}
-
-	private void OnTransformChanged(){
-        isDirty = true;
-    }
 
 	void updateMaterial() {
         if (meshRenderer == null) return;

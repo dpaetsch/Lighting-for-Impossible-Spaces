@@ -3,6 +3,6 @@ using UnityEngine;
 public struct SphereInfo {
 	public Vector3 position;
 	public float radius;
-	public int materialID;
+	public RayTracingMaterial material;
 	public int layer;
 }

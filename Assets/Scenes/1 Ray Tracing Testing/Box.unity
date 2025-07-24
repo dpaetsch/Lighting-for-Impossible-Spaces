@@ -155,24 +155,97 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf498ec1a54cb484eaefbeaf05564807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshFilter: {fileID: 15750476}
-  meshRenderer: {fileID: 15750475}
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  isCube: 1
-  isDirty: 0
-  triangleCount: 12
-  localTriangleStartIndex: 48
-  globalTrianglesStartIndex: 48
-  layer: 0
-  virtualizedLayer: 0
-  material:
-    color: {r: 0.07583425, g: 1, b: 0, a: 1}
-    emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  materials:
+  - color: {r: 0.075834274, g: 1, b: 0, a: 1}
+    emissionColor: {r: 1, g: 1, b: 1, a: 1}
+    specularColor: {r: 1, g: 1, b: 1, a: 1}
     emissionStrength: 0
-  isLightSource: 0
-  center: {x: -8.539999, y: 7.6499996, z: 3.9200008}
-  boundsMax: {x: -8.29, y: 11.150002, z: 7.420001}
-  boundsMin: {x: -8.790002, y: 4.1499987, z: 0.42000103}
+    smoothness: 0
+    specularProbability: 1
+    flag: 0
+  meshRenderer: {fileID: 15750475}
+  meshFilter: {fileID: 15750476}
+  triangleCount: 12
+  materialObjectID: 23040
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  localChunks:
+  - triangles:
+    - posA: {x: 0.5, y: -0.5, z: 0.5}
+      posB: {x: 0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: 0.5, z: 0.5}
+      normalA: {x: 0, y: 0, z: 1}
+      normalB: {x: 0, y: 0, z: 1}
+      normalC: {x: 0, y: 0, z: 1}
+    - posA: {x: 0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: 0.5}
+      normalA: {x: 0, y: 0, z: 1}
+      normalB: {x: 0, y: 0, z: 1}
+      normalC: {x: 0, y: 0, z: 1}
+    - posA: {x: 0.5, y: 0.5, z: 0.5}
+      posB: {x: 0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: 0, y: 1, z: 0}
+      normalB: {x: 0, y: 1, z: 0}
+      normalC: {x: 0, y: 1, z: 0}
+    - posA: {x: 0.5, y: 0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: 0.5}
+      normalA: {x: 0, y: 1, z: 0}
+      normalB: {x: 0, y: 1, z: 0}
+      normalC: {x: 0, y: 1, z: 0}
+    - posA: {x: 0.5, y: 0.5, z: -0.5}
+      posB: {x: 0.5, y: -0.5, z: -0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: 0.5, z: -0.5}
+      posB: {x: -0.5, y: -0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: -0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: 0.5}
+      normalA: {x: 0, y: -1, z: 0}
+      normalB: {x: 0, y: -1, z: 0}
+      normalC: {x: 0, y: -1, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: -0.5, y: -0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: 0, y: -1, z: 0}
+      normalB: {x: 0, y: -1, z: 0}
+      normalC: {x: 0, y: -1, z: 0}
+    - posA: {x: -0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: -1, y: 0, z: 0}
+      normalB: {x: -1, y: 0, z: 0}
+      normalC: {x: -1, y: 0, z: 0}
+    - posA: {x: -0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: -1, y: 0, z: 0}
+      normalB: {x: -1, y: 0, z: 0}
+      normalC: {x: -1, y: 0, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: 0.5, z: -0.5}
+      posC: {x: 0.5, y: 0.5, z: 0.5}
+      normalA: {x: 1, y: 0, z: 0}
+      normalB: {x: 1, y: 0, z: 0}
+      normalC: {x: 1, y: 0, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: 0.5, z: 0.5}
+      posC: {x: 0.5, y: -0.5, z: 0.5}
+      normalA: {x: 1, y: 0, z: 0}
+      normalB: {x: 1, y: 0, z: 0}
+      normalC: {x: 1, y: 0, z: 0}
+    bounds:
+      m_Center: {x: 0.0024999976, y: -0.0024999976, z: 0.0024999976}
+      m_Extent: {x: 0.5025, y: 0.5025, z: 0.5025}
+    subMeshIndex: 0
 --- !u!65 &15750474
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -243,13 +316,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 15750472}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -17.76175, y: 7.526227, z: 16.019604}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -8.54, y: 7.65, z: 3.92}
   m_LocalScale: {x: 7, y: 0.5, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1506970911}
-  m_RootOrder: 4
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!21 &111558631
 Material:
@@ -547,24 +620,97 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf498ec1a54cb484eaefbeaf05564807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshFilter: {fileID: 159866107}
-  meshRenderer: {fileID: 159866106}
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  isCube: 1
-  isDirty: 0
-  triangleCount: 12
-  localTriangleStartIndex: 36
-  globalTrianglesStartIndex: 36
-  layer: 0
-  virtualizedLayer: 0
-  material:
-    color: {r: 0, g: 0.08719418, b: 1, a: 1}
-    emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  materials:
+  - color: {r: 0, g: 0.087194204, b: 1, a: 1}
+    emissionColor: {r: 1, g: 1, b: 1, a: 1}
+    specularColor: {r: 1, g: 1, b: 1, a: 1}
     emissionStrength: 0
-  isLightSource: 0
-  center: {x: -11.804561, y: 7.6499996, z: 7.2799997}
-  boundsMax: {x: -8.30456, y: 11.150002, z: 7.53}
-  boundsMin: {x: -15.30456, y: 4.1499987, z: 7.0299993}
+    smoothness: 0
+    specularProbability: 1
+    flag: 0
+  meshRenderer: {fileID: 159866106}
+  meshFilter: {fileID: 159866107}
+  triangleCount: 12
+  materialObjectID: 23058
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  localChunks:
+  - triangles:
+    - posA: {x: 0.5, y: -0.5, z: 0.5}
+      posB: {x: 0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: 0.5, z: 0.5}
+      normalA: {x: 0, y: 0, z: 1}
+      normalB: {x: 0, y: 0, z: 1}
+      normalC: {x: 0, y: 0, z: 1}
+    - posA: {x: 0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: 0.5}
+      normalA: {x: 0, y: 0, z: 1}
+      normalB: {x: 0, y: 0, z: 1}
+      normalC: {x: 0, y: 0, z: 1}
+    - posA: {x: 0.5, y: 0.5, z: 0.5}
+      posB: {x: 0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: 0, y: 1, z: 0}
+      normalB: {x: 0, y: 1, z: 0}
+      normalC: {x: 0, y: 1, z: 0}
+    - posA: {x: 0.5, y: 0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: 0.5}
+      normalA: {x: 0, y: 1, z: 0}
+      normalB: {x: 0, y: 1, z: 0}
+      normalC: {x: 0, y: 1, z: 0}
+    - posA: {x: 0.5, y: 0.5, z: -0.5}
+      posB: {x: 0.5, y: -0.5, z: -0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: 0.5, z: -0.5}
+      posB: {x: -0.5, y: -0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: -0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: 0.5}
+      normalA: {x: 0, y: -1, z: 0}
+      normalB: {x: 0, y: -1, z: 0}
+      normalC: {x: 0, y: -1, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: -0.5, y: -0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: 0, y: -1, z: 0}
+      normalB: {x: 0, y: -1, z: 0}
+      normalC: {x: 0, y: -1, z: 0}
+    - posA: {x: -0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: -1, y: 0, z: 0}
+      normalB: {x: -1, y: 0, z: 0}
+      normalC: {x: -1, y: 0, z: 0}
+    - posA: {x: -0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: -1, y: 0, z: 0}
+      normalB: {x: -1, y: 0, z: 0}
+      normalC: {x: -1, y: 0, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: 0.5, z: -0.5}
+      posC: {x: 0.5, y: 0.5, z: 0.5}
+      normalA: {x: 1, y: 0, z: 0}
+      normalB: {x: 1, y: 0, z: 0}
+      normalC: {x: 1, y: 0, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: 0.5, z: 0.5}
+      posC: {x: 0.5, y: -0.5, z: 0.5}
+      normalA: {x: 1, y: 0, z: 0}
+      normalB: {x: 1, y: 0, z: 0}
+      normalC: {x: 1, y: 0, z: 0}
+    bounds:
+      m_Center: {x: 0.0024999976, y: -0.0024999976, z: 0.0024999976}
+      m_Extent: {x: 0.5025, y: 0.5025, z: 0.5025}
+    subMeshIndex: 0
 --- !u!65 &159866105
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -635,13 +781,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 159866103}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -21.026308, y: 7.526227, z: 19.379602}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -11.80456, y: 7.65, z: 7.28}
   m_LocalScale: {x: 7, y: 0.5, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1506970911}
-  m_RootOrder: 3
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &213974539
 GameObject:
@@ -675,17 +821,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263a7e46f329549e48ded9d62de66318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshRenderer: {fileID: 0}
-  isDirty: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 1, g: 1, b: 1, a: 1}
+    specularColor: {r: 1, g: 1, b: 1, a: 1}
     emissionStrength: 0
-  isLightSource: 0
-  boundsMax: {x: -11.65, y: 6.23, z: 3.0900002}
-  boundsMin: {x: -13.65, y: 4.23, z: 1.0900002}
-  layer: 0
-  virtualizedLayer: 0
+    smoothness: 0
+    specularProbability: 1
+    flag: 0
+  materialObjectID: 23070
+  materialInitFlag: 1
 --- !u!135 &213974541
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -756,13 +901,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213974539}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.871748, y: 5.106227, z: 14.189603}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -12.65, y: 5.23, z: 2.09}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1506970911}
-  m_RootOrder: 8
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!21 &505830665
 Material:
@@ -966,24 +1111,97 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf498ec1a54cb484eaefbeaf05564807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshFilter: {fileID: 551528567}
-  meshRenderer: {fileID: 551528566}
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  isCube: 1
-  isDirty: 0
-  triangleCount: 12
-  localTriangleStartIndex: 0
-  globalTrianglesStartIndex: 0
-  layer: 0
-  virtualizedLayer: 0
-  material:
-    color: {r: 1, g: 1, b: 1, a: 1}
-    emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  materials:
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    emissionColor: {r: 1, g: 1, b: 1, a: 1}
+    specularColor: {r: 1, g: 1, b: 1, a: 1}
     emissionStrength: 0
-  isLightSource: 0
-  center: {x: -11.804561, y: 3.8999999, z: 4.0392427}
-  boundsMax: {x: -8.30456, y: 4.15, z: 7.5392427}
-  boundsMin: {x: -15.30456, y: 3.65, z: 0.53924274}
+    smoothness: 0
+    specularProbability: 1
+    flag: 0
+  meshRenderer: {fileID: 551528566}
+  meshFilter: {fileID: 551528567}
+  triangleCount: 12
+  materialObjectID: 23086
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  localChunks:
+  - triangles:
+    - posA: {x: 0.5, y: -0.5, z: 0.5}
+      posB: {x: 0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: 0.5, z: 0.5}
+      normalA: {x: 0, y: 0, z: 1}
+      normalB: {x: 0, y: 0, z: 1}
+      normalC: {x: 0, y: 0, z: 1}
+    - posA: {x: 0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: 0.5}
+      normalA: {x: 0, y: 0, z: 1}
+      normalB: {x: 0, y: 0, z: 1}
+      normalC: {x: 0, y: 0, z: 1}
+    - posA: {x: 0.5, y: 0.5, z: 0.5}
+      posB: {x: 0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: 0, y: 1, z: 0}
+      normalB: {x: 0, y: 1, z: 0}
+      normalC: {x: 0, y: 1, z: 0}
+    - posA: {x: 0.5, y: 0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: 0.5}
+      normalA: {x: 0, y: 1, z: 0}
+      normalB: {x: 0, y: 1, z: 0}
+      normalC: {x: 0, y: 1, z: 0}
+    - posA: {x: 0.5, y: 0.5, z: -0.5}
+      posB: {x: 0.5, y: -0.5, z: -0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: 0.5, z: -0.5}
+      posB: {x: -0.5, y: -0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: -0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: 0.5}
+      normalA: {x: 0, y: -1, z: 0}
+      normalB: {x: 0, y: -1, z: 0}
+      normalC: {x: 0, y: -1, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: -0.5, y: -0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: 0, y: -1, z: 0}
+      normalB: {x: 0, y: -1, z: 0}
+      normalC: {x: 0, y: -1, z: 0}
+    - posA: {x: -0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: -1, y: 0, z: 0}
+      normalB: {x: -1, y: 0, z: 0}
+      normalC: {x: -1, y: 0, z: 0}
+    - posA: {x: -0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: -1, y: 0, z: 0}
+      normalB: {x: -1, y: 0, z: 0}
+      normalC: {x: -1, y: 0, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: 0.5, z: -0.5}
+      posC: {x: 0.5, y: 0.5, z: 0.5}
+      normalA: {x: 1, y: 0, z: 0}
+      normalB: {x: 1, y: 0, z: 0}
+      normalC: {x: 1, y: 0, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: 0.5, z: 0.5}
+      posC: {x: 0.5, y: -0.5, z: 0.5}
+      normalA: {x: 1, y: 0, z: 0}
+      normalB: {x: 1, y: 0, z: 0}
+      normalC: {x: 1, y: 0, z: 0}
+    bounds:
+      m_Center: {x: 0.0024999976, y: -0.0024999976, z: 0.0024999976}
+      m_Extent: {x: 0.5025, y: 0.5025, z: 0.5025}
+    subMeshIndex: 0
 --- !u!65 &551528565
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1054,13 +1272,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 551528563}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.026308, y: 3.776227, z: 16.138845}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.80456, y: 3.9, z: 4.039243}
   m_LocalScale: {x: 7, y: 0.5, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1506970911}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!21 &692588589
 Material:
@@ -1172,17 +1390,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263a7e46f329549e48ded9d62de66318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshRenderer: {fileID: 0}
-  isDirty: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 1, g: 1, b: 1, a: 1}
+    specularColor: {r: 1, g: 1, b: 1, a: 1}
     emissionStrength: 0
-  isLightSource: 0
-  boundsMax: {x: -8.889999, y: 6.07, z: 7.0600004}
-  boundsMin: {x: -10.889999, y: 4.07, z: 5.0600004}
-  layer: 0
-  virtualizedLayer: 0
+    smoothness: 0
+    specularProbability: 1
+    flag: 0
+  materialObjectID: 23100
+  materialInitFlag: 1
 --- !u!135 &795508863
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1253,13 +1470,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 795508861}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19.111748, y: 4.946227, z: 18.159603}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.89, y: 5.07, z: 6.06}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1506970911}
-  m_RootOrder: 9
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &943893344
 GameObject:
@@ -1313,7 +1530,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 61.2
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1358,50 +1575,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e324b20d47d743a7bd14672f5f25ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rayTracingShader: {fileID: 4800000, guid: f5353d7bb0d95459ca2420427d068696, type: 3}
-  fieldOfView: 61.2
-  maxPropagationDepth: 3
   useShaderInSceneView: 0
-  useRayTracing: 0
-  useImportanceSampling: 1
   useSimpleShape: 0
-  useStaticReconstruction: 1
-  isDirty: 0
+  rayTracingShader: {fileID: 4800000, guid: f5353d7bb0d95459ca2420427d068696, type: 3}
   maxBounceCount: 3
   numRaysPerPixel: 19
-  useBVH: 0
-  useFullObjectsInBVH: 0
-  skipConstruction: 1
-  showBVHDepth: 0
-  accumulateBVHColors: 0
-  bvhDepth: 1
-  bvhMaxDepth: 16
-  bvhMaxDepthReached: 0
-  numBVHNodes: 0
-  numWrapperObjects: 0
-  currentLayer: 0
-  nextLayer: 0
-  singleLayer: 0
-  connected: 0
-  showIntersectionCount: 0
-  maxIntersectionTests: 500
-  showFPSCounter: 0
-  fpsCounter: {fileID: 0}
-  numRooms: 1
-  numMeshes: 7
+  numMeshChunks: 7
   numTriangles: 74
-  numSpheres: 3
-  numStencils: 0
-  numLights: 1
-  useEnvironmentLight: 0
-  groundColour: {r: 0, g: 0, b: 0, a: 0}
-  skyColourHorizon: {r: 0, g: 0, b: 0, a: 0}
-  skyColourZenith: {r: 0, g: 0, b: 0, a: 0}
-  sunFocus: 1
-  sunIntensity: 0
-  useAmbientLight: 0
-  ambientLightColor: {r: 1, g: 1, b: 1, a: 1}
-  ambientLightIntensity: 1
+  environmentSettings:
+    enabled: 0
+    groundColour: {r: 0, g: 0, b: 0, a: 0}
+    skyColourHorizon: {r: 0, g: 0, b: 0, a: 0}
+    skyColourZenith: {r: 0, g: 0, b: 0, a: 0}
+    sunFocus: 1
+    sunIntensity: 0
 --- !u!1 &1013980909
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,17 +1621,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263a7e46f329549e48ded9d62de66318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshRenderer: {fileID: 0}
-  isDirty: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 1, g: 1, b: 1, a: 1}
+    specularColor: {r: 1, g: 1, b: 1, a: 1}
     emissionStrength: 0
-  isLightSource: 0
-  boundsMax: {x: -10.439999, y: 8.34, z: 4.9399996}
-  boundsMin: {x: -12.439999, y: 6.34, z: 2.9399996}
-  layer: 0
-  virtualizedLayer: 0
+    smoothness: 0
+    specularProbability: 1
+    flag: 0
+  materialObjectID: 23124
+  materialInitFlag: 1
 --- !u!135 &1013980911
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1515,13 +1701,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013980909}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -20.661747, y: 7.216227, z: 16.039602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.44, y: 7.34, z: 3.94}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1506970911}
-  m_RootOrder: 6
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!21 &1300290791
 Material:
@@ -1711,24 +1897,97 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf498ec1a54cb484eaefbeaf05564807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshFilter: {fileID: 1461637450}
+  materials:
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    emissionColor: {r: 1, g: 1, b: 1, a: 1}
+    specularColor: {r: 1, g: 1, b: 1, a: 1}
+    emissionStrength: 5
+    smoothness: 0
+    specularProbability: 1
+    flag: 0
   meshRenderer: {fileID: 1461637449}
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  isCube: 1
-  isDirty: 0
+  meshFilter: {fileID: 1461637450}
   triangleCount: 12
-  localTriangleStartIndex: 60
-  globalTrianglesStartIndex: 60
-  layer: 0
-  virtualizedLayer: 0
-  material:
-    color: {r: 5.0000005, g: 5.0000005, b: 5.0000005, a: 5}
-    emissionColor: {r: 1, g: 1, b: 1, a: 0}
-    emissionStrength: 1.69
-  isLightSource: 1
-  center: {x: -11.804561, y: 10.58, z: 4.0392427}
-  boundsMax: {x: -10.30456, y: 10.63, z: 5.5392427}
-  boundsMin: {x: -13.30456, y: 10.53, z: 2.5392427}
+  materialObjectID: 23142
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  localChunks:
+  - triangles:
+    - posA: {x: 0.5, y: -0.5, z: 0.5}
+      posB: {x: 0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: 0.5, z: 0.5}
+      normalA: {x: 0, y: 0, z: 1}
+      normalB: {x: 0, y: 0, z: 1}
+      normalC: {x: 0, y: 0, z: 1}
+    - posA: {x: 0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: 0.5}
+      normalA: {x: 0, y: 0, z: 1}
+      normalB: {x: 0, y: 0, z: 1}
+      normalC: {x: 0, y: 0, z: 1}
+    - posA: {x: 0.5, y: 0.5, z: 0.5}
+      posB: {x: 0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: 0, y: 1, z: 0}
+      normalB: {x: 0, y: 1, z: 0}
+      normalC: {x: 0, y: 1, z: 0}
+    - posA: {x: 0.5, y: 0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: 0.5}
+      normalA: {x: 0, y: 1, z: 0}
+      normalB: {x: 0, y: 1, z: 0}
+      normalC: {x: 0, y: 1, z: 0}
+    - posA: {x: 0.5, y: 0.5, z: -0.5}
+      posB: {x: 0.5, y: -0.5, z: -0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: 0.5, z: -0.5}
+      posB: {x: -0.5, y: -0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: -0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: 0.5}
+      normalA: {x: 0, y: -1, z: 0}
+      normalB: {x: 0, y: -1, z: 0}
+      normalC: {x: 0, y: -1, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: -0.5, y: -0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: 0, y: -1, z: 0}
+      normalB: {x: 0, y: -1, z: 0}
+      normalC: {x: 0, y: -1, z: 0}
+    - posA: {x: -0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: -1, y: 0, z: 0}
+      normalB: {x: -1, y: 0, z: 0}
+      normalC: {x: -1, y: 0, z: 0}
+    - posA: {x: -0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: -1, y: 0, z: 0}
+      normalB: {x: -1, y: 0, z: 0}
+      normalC: {x: -1, y: 0, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: 0.5, z: -0.5}
+      posC: {x: 0.5, y: 0.5, z: 0.5}
+      normalA: {x: 1, y: 0, z: 0}
+      normalB: {x: 1, y: 0, z: 0}
+      normalC: {x: 1, y: 0, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: 0.5, z: 0.5}
+      posC: {x: 0.5, y: -0.5, z: 0.5}
+      normalA: {x: 1, y: 0, z: 0}
+      normalB: {x: 1, y: 0, z: 0}
+      normalC: {x: 1, y: 0, z: 0}
+    bounds:
+      m_Center: {x: 0.0024999976, y: -0.0024999976, z: 0.0024999976}
+      m_Extent: {x: 0.5025, y: 0.5025, z: 0.5025}
+    subMeshIndex: 0
 --- !u!65 &1461637448
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1799,96 +2058,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461637446}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.026308, y: 10.456227, z: 16.138845}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.80456, y: 10.58, z: 4.039243}
   m_LocalScale: {x: 3, y: 0.1, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1506970911}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1506970909
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1506970911}
-  - component: {fileID: 1506970910}
-  m_Layer: 0
-  m_Name: Room 0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1506970910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1506970909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4057e7150e6ad4523805b3d1b102280c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  layer: 0
-  virtualizedLayer: 0
-  numMeshes: 7
-  numTriangles: 74
-  numSpheres: 3
-  numStencils: 0
-  numLights: 1
-  globalMeshesIndex: 0
-  globalTrianglesIndex: 0
-  globalSpheresIndex: 0
-  globalStencilsIndex: 0
-  numWrappers: 0
-  wrappersIndex: 0
-  numbvhNodes: 0
-  bvhNodesIndex: 0
-  meshObjects:
-  - {fileID: 551528564}
-  - {fileID: 1616241234}
-  - {fileID: 1794096438}
-  - {fileID: 159866104}
-  - {fileID: 15750473}
-  - {fileID: 1461637447}
-  - {fileID: 1693541966}
-  sphereObjects:
-  - {fileID: 1013980910}
-  - {fileID: 213974540}
-  - {fileID: 795508862}
-  stencilObjects: []
-  isActive: 1
---- !u!4 &1506970911
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1506970909}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.221748, y: 0.12377298, z: -12.099603}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 551528568}
-  - {fileID: 1616241238}
-  - {fileID: 1794096442}
-  - {fileID: 159866108}
-  - {fileID: 15750477}
-  - {fileID: 1461637451}
-  - {fileID: 1013980914}
-  - {fileID: 1693541970}
-  - {fileID: 213974544}
-  - {fileID: 795508866}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1616241233
 GameObject:
@@ -1922,24 +2098,97 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf498ec1a54cb484eaefbeaf05564807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshFilter: {fileID: 1616241237}
-  meshRenderer: {fileID: 1616241236}
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  isCube: 1
-  isDirty: 0
-  triangleCount: 12
-  localTriangleStartIndex: 12
-  globalTrianglesStartIndex: 12
-  layer: 0
-  virtualizedLayer: 0
-  material:
-    color: {r: 1, g: 1, b: 1, a: 1}
-    emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  materials:
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    emissionColor: {r: 1, g: 1, b: 1, a: 1}
+    specularColor: {r: 1, g: 1, b: 1, a: 1}
     emissionStrength: 0
-  isLightSource: 0
-  center: {x: -11.804561, y: 10.890002, z: 4.0392427}
-  boundsMax: {x: -8.30456, y: 11.14, z: 7.0392427}
-  boundsMin: {x: -15.30456, y: 10.64, z: 1.0392427}
+    smoothness: 0
+    specularProbability: 1
+    flag: 0
+  meshRenderer: {fileID: 1616241236}
+  meshFilter: {fileID: 1616241237}
+  triangleCount: 12
+  materialObjectID: 23154
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  localChunks:
+  - triangles:
+    - posA: {x: 0.5, y: -0.5, z: 0.5}
+      posB: {x: 0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: 0.5, z: 0.5}
+      normalA: {x: 0, y: 0, z: 1}
+      normalB: {x: 0, y: 0, z: 1}
+      normalC: {x: 0, y: 0, z: 1}
+    - posA: {x: 0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: 0.5}
+      normalA: {x: 0, y: 0, z: 1}
+      normalB: {x: 0, y: 0, z: 1}
+      normalC: {x: 0, y: 0, z: 1}
+    - posA: {x: 0.5, y: 0.5, z: 0.5}
+      posB: {x: 0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: 0, y: 1, z: 0}
+      normalB: {x: 0, y: 1, z: 0}
+      normalC: {x: 0, y: 1, z: 0}
+    - posA: {x: 0.5, y: 0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: 0.5}
+      normalA: {x: 0, y: 1, z: 0}
+      normalB: {x: 0, y: 1, z: 0}
+      normalC: {x: 0, y: 1, z: 0}
+    - posA: {x: 0.5, y: 0.5, z: -0.5}
+      posB: {x: 0.5, y: -0.5, z: -0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: 0.5, z: -0.5}
+      posB: {x: -0.5, y: -0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: -0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: 0.5}
+      normalA: {x: 0, y: -1, z: 0}
+      normalB: {x: 0, y: -1, z: 0}
+      normalC: {x: 0, y: -1, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: -0.5, y: -0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: 0, y: -1, z: 0}
+      normalB: {x: 0, y: -1, z: 0}
+      normalC: {x: 0, y: -1, z: 0}
+    - posA: {x: -0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: -1, y: 0, z: 0}
+      normalB: {x: -1, y: 0, z: 0}
+      normalC: {x: -1, y: 0, z: 0}
+    - posA: {x: -0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: -1, y: 0, z: 0}
+      normalB: {x: -1, y: 0, z: 0}
+      normalC: {x: -1, y: 0, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: 0.5, z: -0.5}
+      posC: {x: 0.5, y: 0.5, z: 0.5}
+      normalA: {x: 1, y: 0, z: 0}
+      normalB: {x: 1, y: 0, z: 0}
+      normalC: {x: 1, y: 0, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: 0.5, z: 0.5}
+      posC: {x: 0.5, y: -0.5, z: 0.5}
+      normalA: {x: 1, y: 0, z: 0}
+      normalB: {x: 1, y: 0, z: 0}
+      normalC: {x: 1, y: 0, z: 0}
+    bounds:
+      m_Center: {x: 0.0024999976, y: -0.0024999976, z: 0.0024999976}
+      m_Extent: {x: 0.5025, y: 0.5025, z: 0.5025}
+    subMeshIndex: 0
 --- !u!65 &1616241235
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2010,13 +2259,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616241233}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.026308, y: 10.766228, z: 16.138845}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.80456, y: 10.89, z: 4.039243}
   m_LocalScale: {x: 7, y: 0.5, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1506970911}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!21 &1642204747
 Material:
@@ -2128,24 +2377,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf498ec1a54cb484eaefbeaf05564807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshFilter: {fileID: 1693541969}
-  meshRenderer: {fileID: 1693541968}
-  mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
-  isCube: 0
-  isDirty: 0
-  triangleCount: 2
-  localTriangleStartIndex: 72
-  globalTrianglesStartIndex: 72
-  layer: 0
-  virtualizedLayer: 0
-  material:
-    color: {r: 1, g: 1, b: 1, a: 1}
-    emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  materials:
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    emissionColor: {r: 1, g: 1, b: 1, a: 1}
+    specularColor: {r: 1, g: 1, b: 1, a: 1}
     emissionStrength: 0
-  isLightSource: 0
-  center: {x: -15.23, y: 7.1999993, z: 3.8499997}
-  boundsMax: {x: -15.228252, y: 10.7, z: 20.2604}
-  boundsMin: {x: -15.228252, y: 3.6999998, z: 13.260397}
+    smoothness: 0
+    specularProbability: 1
+    flag: 0
+  meshRenderer: {fileID: 1693541968}
+  meshFilter: {fileID: 1693541969}
+  triangleCount: 2
+  materialObjectID: 23166
+  mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  localChunks:
+  - triangles:
+    - posA: {x: -0.5, y: -0.5, z: -3.0616168e-17}
+      posB: {x: 0.5, y: 0.5, z: 3.0616168e-17}
+      posC: {x: 0.5, y: -0.5, z: -3.0616168e-17}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: 0.5, z: 3.0616168e-17}
+      posB: {x: -0.5, y: -0.5, z: -3.0616168e-17}
+      posC: {x: -0.5, y: 0.5, z: 3.0616168e-17}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    bounds:
+      m_Center: {x: -0.0024999976, y: -0.0024999976, z: 0}
+      m_Extent: {x: 0.5025, y: 0.5025, z: 0.005}
+    subMeshIndex: 0
 --- !u!64 &1693541967
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2217,13 +2479,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1693541965}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -24.45, y: 7.0762267, z: 28.86}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -15.23, y: 7.2, z: 3.85}
   m_LocalScale: {x: 7, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1506970911}
-  m_RootOrder: 7
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1794096437
 GameObject:
@@ -2257,24 +2519,97 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf498ec1a54cb484eaefbeaf05564807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshFilter: {fileID: 1794096441}
-  meshRenderer: {fileID: 1794096440}
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  isCube: 1
-  isDirty: 0
-  triangleCount: 12
-  localTriangleStartIndex: 24
-  globalTrianglesStartIndex: 24
-  layer: 0
-  virtualizedLayer: 0
-  material:
-    color: {r: 1, g: 0, b: 0, a: 1}
-    emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  materials:
+  - color: {r: 1, g: 0, b: 0, a: 1}
+    emissionColor: {r: 1, g: 1, b: 1, a: 1}
+    specularColor: {r: 1, g: 1, b: 1, a: 1}
     emissionStrength: 0
-  isLightSource: 0
-  center: {x: -11.804561, y: 7.6499996, z: 0.7699995}
-  boundsMax: {x: -8.30456, y: 11.150002, z: 1.02}
-  boundsMin: {x: -15.30456, y: 4.1499987, z: 0.519999}
+    smoothness: 0
+    specularProbability: 1
+    flag: 0
+  meshRenderer: {fileID: 1794096440}
+  meshFilter: {fileID: 1794096441}
+  triangleCount: 12
+  materialObjectID: 23180
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  localChunks:
+  - triangles:
+    - posA: {x: 0.5, y: -0.5, z: 0.5}
+      posB: {x: 0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: 0.5, z: 0.5}
+      normalA: {x: 0, y: 0, z: 1}
+      normalB: {x: 0, y: 0, z: 1}
+      normalC: {x: 0, y: 0, z: 1}
+    - posA: {x: 0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: 0.5}
+      normalA: {x: 0, y: 0, z: 1}
+      normalB: {x: 0, y: 0, z: 1}
+      normalC: {x: 0, y: 0, z: 1}
+    - posA: {x: 0.5, y: 0.5, z: 0.5}
+      posB: {x: 0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: 0, y: 1, z: 0}
+      normalB: {x: 0, y: 1, z: 0}
+      normalC: {x: 0, y: 1, z: 0}
+    - posA: {x: 0.5, y: 0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: 0.5}
+      normalA: {x: 0, y: 1, z: 0}
+      normalB: {x: 0, y: 1, z: 0}
+      normalC: {x: 0, y: 1, z: 0}
+    - posA: {x: 0.5, y: 0.5, z: -0.5}
+      posB: {x: 0.5, y: -0.5, z: -0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: 0.5, z: -0.5}
+      posB: {x: -0.5, y: -0.5, z: -0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: 0, y: 0, z: -1}
+      normalB: {x: 0, y: 0, z: -1}
+      normalC: {x: 0, y: 0, z: -1}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: -0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: 0.5}
+      normalA: {x: 0, y: -1, z: 0}
+      normalB: {x: 0, y: -1, z: 0}
+      normalC: {x: 0, y: -1, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: -0.5, y: -0.5, z: 0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: 0, y: -1, z: 0}
+      normalB: {x: 0, y: -1, z: 0}
+      normalC: {x: 0, y: -1, z: 0}
+    - posA: {x: -0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: 0.5}
+      posC: {x: -0.5, y: 0.5, z: -0.5}
+      normalA: {x: -1, y: 0, z: 0}
+      normalB: {x: -1, y: 0, z: 0}
+      normalC: {x: -1, y: 0, z: 0}
+    - posA: {x: -0.5, y: -0.5, z: 0.5}
+      posB: {x: -0.5, y: 0.5, z: -0.5}
+      posC: {x: -0.5, y: -0.5, z: -0.5}
+      normalA: {x: -1, y: 0, z: 0}
+      normalB: {x: -1, y: 0, z: 0}
+      normalC: {x: -1, y: 0, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: 0.5, z: -0.5}
+      posC: {x: 0.5, y: 0.5, z: 0.5}
+      normalA: {x: 1, y: 0, z: 0}
+      normalB: {x: 1, y: 0, z: 0}
+      normalC: {x: 1, y: 0, z: 0}
+    - posA: {x: 0.5, y: -0.5, z: -0.5}
+      posB: {x: 0.5, y: 0.5, z: 0.5}
+      posC: {x: 0.5, y: -0.5, z: 0.5}
+      normalA: {x: 1, y: 0, z: 0}
+      normalB: {x: 1, y: 0, z: 0}
+      normalC: {x: 1, y: 0, z: 0}
+    bounds:
+      m_Center: {x: 0.0024999976, y: -0.0024999976, z: 0.0024999976}
+      m_Extent: {x: 0.5025, y: 0.5025, z: 0.5025}
+    subMeshIndex: 0
 --- !u!65 &1794096439
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2345,13 +2680,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1794096437}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -21.026308, y: 7.526227, z: 12.869602}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -11.80456, y: 7.65, z: 0.77}
   m_LocalScale: {x: 7, y: 0.5, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1506970911}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!21 &1818188681
 Material:

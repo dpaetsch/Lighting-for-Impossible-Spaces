@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class RoomManager : MonoBehaviour {
 
-    public ViewManager manager;
+    public RayTracingManager manager;
 
     public GameObject player; // Reference to the player object
-
-    public int NumberOfRoomsActiveAtStart = 2;
     
     void Start() {
 
@@ -24,11 +22,11 @@ public class RoomManager : MonoBehaviour {
 
         manager.currentLayer = 0; // Set the current layer to 0
         manager.nextLayer = 1; // Set the next layer to 1 (for player movement)
-        
 
-        for(int i = 0; i < NumberOfRoomsActiveAtStart && i < roomObjects.Length; i++){
-            roomObjects[i].setActive(true);
-        }
+        
+        roomObjects[0].setActive(true); // Activate the first room
+        roomObjects[1].setActive(true); // Activate the second room
+        roomObjects[2].setActive(true); // Activate the second room
 
 
         player = GameObject.FindGameObjectWithTag("Player");
@@ -36,10 +34,8 @@ public class RoomManager : MonoBehaviour {
         // teleport player to the first room
         if (player != null) {
             Transform playerTransform = player.transform;
-            playerTransform.position = transform.position;
-            playerTransform.rotation = transform.rotation;
-            //playerTransform.position = roomObjects[0].transform.position + new Vector3(0, -8, 0); // Adjust height as needed
-            //playerTransform.rotation = Quaternion.identity; // Reset rotation
+            playerTransform.position = roomObjects[0].transform.position + new Vector3(0, -8, 0); // Adjust height as needed
+            playerTransform.rotation = Quaternion.identity; // Reset rotation
         } else {
             Debug.LogError("Player object not found. Please ensure the player has the 'Player' tag.");
         }

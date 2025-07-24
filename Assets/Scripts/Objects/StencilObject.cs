@@ -5,15 +5,12 @@ public class StencilObject : MonoBehaviour {
     [Header("Info")]
     public MeshFilter meshFilter;
     [SerializeField] Mesh mesh;
-    [ReadOnly] public bool isDirty = false;
 
     [Header("Stencil Buffer Info")]
     public int layer = 1;
     public int nextLayer = 2; 
     public int virtualizedLayer; // see roomObject
     public int virtualizedNextLayer; // see roomObject
-
-    
 
     [Header("Quad Parameters")]
     [ReadOnly] [SerializeField] private Vector3 center; // Center position of the rectangle
@@ -25,13 +22,7 @@ public class StencilObject : MonoBehaviour {
         if (meshFilter == null) meshFilter = GetComponent<MeshFilter>();
         mesh = meshFilter.sharedMesh;
         ExtractQuadParameters();
-
-        isDirty = true;
 	}
-
-    private void OnTransformChanged(){
-        isDirty = true;
-    }
     
     public void ExtractQuadParameters() {
         if(meshFilter == null) {Debug.LogError("MeshFilter is not assigned."); return;}

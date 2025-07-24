@@ -74,7 +74,7 @@ Shader "Custom/RayTracing" {
 
             // --- Structures ---
 
-            struct MaterialData {
+            struct RayTracingMaterial {
 				float4 color;
 				float4 emissionColor;
 				float emissionStrength;
@@ -91,7 +91,7 @@ Shader "Custom/RayTracing" {
 				float dst;
 				float3 hitPoint;
 				float3 normal;
-				MaterialData material;
+				RayTracingMaterial material;
 				int nextLayerIfBuffer;
 				int layerOfHit;
 			};
@@ -101,7 +101,7 @@ Shader "Custom/RayTracing" {
 			struct MeshInfo {
 				int firstTriangleIndex;
 				int numTriangles;
-				int materialID;
+				RayTracingMaterial material;
 				float3 boundsMin;
 				float3 boundsMax;
 				int layer;
@@ -120,7 +120,7 @@ Shader "Custom/RayTracing" {
             struct SphereInfo {
 				float3 position;
 				float radius;
-				int materialID;
+				RayTracingMaterial material;
 				int layer;
 			};
 
@@ -141,8 +141,6 @@ Shader "Custom/RayTracing" {
 				int numSpheres;
 				int globalStencilsIndex;
 				int numStencils;
-				int globalCubesIndex;
-				int numCubes;
 				int numWrappers;
 				int wrappersIndex;
 				int numbvhNodes;
@@ -153,14 +151,6 @@ Shader "Custom/RayTracing" {
 				float3 position;
 				float radius;
 				int layer;
-			};
-
-			struct CubeInfo {
-				float3 center; // Center of the cube in world space
-				float4x4 worldMatrix; // World matrix of the cube
-				float4x4 inverseWorldMatrix; // Inverse world matrix of the cube
-				int materialID;
-				int layer; 
 			};
 
 			struct BVHNodeInfo {
@@ -192,8 +182,6 @@ Shader "Custom/RayTracing" {
 			StructuredBuffer<LightInfo> LightInfos;
 			StructuredBuffer<BVHNodeInfo> BvhNodeInfos;
 			StructuredBuffer<WrapperInfo> WrapperInfos;
-			StructuredBuffer<CubeInfo> CubeInfos;
-			StructuredBuffer<MaterialData> Materials;
 			
 
 			int NumMeshes;
@@ -202,7 +190,6 @@ Shader "Custom/RayTracing" {
 			int NumStencilInfos;
 			int NumRooms;
 			int NumLights;
-			int NumCubes;
 
 			int NumBVHNodes;
 			int NumWrappers;
@@ -319,8 +306,8 @@ Shader "Custom/RayTracing" {
 
 			// --- Hit Info Default ---
 			// Default Option
-			MaterialData DefaultMaterial() {
-				MaterialData mat;
+			RayTracingMaterial DefaultMaterial() {
+				RayTracingMaterial mat;
 				mat.color = float4(0, 0, 0, 1);            // black, fully opaque
 				mat.emissionColor = float4(0, 0, 0, 1);    // no emission
 				mat.emissionStrength = 0.0;
@@ -371,7 +358,7 @@ Shader "Custom/RayTracing" {
 						hitInfo.dst = dst;
 						hitInfo.hitPoint = ray.origin + ray.dir * dst;
 						hitInfo.normal = normalize(hitInfo.hitPoint - sphereCentre);
-						hitInfo.material = Materials[sphere.materialID];
+						hitInfo.material = sphere.material;
 						hitInfo.layerOfHit = sphere.layer;
 					}
 				}
@@ -481,58 +468,6 @@ Shader "Custom/RayTracing" {
 				return hitInfo;
 			}
 
-			HitInfo RayCube(Ray ray, CubeInfo cube) {
-				numIntersectionTests++;
-
-				// Transform ray to local space of cube (unit cube centered at origin)
-				float3 localOrigin = mul(cube.inverseWorldMatrix, float4(ray.origin, 1)).xyz;
-				float3 localDir = normalize(mul(cube.inverseWorldMatrix, float4(ray.dir, 0)).xyz);
-				float3 invLocalDir = 1.0 / localDir;
-
-				// Standard AABB bounds for unit cube centered at origin
-				float3 boxMin = float3(-0.5, -0.5, -0.5);
-				float3 boxMax = float3( 0.5,  0.5,  0.5);
-
-				float3 tMin = (boxMin - localOrigin) * invLocalDir;
-				float3 tMax = (boxMax - localOrigin) * invLocalDir;
-
-				float3 t1 = min(tMin, tMax);
-				float3 t2 = max(tMin, tMax);
-
-				float tNear = max(max(t1.x, t1.y), t1.z);
-				float tFar = min(min(t2.x, t2.y), t2.z);
-
-				HitInfo hit = MakeNoHit();
-
-				if (tNear <= tFar && tFar >= 0) {
-					float dst = tNear > 0 ? tNear : tFar;
-
-					float3 localHitPoint = localOrigin + localDir * dst;
-					float3 localNormal = 0;
-
-					// Face normal detection (based on which axis hit)
-					if (abs(localHitPoint.x - boxMin.x) < 1e-4) localNormal = float3(-1, 0, 0);
-					else if (abs(localHitPoint.x - boxMax.x) < 1e-4) localNormal = float3(1, 0, 0);
-					else if (abs(localHitPoint.y - boxMin.y) < 1e-4) localNormal = float3(0, -1, 0);
-					else if (abs(localHitPoint.y - boxMax.y) < 1e-4) localNormal = float3(0, 1, 0);
-					else if (abs(localHitPoint.z - boxMin.z) < 1e-4) localNormal = float3(0, 0, -1);
-					else if (abs(localHitPoint.z - boxMax.z) < 1e-4) localNormal = float3(0, 0, 1);
-
-					// Transform back to world space
-					float3 worldHitPoint = mul(cube.worldMatrix, float4(localHitPoint, 1)).xyz;
-					float3 worldNormal = normalize(mul((float3x3)cube.worldMatrix, localNormal));
-
-					hit.didHit = true;
-					hit.dst = distance(ray.origin, worldHitPoint);
-					hit.hitPoint = worldHitPoint;
-					hit.normal = worldNormal;
-					hit.material = Materials[cube.materialID];
-					hit.layerOfHit = cube.layer;
-				}
-
-				return hit;
-			}
-
 			// -----------------------------------------
 			// --- Closest Hit Calculation (Helpers) ---
 			// -----------------------------------------
@@ -558,7 +493,7 @@ Shader "Custom/RayTracing" {
 						HitInfo hitInfo = RayTriangle(ray, tri);
 						if (hitInfo.didHit && hitInfo.dst < closestHit.dst) {
 							closestHit = hitInfo; // Captures the closest hit location, material, and layer
-							closestHit.material = Materials[meshInfo.materialID];
+							closestHit.material = meshInfo.material;
 							closestHit.layerOfHit = meshInfo.layer;
 						}
 					}
@@ -614,26 +549,6 @@ Shader "Custom/RayTracing" {
 				return closestHit;
 			}
 
-
-			HitInfo checkClosestCube(Ray ray, int currentLayer) {
-				if(NumCubes == 0) return MakeNoHit(); // No cubes to check
-				HitInfo closestHit = MakeNoHit();
-				closestHit.dst = 1.#INF; // We haven't hit anything yet, so 'closest' hit is infinitely far away
-
-				int layerIndex = currentLayer;
-				int numCubes = RoomInfos[layerIndex].numCubes;
-				int firstCubeIndex = RoomInfos[layerIndex].globalCubesIndex;
-
-				for(int cubeIndex = firstCubeIndex; cubeIndex < firstCubeIndex + numCubes; cubeIndex++) {
-					CubeInfo cube = CubeInfos[cubeIndex];
-					HitInfo hitInfo = RayCube(ray, cube);
-					if(hitInfo.didHit && hitInfo.dst < closestHit.dst) {
-						closestHit = hitInfo; // Captures the closest hit location, material, and layer
-					}
-				}
-				return closestHit;
-			}
-
 			HitInfo closestBVHHit(Ray ray, int currentLayer) { 
 				if(NumBVHNodes == 0) return MakeNoHit(); // No BVH to check
 				HitInfo closestHit = MakeNoHit();
@@ -668,7 +583,7 @@ Shader "Custom/RayTracing" {
 											HitInfo hitInfo = RayTriangle(ray, tri);
 											if (hitInfo.didHit && hitInfo.dst < closestHit.dst) {
 												closestHit = hitInfo; // Captures the closest hit location, material, and layer
-												closestHit.material = Materials[meshInfo.materialID];
+												closestHit.material = meshInfo.material;
 												closestHit.layerOfHit = meshInfo.layer;
 											}
 										}
@@ -685,7 +600,7 @@ Shader "Custom/RayTracing" {
 										HitInfo hitInfo = RayTriangle(ray, tri);
 										if (hitInfo.didHit && hitInfo.dst < closestHit.dst) {
 											closestHit = hitInfo; // Captures the closest hit location, material, and layer
-											closestHit.material = Materials[MeshInfos[tri.globalMeshesIndex].materialID];
+											closestHit.material = MeshInfos[tri.globalMeshesIndex].material;
 											closestHit.layerOfHit = currentLayer; // The layer of the hit is the current layer
 										}
 									} else {
@@ -737,20 +652,17 @@ Shader "Custom/RayTracing" {
 				HitInfo previousBestHit = MakeNoHit();
 				previousBestHit.dst = 1.#INF; // Initialize previous best hit to infinitely far away
 
-				HitInfo previousBufferHit = MakeNoHit();
-				previousBufferHit.dst = 1.#INF;
 
 				int currentLayer = startLayer;
 				int nextLayer;
 				int previousLayer = -1;
 
 				int maxPropagations = maxPropagationDepth; // Maximum number of times we can go through the layers (for a single ray)
-				int propagationNumber = 0;
 
 				ray.invDir = 1 / ray.dir; // Precompute the inverse direction for faster calculations
 
-				while (propagationNumber < maxPropagationDepth) {
-
+				while (maxPropagations-- > 0) {
+					
 					if(useBVH){
 						HitInfo closest = closestBVHHit(ray, currentLayer);
 						if(closest.didHit && closest.dst < closestHit.dst) { 
@@ -758,50 +670,41 @@ Shader "Custom/RayTracing" {
 						}
 					} else {
 						// Check for objects in the current layer
-						if(RoomInfos[currentLayer].numMeshes != 0){
-							HitInfo closestHitMesh = closestMeshHit(ray, currentLayer);
-							if (closestHitMesh.didHit && closestHitMesh.dst < closestHit.dst) {
-								closestHit = closestHitMesh;
-							}
+						HitInfo closestHitMesh = closestMeshHit(ray, currentLayer);
+						if (closestHitMesh.didHit && closestHitMesh.dst < closestHit.dst) {
+							closestHit = closestHitMesh;
 						}
 
 						// Check for spheres in the current layer	
-						if(RoomInfos[currentLayer].numSpheres != 0){
-							HitInfo closestHitSphere = closestSphereHit(ray, currentLayer);
-							if (closestHitSphere.didHit && closestHitSphere.dst < closestHit.dst) {
-								closestHit = closestHitSphere;
-							}
+						HitInfo closestHitSphere = closestSphereHit(ray, currentLayer);
+						if (closestHitSphere.didHit && closestHitSphere.dst < closestHit.dst) {
+							closestHit = closestHitSphere;
 						}
 
-						// Check for cubes in the current layer
-						if(RoomInfos[currentLayer].numCubes != 0){
-							HitInfo closestHitCube = checkClosestCube(ray, currentLayer);
-							if (closestHitCube.didHit && closestHitCube.dst < closestHit.dst) {
-								closestHit = closestHitCube;
-							}
+					}
+
+					// make sure we are not on the first propagation, since we need a buffer hit
+					if(maxPropagations + 1  < maxPropagationDepth){
+						if(closestHit.dst < bufferHit.dst){ // check if the new hit is closer than the previous buffer hit (to avoid glitches)
+							// if yes, then we avoid drawing this new hit, and return the previous hit
+							//return previousBestHit; // Return the previous best hit if we hit something closer than the buffer
 						}
 					}
+
 
 					// Find the closest buffer hit in this layer
 					HitInfo bufferHit = checkClosestBuffer(ray, currentLayer, previousLayer);
 					if(!bufferHit.didHit) return closestHit; // No buffer hit, return the closest hit
 					if(closestHit.dst < bufferHit.dst) return closestHit; // If we hit an object before the buffer, return the hit
 
-					// Case: we know there is a buffer so we are propagating to the next layer:
-					closestHit = MakeNoHit(); // We ignore any objects of the current layer that are behind the portal (we only show what is in the portal)
-					closestHit.dst = 1.#INF;
+					previousBestHit = closestHit; // Save the previous best hit before we move to the next layer
 
-					previousBufferHit = bufferHit; // Save the buff hit so that we can find objects that are behind it in the next layer.
-					nextLayer = bufferHit.nextLayerIfBuffer; // Get the next layer after buffer
-					
-					// Update layers for next propagation
-					previousLayer = currentLayer; 
+					// If we hit a buffer, get the next layer after the buffer
+					nextLayer = bufferHit.nextLayerIfBuffer;
+					// Move to the next layer and continue the search
+					previousLayer = currentLayer;
 					currentLayer = nextLayer;
 
-					// Reset the origin of the ray to be at the portal, so that it ignores any objects before the buffer
-					ray.origin = previousBufferHit.hitPoint;
-
-					propagationNumber++;
 				}
 				return closestHit; // Return the closest hit found
 			}
@@ -828,7 +731,7 @@ Shader "Custom/RayTracing" {
                         //ray.dir = RandomHemisphereDirection(hitInfo.normal, rngState);
                         ray.dir = normalize(hitInfo.normal + RandomDirection(rngState));
                         
-						MaterialData material = hitInfo.material;
+						RayTracingMaterial material = hitInfo.material;
 						float3 emittedLight = material.emissionColor * material.emissionStrength;
                         //float lightStrength = dot(hitInfo.normal,ray.dir); 
                         incomingLight += emittedLight * rayColor;
@@ -881,20 +784,16 @@ Shader "Custom/RayTracing" {
 				HitInfo hitInfoCurrent = IterativeRayPropagationThroughPortals(currentLayer, ray);
 				HitInfo hitInfoNext = IterativeRayPropagationThroughPortals(nextLayer, ray);
 
-				// Return nothing if there is no hit
-				if(!hitInfoCurrent.didHit && !hitInfoNext.didHit) return incomingLight;
-				
-				if (hitInfoCurrent.didHit) {
+				if (hitInfoCurrent.didHit && hitInfoCurrent.dst < hitInfoNext.dst) {
 					hitInfo = hitInfoCurrent; // If we hit something in the current layer, use that
-				}
-				if (hitInfoNext.didHit && hitInfoNext.dst < hitInfoCurrent.dst) { 
+				} else if (hitInfoNext.didHit) { 
 					hitInfo = hitInfoNext; // If we didn't hit anything in the current layer, use the next layer
- 				}	
-
-				
+ 				} else { 
+					return incomingLight;
+				}
 				
 				// Get the material of the object
-				MaterialData material = hitInfo.material;
+				RayTracingMaterial material = hitInfo.material;
 				float3 emittedLight = material.emissionColor * material.emissionStrength;
 				incomingLight += emittedLight * rayColor;
 				rayColor *= material.color;
@@ -904,7 +803,7 @@ Shader "Custom/RayTracing" {
 				for(int i = 0; i < NumLights; i++) {
 					LightInfo lightInfo = LightInfos[i];
 
-					if(abs(lightInfo.layer - hitInfo.layerOfHit) > maxPropagationDepth) continue; // Ignore lights that are not reachable even through max propagation depth
+					if(abs(lightInfo.layer - currentLayer) > 3) continue; // Ignore lights that are not in the same layer or the next one
 
 					// Send a ray to the light source
 					float3 lightDir = normalize(lightInfo.position - hitInfo.hitPoint);
@@ -912,33 +811,17 @@ Shader "Custom/RayTracing" {
 					Ray lightRay;
 					lightRay.origin = hitInfo.hitPoint + hitInfo.normal * 0.001;
 					lightRay.dir = lightDir;
-
-					// lightHit is the object that we hit going towards the light source
 					HitInfo lightHit = IterativeRayPropagationThroughPortals(hitInfo.layerOfHit, lightRay);
 
-					// Light Source <----- Light Hit <----- Object Hit (ray origin) 
-					// - Light source is the light we want to reach
-					// - Light hit is either the light source or an object that blocks the light
-					// - Object hit is the object we are starting from (the pixel we are rendering)
-
-					// Distance from the light source to the hit point 
 					float distanceToLight = length(lightInfo.position - hitInfo.hitPoint);
-
-					// Distance from the object we hit on our way to the light source to the hit point  
 					float distanceToHit = length(lightHit.hitPoint - hitInfo.hitPoint);
 
 					// In the case that a light source is in another room, but there is another light on the same ray path
-					// This is to avoid the case where the light source is in another room, and farther away than the object we hit.
 					if(distanceToHit > distanceToLight) continue;
-
-					// This is to avoid the case where the light source is too close to the object we hit
 					if(distanceToHit + lightInfo.radius + 0.01f < distanceToLight) continue;
 
-
-					if(lightHit.layerOfHit != lightInfo.layer) continue;
-
 					/// The ray is guaranteed to hit something (either light or other), so we can calculate the light
-					MaterialData material2 = lightHit.material;
+					RayTracingMaterial material2 = lightHit.material;
 					float NdotL = max(dot(hitInfo.normal, lightDir), 0.0);
 					float3 emittedLight2 = material2.emissionColor * material2.emissionStrength;
 					float attenuation = 1.0 / (distanceToLight * distanceToLight + 1e-4);

@@ -16,7 +16,6 @@ public class RoomObject : MonoBehaviour {
     [ReadOnly] [SerializeField] public int numSpheres;
     [ReadOnly] [SerializeField] public int numStencils;
     [ReadOnly] [SerializeField] public int numLights; 
-    [ReadOnly] [SerializeField] public int numCubes; // number of cubes in the room, used for debugging and future features
 
     [Header("Global Indices of Objects")]
     // These are automatically updated in the Ray Tracing Manager, after all of the local lists have been processed
@@ -24,8 +23,7 @@ public class RoomObject : MonoBehaviour {
     [ReadOnly] [SerializeField] public int globalTrianglesIndex; // Index of the first triangle in the global triangle list
     [ReadOnly] [SerializeField] public int globalSpheresIndex; // Index of the first sphere in the global sphere list 
     [ReadOnly] [SerializeField] public int globalStencilsIndex; // Index of the first stencil in the stencil list
-    // Lights:  we always search for all the lights in the scene, so we don't keep a global index per room
-    [ReadOnly] [SerializeField] public int globalCubesIndex; // Index of the first cube in the global cube list, used for debugging and future features
+    // Lights, we always search for all the lights in the scene, so we don't keep a global index per room
 
     [Header("Room BVH")]
     // BVH 
@@ -46,7 +44,6 @@ public class RoomObject : MonoBehaviour {
     public List<SphereObject> sphereObjects;
     public List<StencilObject> stencilObjects;
     public List<LightObject> lightObjects; 
-    public List<CubeObject> cubeObjects; // List of cube objects in the room, used for debugging and future features
 
     
     [Header("Debug")]
@@ -64,14 +61,12 @@ public class RoomObject : MonoBehaviour {
         numSpheres = 0;
         numStencils = 0;
         numLights = 0;
-        numCubes = 0; 
 
         // reset all indices
         globalMeshesIndex = 0;
         globalTrianglesIndex = 0;
         globalSpheresIndex = 0;
         globalStencilsIndex = 0;
-        globalCubesIndex = 0;
 
         // maybe do later
         wrappersIndex = 0; // Index of the first wrapper in the list
@@ -84,12 +79,10 @@ public class RoomObject : MonoBehaviour {
         sphereObjects = new List<SphereObject>();
         stencilObjects = new List<StencilObject>();
         lightObjects = new List<LightObject>();
-        cubeObjects = new List<CubeObject>(); 
 
         processMeshes();
         processSpheres();
         processStencils();
-        processCubes();
     }
 
     private void processMeshes(){
@@ -161,22 +154,6 @@ public class RoomObject : MonoBehaviour {
         }
     }
 
-
-    private void processCubes(){
-        cubeObjects = new List<CubeObject>(this.GetComponentsInChildren<CubeObject>());
-        numCubes = cubeObjects.Count;
-
-        for(int i = 0; i < numCubes; i++){
-            CubeObject cubeObject = cubeObjects[i];
-            cubeObject.layer = layer; 
-            cubeObject.virtualizedLayer = virtualizedLayer;
-            cubeObject.UpdateCubeData(); 
-            if(cubeObject.isLightSource) {
-                lightObjects.Add(new LightObject(cubeObject.center, cubeObject.GetDistanceFromCenterToVertex(), layer));
-                numLights++;
-            }
-        }
-    }
 
 
 

@@ -8,8 +8,6 @@ public struct RoomInfo {
     public int numSpheres;
     public int globalStencilsIndex;
     public int numStencils;
-    public int globalCubesIndex;
-    public int numCubes; // Total number of cubes in the room
     
     public int numWrappers; // Total number of wrappers (triangles + spheres)
     public int wrappersIndex; // Index of the first wrapper in the list
