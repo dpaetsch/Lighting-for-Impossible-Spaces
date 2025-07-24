@@ -13,7 +13,8 @@ public class SphereObject : MonoBehaviour {
 
 	[Header("Stencil Buffer Info")]
 	public int layer = 1;
-	public int virtualizedLayer = 1; // see roomObject
+
+
 
 	void OnValidate() {
 		

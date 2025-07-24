@@ -9,31 +9,25 @@ public class MeshObject : MonoBehaviour {
     public MeshRenderer meshRenderer;
     public Mesh mesh;
 
-    [ReadOnly] public int triangleCount; 
+    public int meshIndex; // index of the mesh in the total list
 
-    [ReadOnly] public int localTriangleStartIndex; // index of the first triangle in the local list (in the room)
-    [ReadOnly] public int globalTrianglesStartIndex; // index of the first triangle in the global list
+    [ReadOnly] public int triangleStartIndex;
+    [ReadOnly] public int triangleCount;
 
-    [Header("Stencil Buffer Info")]
-	public int layer = 1;
-    public int virtualizedLayer = 1; // see roomObject
-
-
-    [Header("Material")]
     public RayTracingMaterial material;
 
     [ReadOnly] public bool isLightSource;
     [ReadOnly] public Vector3 center;
 
-    // List<TriangleObject> localTriangles;
-    List<TriangleObject> worldTriangles;
+    List<TriangleInfo> localTriangles;
+    List<TriangleInfo> worldTriangles;
 
     [ReadOnly] public Vector3 boundsMax;
     [ReadOnly] public Vector3 boundsMin;
-
     private Bounds bounds;
     
-
+    [Header("Stencil Buffer Info")]
+	public int layer = 1;
 
     private void OnValidate() {
         meshFilter = GetComponent<MeshFilter>();
@@ -53,7 +47,7 @@ public class MeshObject : MonoBehaviour {
     }
 
     public void InitializeTrianglesAndBounds() {
-        worldTriangles ??= new List<TriangleObject>();
+        worldTriangles ??= new List<TriangleInfo>();
         worldTriangles.Clear();
 
         meshFilter = GetComponent<MeshFilter>();
@@ -66,7 +60,6 @@ public class MeshObject : MonoBehaviour {
 
         Vector3[] vertices = mesh.vertices;
         Vector3[] normals = mesh.normals;
-
         int[] localTriangles = mesh.triangles;
 
         triangleCount = mesh.triangles.Length / 3;
@@ -93,13 +86,10 @@ public class MeshObject : MonoBehaviour {
             Vector3 worldn1 = DirectionLocalToWorld(n1, rot);
             Vector3 worldn2 = DirectionLocalToWorld(n2, rot);
 
-            // Create world triangle (with a local mesh index, which points to a mesh that is local to a room)
-            TriangleObject triangle = new TriangleObject(worldv0, worldv1, worldv2, worldn0, worldn1, worldn2);
-
-            // Add triangle to the world triangles
+            // Create wold triangle
+            TriangleInfo triangle = new TriangleInfo(worldv0, worldv1, worldv2, worldn0, worldn1, worldn2, meshIndex);
             worldTriangles.Add(triangle);
 
-            // Adjust Bounds
             boundsMin = Vector3.Min(boundsMin, worldv0);
 			boundsMax = Vector3.Max(boundsMax, worldv0);
 			boundsMin = Vector3.Min(boundsMin, worldv1);
@@ -107,15 +97,14 @@ public class MeshObject : MonoBehaviour {
 			boundsMin = Vector3.Min(boundsMin, worldv2);
 			boundsMax = Vector3.Max(boundsMax, worldv2);
         }
-
-        //Finalize Bounds
         bounds = new Bounds((boundsMin + boundsMax) / 2, boundsMax - boundsMin);
+
         this.boundsMin = boundsMin;
         this.boundsMax = boundsMax;
     }
 
     public Vector3 GetCenter() {
-        List<TriangleObject> triangles = GetTriangleObjects();
+        List<TriangleInfo> triangles = GetTriangles();
         Vector3 center = Vector3.zero;
         int totalVertices = triangles.Count * 3;
         for (int i = 0; i < triangles.Count; i++) {
@@ -126,11 +115,10 @@ public class MeshObject : MonoBehaviour {
     }
 
 
-    public List<TriangleObject> GetTriangleObjects() {
+    public List<TriangleInfo> GetTriangles() {
         InitializeTrianglesAndBounds();
         return worldTriangles;
     }
-
 
     public Bounds GetBounds() {
         InitializeTrianglesAndBounds();
@@ -146,7 +134,7 @@ public class MeshObject : MonoBehaviour {
 	}
 
     public float GetMaxVertexDistanceFromCenter() {
-        List<TriangleObject> triangles = GetTriangleObjects();
+        List<TriangleInfo> triangles = GetTriangles();
         float maxDistance = 0f;
 
         foreach (var tri in triangles) {

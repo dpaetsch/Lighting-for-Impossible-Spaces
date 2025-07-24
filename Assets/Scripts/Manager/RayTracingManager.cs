@@ -35,10 +35,8 @@ public class RayTracingManager : MonoBehaviour {
 
     [Header("Stencil Buffer Info")]
     [SerializeField, Range(0,5)] public int currentLayer = 0; 
-    [ReadOnly] [SerializeField] public int virtualizedCurrentLayer = 0;
     [SerializeField, Range(0,5)] public int nextLayer = 1; // Layer that is also activated (for player movement)
-    [SerializeField] public bool singleLayer; // Forces nexLayer = currentLayer
-    [SerializeField] public bool connected; // Forces nextLayer = currentLayer + 1 
+    [SerializeField] public bool singleLayer;
 
     [Header("Debug Info")]
     [SerializeField] bool showIntersectionCount; // If true, the bounce count will be shown (red pixels
@@ -49,13 +47,12 @@ public class RayTracingManager : MonoBehaviour {
     [Header("Object Info")]
     [ReadOnly] [SerializeField] int numRooms;
     [ReadOnly] [SerializeField] int numMeshes;
-	[ReadOnly] [SerializeField] int numTriangles; 
+	[ReadOnly] [SerializeField] int numTriangles;
     [ReadOnly] [SerializeField] int numSpheres;
-    [ReadOnly] [SerializeField] int numStencils; 
+    [ReadOnly] [SerializeField] int numStencils;
     [ReadOnly] [SerializeField] int numLights; // number of meshes that are emissive
 	
     [Header("Environment Settings")]
-    // Environment light is a light that is determined from the directional light in the scene
     [SerializeField] bool useEnvironmentLight;
 	[SerializeField] Color groundColour;
 	[SerializeField] Color skyColourHorizon;
@@ -64,8 +61,7 @@ public class RayTracingManager : MonoBehaviour {
 	[SerializeField] float sunIntensity;
 
     [Header("Ambient Lighting")]
-    // Ambient light is a constant light that is applied to the scene
-    [SerializeField] bool useAmbientLight = false; 
+    [SerializeField] bool useAmbientLight = false;
     [SerializeField] Color ambientLightColor = Color.white;
     [SerializeField, Range(0, 1)] float ambientLightIntensity = 1.0f;
 
@@ -80,25 +76,19 @@ public class RayTracingManager : MonoBehaviour {
     // --- Active Layer Info ---
     Dictionary<int, int> activeLayers; // Dictionary to keep track of active layers and their indices in the roomObjects array
 
-    // --- Object Lists --- 
-    // These object lists represent "real" objects in the scene. 
-    // Room, Mesh, Sphere, Stencil are the only ones that you manually apply to GameObjects in the scene.
-    // Triangles and Lights are automatically created from the objects based on their properties.
+    // --- Lists --- 
     RoomObject[] roomObjects;
-    List<MeshObject> meshObjects;
-    List<TriangleObject> triangleObjects; // List of triangle objects in this room
-    List<SphereObject> sphereObjects;
-    List<StencilObject> stencilObjects; 
-    List<LightObject> lightObjects; // List of light objects in the scene
+    MeshObject[] meshObjects;
+    SphereObject[] sphereObjects;
+    StencilObject[] stencilObjects; 
 
-    // --- Info Lists to send to Shader ---
-    // These Info Lists represent curated data that is sent to the shader for rendering. infos only contain the necessary data for rendering, not the full objects.
+    // --- Info Lists to send to shader ---
     RoomInfo[] roomInfos;
-    MeshInfo[] meshInfos;
-    TriangleInfo[] triangleInfos;
     SphereInfo[] sphereInfos;
     StencilInfo[] stencilInfos;
-    LightInfo[] lightInfos;
+    MeshInfo[] meshInfos;
+    List<TriangleInfo> triangleInfos;
+    List<LightInfo> lightInfos;
 
     // --- BVH lists ---
     List<WrapperObject> wrapperObjects; // List of wrapper objects for triangles and spheres
@@ -120,8 +110,11 @@ public class RayTracingManager : MonoBehaviour {
 
     // Called after each camera (e.g. game or scene camera) has finished rendering into the src texture.
     void OnRenderImage(RenderTexture src, RenderTexture target) {
+
+
         bool activeMode = useRayTracing || useSimpleShape || useImportanceSampling; // If there is an active viewing mode 
         bool shouldApplyShader = Camera.current.name != "SceneCamera" || useShaderInSceneView; // If it is not the scene camera or if the shader should be applied in the scene view
+        
 
         if (shouldApplyShader && activeMode) {
             InitFrame();
@@ -137,10 +130,29 @@ public class RayTracingManager : MonoBehaviour {
 
         SanityChecks();
 
-        CreateLocalObjectlists(); // Create the local object lists for each room and process the objects in the rooms
-        CreateGlobalObjectLists(); // Create the global object lists and assign the correct global indices to the objects
-        CreateBVHs(); // Create the BVH for the objects in the scene
-        AssignGlobalInfoLists(); // Assign the info lists to the arrays
+
+        if(singleLayer){
+            nextLayer = currentLayer; // If single layer, next layer is the same as current layer
+        }
+
+        bool showDebug = false;
+        
+        if(showDebug) UnityEngine.Debug.Log($"======= Camera: {Camera.current.name}" );
+
+        var sw1 = Stopwatch.StartNew();
+        CreateObjectlists();
+        sw1.Stop();
+        if(showDebug)UnityEngine.Debug.Log($"CreateObjectLists: {sw1.ElapsedMilliseconds} ms");
+
+        var sw2 = Stopwatch.StartNew();
+        CreateBVH(); // Create the BVH for the objects in the scene
+        sw2.Stop();
+        if(showDebug)UnityEngine.Debug.Log($"CreateBVH: {sw2.ElapsedMilliseconds} ms");
+
+        var sw3 = Stopwatch.StartNew();
+        AssignInfoLists(); // Assign the info lists to the arrays
+        sw3.Stop();
+        if(showDebug)UnityEngine.Debug.Log($"AssignInfoLists: {sw3.ElapsedMilliseconds} ms");
         
         SendBuffersToShader(); // Sends the buffers to the shader
         SendParametersToShader(); // Sends the parameters to the shader
@@ -159,32 +171,17 @@ public class RayTracingManager : MonoBehaviour {
     }
 
 
-    // For each room, create the local object lists and process the objects.
-    void CreateLocalObjectlists(){
+    // Loop through all objects (meshes and spheres) and create a arrays of rooms and objects, then send data to the shader
+    // There is no optimization here, just rooms with objects in the rooms.
+    void CreateObjectlists(){
 
-        //roomObjects = FindObjectsOfType<RoomObject>();
         roomObjects = FindObjectsOfType<RoomObject>();
         numRooms = roomObjects.Length;
-
-        // Sort rooms in ascending order by layer
         System.Array.Sort(roomObjects, (a, b) => a.layer.CompareTo(b.layer));
 
-        // --- Process all Objects in the Rooms ---
-        // This creates for each rooom:
-        // - local Mesh objects list
-        // - local Triangle objects list
-        // - local Sphere objects list
-        // - local Stencil objects list
-        // - local Light objects list
-        // Local means that the indices are only valid within the room, not globally. 
-        foreach(RoomObject roomObject in roomObjects){
-            roomObject.processObjects(); // Process the objects in the room
-        }
 
         // See which layers actually exist (sort or virtualization)
-        // This is so that we can then see which room as which index (in case some room are deactivated, so it doesn't crash)
         activeLayers = new Dictionary<int, int>();
-        // Note: room list should be ordered by layer number (increasing)
         for (int i = 0; i < numRooms; i++) {
             int layer = roomObjects[i].layer;
             if (!activeLayers.ContainsKey(layer)) {
@@ -192,124 +189,140 @@ public class RayTracingManager : MonoBehaviour {
             }
         }
 
-        // We need to check that if there is a stencil buffer in a room, that the connecting room (the next layer of the stencil buffer), actually exists in the scene.
-        // If it doesn't exist, then we remove it from the local lists
-        foreach (RoomObject roomObject in roomObjects) {
-            // Collect stencil objects to remove
-            List<StencilObject> toRemove = new List<StencilObject>();
-            foreach (StencilObject stencilObject in roomObject.stencilObjects) {
-                if (!activeLayers.ContainsKey(stencilObject.nextLayer)) {
-                    toRemove.Add(stencilObject);
-                }
-            }
-            // Remove stencils 
-            foreach (StencilObject stencil in toRemove) {
-                roomObject.stencilObjects.Remove(stencil);
-                roomObject.numStencils--;
-            }
+        // -- Initialize the rooms 
+        for(int i = 0; i < numRooms; i++){ 
+            //roomObjects[i].layer = i; // layers start at 0
+            roomObjects[i].numSpheres = 0;
+            roomObjects[i].numMeshes = 0; 
+            roomObjects[i].numStencils = 0;
+            roomObjects[i].numTriangles = 0;
+            roomObjects[i].numbvhNodes = 0; 
+            roomObjects[i].numWrappers = 0;
+
+            roomObjects[i].trianglesIndex = 0; 
+            roomObjects[i].spheresIndex = 0; 
+            roomObjects[i].stencilIndex = 0; 
+            roomObjects[i].bvhNodesIndex = 0; 
+            roomObjects[i].wrappersIndex = 0;
+            roomObjects[i].meshIndex = 0;
         }
 
-    }
+        meshObjects = FindObjectsOfType<MeshObject>();
+        sphereObjects = FindObjectsOfType<SphereObject>();
+        stencilObjects = FindObjectsOfType<StencilObject>();
 
-    // After processing all the objects in the rooms, we create global object lists 
-    // and assign the correct global indices to the objects.
-    void CreateGlobalObjectLists(){
+        // Set each child object's layer to match its parent room
+        foreach (var mesh in meshObjects) {
+            RoomObject parent = mesh.GetComponentInParent<RoomObject>();
+            if (parent != null) mesh.layer = parent.layer;
+        }
 
-        // Reset the global object lists
-        meshObjects = new List<MeshObject>();
-        triangleObjects = new List<TriangleObject>();
-        sphereObjects = new List<SphereObject>();
-        stencilObjects = new List<StencilObject>();
-        lightObjects = new List<LightObject>();
+        foreach (var sphere in sphereObjects) {
+            RoomObject parent = sphere.GetComponentInParent<RoomObject>();
+            if (parent != null) sphere.layer = parent.layer;
+        }
 
-        numMeshes = 0;
-        numTriangles = 0;
-        numSpheres = 0;
-        numStencils = 0;
+        System.Array.Sort(meshObjects, (a, b) => a.layer.CompareTo(b.layer));
+        System.Array.Sort(sphereObjects, (a, b) => a.layer.CompareTo(b.layer));
+        System.Array.Sort(stencilObjects, (a, b) => a.layer.CompareTo(b.layer));
+        
+        numStencils = stencilObjects.Length;
+        numSpheres = sphereObjects.Length;
+        numMeshes = meshObjects.Length;
+
+        // -- Reset but Not assigned here --
+	    numTriangles = 0;
         numLights = 0;
 
-        // These indices are used to keep track of the global indices of the objects in the global lists
-        int globalMeshesIndex = 0; // Index of the mesh in the global list
-        int globalTrianglesIndex = 0; // Start index for triangles in the global list 
-        int globalSpheresIndex = 0; // Start index for spheres in the global list
-        int globalStencilsIndex = 0; // Start index for stencils in the global list 
-        // We don't need to keep track of lights indexes, since we always search for all lights
+        triangleInfos = new List<TriangleInfo>(); ;
+        lightInfos = new List<LightInfo>();
 
-        // We go through each room, and all of the object lists in the room. 
-        // Then we assign for each object in the room, the global indices
-        // We also assign the correct virtualized layer (in case there is a missing room, all the layer indices will shift down to avoid having gaps in the array and causing a crash)
-        for(int i = 0; i < numRooms; i++){
+        // -- Create meshInfos (and lights) and add to rooms:
+        int triangleStartIndex = 0; // Start index for triangles in mesh and room
+        int prevLayer = -1; // Previous layer to check for changes
+        for(int i = 0; i < numMeshes; i++){
+            MeshObject meshObject = meshObjects[i];
+            meshObject.InitializeTrianglesAndBounds();
+            meshObject.triangleStartIndex = triangleStartIndex; // Set the start index for triangles in this mesh
+            meshObject.meshIndex = i;
 
-            RoomObject roomObject = roomObjects[i];
+            List<TriangleInfo> triangles = meshObject.GetTriangles();
+            triangleInfos.AddRange(triangles);
 
-            int virtualizedLayerOfRoom = activeLayers[roomObject.layer];
-            roomObject.virtualizedLayer = virtualizedLayerOfRoom;
+            int triangleCount = triangles.Count;
+            meshObject.triangleCount = triangleCount;
+            numTriangles += triangleCount;
+
+            int layer = meshObject.layer;
+            int roomIndex = activeLayers[layer]; // Get the index of the room for this layer
+
+            if(prevLayer!= layer) {
+                roomObjects[roomIndex].trianglesIndex = triangleStartIndex; 
+                prevLayer = layer;
+            }
+            roomObjects[roomIndex].numMeshes++;  
+            roomObjects[roomIndex].numTriangles += triangleCount;  
             
-            // Set global indices room offsets
-            roomObject.globalMeshesIndex = globalMeshesIndex; // Set the global mesh index for the room
-            roomObject.globalTrianglesIndex = globalTrianglesIndex; // Set the global triangles index for the room
-            roomObject.globalSpheresIndex = globalSpheresIndex; // Set the global spheres index for the room
-            roomObject.globalStencilsIndex = globalStencilsIndex; // Set the global stencil index for the room
+            triangleStartIndex += meshObject.triangleCount; // Update the start index for the next mesh
 
-            int tempTriangleOffset = 0;
+            // Add to lights if emissive
+            if(meshObject.isLightSource){
+                lightInfos.Add(new LightInfo{ 
+                    position = meshObject.GetCenter(), 
+                    radius = meshObject.GetMaxVertexDistanceFromCenter(),
+                    layer = layer
+                 });
+                numLights++;
+            }        
+        }
 
-            // Assign global indices to the objects in the room, and als virtualized layers
-            for(int j = 0; j < roomObject.numMeshes; j++){
-                MeshObject meshObject = roomObject.meshObjects[j];
-                meshObject.virtualizedLayer = virtualizedLayerOfRoom;
-                meshObject.globalTrianglesStartIndex = roomObject.globalTrianglesIndex + tempTriangleOffset; 
-                tempTriangleOffset += meshObject.triangleCount; // offset for the next mesh
+        // -- Add spheres to Rooms:
+        for(int i = 0; i < numSpheres; i++){
+            SphereObject sphereObject = sphereObjects[i];
+            sphereObject.calculateBounds();
+            int layer = sphereObject.layer;
+            roomObjects[layer].numSpheres++;
+
+            // Add to lights if emissive            
+            if (sphereObject.isLightSource){ 
+                lightInfos.Add(new LightInfo { 
+                    position = sphereObject.transform.position, 
+                    radius = sphereObject.getRadius(),
+                    layer = layer
+                });
+                numLights++;
             }
+        }
 
-            for(int j = 0; j < roomObject.numTriangles; j++){
-                TriangleObject triangleObject = roomObject.triangleObjects[j];
-                triangleObject.globalMeshesIndex = roomObject.globalMeshesIndex + triangleObject.localMeshesIndex;
-                // Add room offset, then mesh object offset, then the specific offset of the triangle.
-            }
-
-            for(int j = 0; j < roomObject.numSpheres; j++){
-                SphereObject sphereObject = roomObject.sphereObjects[j];
-                sphereObject.virtualizedLayer = virtualizedLayerOfRoom;
-            }
-
-            for(int j = 0; j < roomObject.numStencils; j++){
-                StencilObject stencilObject = roomObject.stencilObjects[j];
-                stencilObject.virtualizedLayer = virtualizedLayerOfRoom;
-                stencilObject.virtualizedNextLayer = activeLayers[stencilObject.nextLayer];     
-            }
-
-            for(int j = 0; j < roomObject.numLights; j++){
-                LightObject lightObject = roomObject.lightObjects[j];
-                lightObject.virtualizedLayer = virtualizedLayerOfRoom;
-            }
+        // -- Add stencils to Rooms:
+        for(int i = 0; i < numStencils; i++) {
+            stencilObjects[i].ExtractQuadParameters();
+            int layer = stencilObjects[i].layer;
+            int roomIndex = activeLayers[layer]; // Get the index of the room for this layer
+            
+            roomObjects[roomIndex].numStencils++;
+            roomObjects[roomIndex].stencilIndex = i;
+        }
 
 
-             // Add local lists to global lists
-            meshObjects.AddRange(roomObject.meshObjects);
-            triangleObjects.AddRange(roomObject.triangleObjects);
-            sphereObjects.AddRange(roomObject.sphereObjects);
-            stencilObjects.AddRange(roomObject.stencilObjects);
-            lightObjects.AddRange(roomObject.lightObjects);
+        // -- Add Index to Rooms --
+        
+        if(numRooms >= 0) {
+            roomObjects[0].meshIndex = 0;
+            roomObjects[0].spheresIndex = 0;
+            roomObjects[0].stencilIndex = 0;
+        }
 
-            // We add the number of objects from the previous room to the list, then the next index is the start of the next room.
-            globalMeshesIndex += roomObject.numMeshes;
-            globalTrianglesIndex += roomObject.numTriangles; 
-            globalSpheresIndex += roomObject.numSpheres;
-            globalStencilsIndex += roomObject.numStencils;
-
-            // Update total numbers
-            numMeshes += roomObject.numMeshes; 
-            numTriangles += roomObject.numTriangles; 
-            numSpheres += roomObject.numSpheres;
-            numStencils += roomObject.numStencils; 
-            numLights += roomObject.numLights;
+        for(int i = 1; i < numRooms; i++){
+            roomObjects[i].meshIndex = roomObjects[i-1].numMeshes + roomObjects[i-1].meshIndex;
+            roomObjects[i].spheresIndex = roomObjects[i-1].numSpheres + roomObjects[i-1].spheresIndex;
+            roomObjects[i].stencilIndex = roomObjects[i-1].numStencils + roomObjects[i-1].stencilIndex;
         }
 
     }
 
 
-
-    void CreateBVHs() {
+    void CreateBVH() {
         // BVH Construciton for each room
         wrapperObjects = new List<WrapperObject>();
         bvhNodes = new List<BVHNode>();
@@ -324,7 +337,7 @@ public class RayTracingManager : MonoBehaviour {
 
         // Create a BVH tree for every room
         for(int r = 0; r < numRooms; r++){
-            BVH bvh = new BVH(meshObjects, roomObjects[r].globalMeshesIndex, roomObjects[r].numMeshes, sphereObjects, roomObjects[r].globalSpheresIndex, roomObjects[r].numSpheres, bvhMaxDepth, roomObjects[r].virtualizedLayer, useFullObjectsInBVH);
+            BVH bvh = new BVH(meshObjects, roomObjects[r].meshIndex, roomObjects[r].numMeshes, sphereObjects, roomObjects[r].spheresIndex, roomObjects[r].numSpheres, bvhMaxDepth, roomObjects[r].layer, useFullObjectsInBVH);
 
             roomObjects[r].bvhNodesIndex = bvhNodes.Count; // Index of the first BVH node in the list
             roomObjects[r].wrappersIndex = wrapperObjects.Count; // Index of the first wrapper in the list
@@ -346,32 +359,26 @@ public class RayTracingManager : MonoBehaviour {
 
     } 
 
-
-
-    void AssignGlobalInfoLists(){
+    void AssignInfoLists(){
         roomInfos = new RoomInfo[numRooms];
-        meshInfos = new MeshInfo[numMeshes];
-        triangleInfos = new TriangleInfo[numTriangles];
         sphereInfos = new SphereInfo[numSpheres];
         stencilInfos = new StencilInfo[numStencils];
-        lightInfos = new LightInfo[numLights];
-       
+        meshInfos = new MeshInfo[numMeshes];
         wrapperInfos = new WrapperInfo[numWrapperObjects];
         bvhNodeInfos = new BVHNodeInfo[numBVHNodes];
 
+        // Should already be initialized: 
+        // triangleInfos = new List<TriangleInfo>();
+        // lightInfos = new List<LightInfo>();
         for(int i = 0; i < numRooms; i++){
             roomInfos[i] = new RoomInfo();
-            
-            //roomInfos[i].layer = roomObjects[i].layer;
-            roomInfos[i].layer = roomObjects[i].virtualizedLayer;
-
-            roomInfos[i].globalMeshesIndex = roomObjects[i].globalMeshesIndex;
+            roomInfos[i].layer = roomObjects[i].layer;
+            roomInfos[i].meshIndex = roomObjects[i].meshIndex;
             roomInfos[i].numMeshes = roomObjects[i].numMeshes;
-            roomInfos[i].globalSpheresIndex = roomObjects[i].globalSpheresIndex;
+            roomInfos[i].spheresIndex = roomObjects[i].spheresIndex;
             roomInfos[i].numSpheres = roomObjects[i].numSpheres;
-            roomInfos[i].globalStencilsIndex = roomObjects[i].globalStencilsIndex;
+            roomInfos[i].stencilIndex = roomObjects[i].stencilIndex;
             roomInfos[i].numStencils = roomObjects[i].numStencils;
-
             roomInfos[i].numWrappers = roomObjects[i].numWrappers;
             roomInfos[i].wrappersIndex = roomObjects[i].wrappersIndex;
             roomInfos[i].numbvhNodes = roomObjects[i].numbvhNodes;
@@ -380,24 +387,12 @@ public class RayTracingManager : MonoBehaviour {
 
         for(int i = 0; i < numMeshes; i++){
             meshInfos[i] = new MeshInfo();
-            meshInfos[i].globalTrianglesStartIndex = meshObjects[i].globalTrianglesStartIndex;
+            meshInfos[i].triangleStartIndex = meshObjects[i].triangleStartIndex;
             meshInfos[i].triangleCount = meshObjects[i].triangleCount;
             meshInfos[i].material = meshObjects[i].material;
-            meshInfos[i].boundsMin = meshObjects[i].boundsMin;
-            meshInfos[i].boundsMax = meshObjects[i].boundsMax;
-            // meshInfos[i].layer = meshObjects[i].layer;
-            meshInfos[i].layer = meshObjects[i].virtualizedLayer;
-        }
-
-        for(int i = 0; i < numTriangles; i++){
-            triangleInfos[i] = new TriangleInfo();
-            triangleInfos[i].v0 = triangleObjects[i].v0;
-            triangleInfos[i].v1 = triangleObjects[i].v1;
-            triangleInfos[i].v2 = triangleObjects[i].v2;
-            triangleInfos[i].n0 = triangleObjects[i].n0;
-            triangleInfos[i].n1 = triangleObjects[i].n1;
-            triangleInfos[i].n2 = triangleObjects[i].n2;
-            triangleInfos[i].globalMeshesIndex = triangleObjects[i].globalMeshesIndex; // Mesh index of the triangle in the global list
+            meshInfos[i].boundsMin = meshObjects[i].GetBounds().min;
+            meshInfos[i].boundsMax = meshObjects[i].GetBounds().max;
+            meshInfos[i].layer = meshObjects[i].layer;
         }
 
         for(int i = 0; i < numSpheres; i++){
@@ -405,8 +400,7 @@ public class RayTracingManager : MonoBehaviour {
             sphereInfos[i].position = sphereObjects[i].transform.position;
             sphereInfos[i].radius = sphereObjects[i].transform.localScale.x * 0.5f;
             sphereInfos[i].material = sphereObjects[i].material;
-            // sphereInfos[i].layer = sphereObjects[i].layer;
-            sphereInfos[i].layer = sphereObjects[i].virtualizedLayer;
+            sphereInfos[i].layer = sphereObjects[i].layer;
         }
 
         for(int i = 0; i < numStencils; i++){
@@ -415,19 +409,10 @@ public class RayTracingManager : MonoBehaviour {
             stencilInfos[i].normal = stencilObjects[i].GetNormal();
             stencilInfos[i].u = stencilObjects[i].GetU();
             stencilInfos[i].v= stencilObjects[i].GetV();
-            // stencilInfos[i].layer = stencilObjects[i].layer;
-            stencilInfos[i].layer = stencilObjects[i].virtualizedLayer;
-            // stencilInfos[i].nextLayer = stencilObjects[i].nextLayer;
-            stencilInfos[i].nextLayer = stencilObjects[i].virtualizedNextLayer;
+            stencilInfos[i].layer = stencilObjects[i].layer;
+            stencilInfos[i].nextLayer = stencilObjects[i].nextLayer;
         }
 
-        for(int i = 0; i < numLights; i++){
-            lightInfos[i] = new LightInfo();
-            lightInfos[i].position = lightObjects[i].position;
-            lightInfos[i].radius = lightObjects[i].radius;
-            // lightInfos[i].layer = lightObjects[i].layer;
-            lightInfos[i].layer = lightObjects[i].virtualizedLayer;
-        }
 
         // These have to be global indices for the lists, therefore we need to offset the indices by the room index
         for(int i = 0; i < numBVHNodes; i++){
@@ -449,8 +434,8 @@ public class RayTracingManager : MonoBehaviour {
                 minBounds = wrapperObjects[i].minBounds,
                 maxBounds = wrapperObjects[i].maxBounds,
                 isTriangle = wrapperObjects[i].isTriangle ? 1 : 0,
-                meshIndex = wrapperObjects[i].isTriangle ? wrapperObjects[i].meshIndex + roomObjects[wrapperObjects[i].layer].globalMeshesIndex : -1, // mesh index in wrapper + Offset by the room mesh index ( or -1 if it's a sphere)
-                index =  wrapperObjects[i].index + (wrapperObjects[i].isTriangle ? roomObjects[wrapperObjects[i].layer].globalTrianglesIndex :  roomObjects[wrapperObjects[i].layer].globalSpheresIndex) // index of triangle or sphere in wrapper + Offset by the room index               
+                meshIndex = wrapperObjects[i].isTriangle ? wrapperObjects[i].meshIndex + roomObjects[wrapperObjects[i].layer].meshIndex : -1, // mesh index in wrapper + Offset by the room mesh index ( or -1 if it's a sphere)
+                index =  wrapperObjects[i].index + (wrapperObjects[i].isTriangle ? roomObjects[wrapperObjects[i].layer].trianglesIndex :  roomObjects[wrapperObjects[i].layer].spheresIndex) // index of triangle or sphere in wrapper + Offset by the room index               
             };
         }
 
@@ -566,30 +551,16 @@ public class RayTracingManager : MonoBehaviour {
 
         //InitFrame(); // Reinitialize the frame when a value is changed in the inspector
 	}
-    
-    void Start(){
-        singleLayer = false;
-        connected = false;
-    }
-
 
     void SanityChecks(){
-
-        if(singleLayer){
-            nextLayer = currentLayer; // If single layer, next layer is the same as current layer
-            connected = false;
+        if(currentLayer < 0 || currentLayer >= numRooms) {
+            UnityEngine.Debug.LogWarning("Current Layer is out of bounds, setting to 0");
+            currentLayer = 0;
         }
-
-        if(connected){
-            nextLayer = currentLayer + 1;
-            singleLayer = false;
+        if(nextLayer < 0 || nextLayer >= numRooms) {
+            UnityEngine.Debug.LogWarning("Next Layer is out of bounds, setting to 1");
+            nextLayer = 1;
         }
-
-        if(currentLayer >= numRooms) currentLayer = numRooms - 1;
-        if(currentLayer < 0) currentLayer = 0;
-
-        if(nextLayer >= numRooms) nextLayer = numRooms - 1;
-        if(nextLayer < 0) nextLayer = 0;
 
 
     }

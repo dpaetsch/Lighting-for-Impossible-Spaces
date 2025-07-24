@@ -173,11 +173,9 @@ MonoBehaviour:
   meshFilter: {fileID: 665272}
   meshRenderer: {fileID: 665271}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 45
+  triangleStartIndex: 540
   triangleCount: 12
-  localTriangleStartIndex: 36
-  globalTrianglesStartIndex: 36
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -186,6 +184,7 @@ MonoBehaviour:
   center: {x: 22.89, y: 5.1799994, z: 0.40999955}
   boundsMax: {x: 23.390001, y: 5.68, z: 0.9099996}
   boundsMin: {x: 22.390001, y: 4.68, z: -0.09000039}
+  layer: 1
 --- !u!65 &665270
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -299,11 +298,9 @@ MonoBehaviour:
   meshFilter: {fileID: 38493021}
   meshRenderer: {fileID: 38493020}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 47
+  triangleStartIndex: 564
   triangleCount: 12
-  localTriangleStartIndex: 384
-  globalTrianglesStartIndex: 384
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -312,6 +309,7 @@ MonoBehaviour:
   center: {x: 35.32, y: -2.9900012, z: -20.41}
   boundsMax: {x: 35.82, y: -2.4900017, z: -19.910002}
   boundsMin: {x: 34.82, y: -3.4900017, z: -20.910002}
+  layer: 1
 --- !u!65 &38493019
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -425,11 +423,9 @@ MonoBehaviour:
   meshFilter: {fileID: 51523440}
   meshRenderer: {fileID: 51523439}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 48
+  triangleStartIndex: 576
   triangleCount: 12
-  localTriangleStartIndex: 0
-  globalTrianglesStartIndex: 0
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -438,6 +434,7 @@ MonoBehaviour:
   center: {x: 25.449999, y: 2.9499998, z: -3.32}
   boundsMax: {x: 25.95, y: 3.45, z: -2.8200004}
   boundsMin: {x: 24.95, y: 2.45, z: -3.8200004}
+  layer: 1
 --- !u!65 &51523438
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -551,11 +548,9 @@ MonoBehaviour:
   meshFilter: {fileID: 52493556}
   meshRenderer: {fileID: 52493555}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 49
+  triangleStartIndex: 588
   triangleCount: 12
-  localTriangleStartIndex: 348
-  globalTrianglesStartIndex: 348
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -564,6 +559,7 @@ MonoBehaviour:
   center: {x: 37.08, y: 3.959999, z: -12.539999}
   boundsMax: {x: 37.58, y: 4.459999, z: -12.040001}
   boundsMin: {x: 36.58, y: 3.459999, z: -13.040001}
+  layer: 1
 --- !u!65 &52493554
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -774,8 +770,7 @@ MonoBehaviour:
   isLightSource: 1
   boundsMax: {x: -22.59, y: 1.7199993, z: -6.46}
   boundsMin: {x: -23.59, y: 0.7199993, z: -7.46}
-  layer: 1
-  virtualizedLayer: 1
+  layer: 0
 --- !u!135 &101199469
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -990,11 +985,9 @@ MonoBehaviour:
   meshFilter: {fileID: 144108330}
   meshRenderer: {fileID: 144108329}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 50
+  triangleStartIndex: 600
   triangleCount: 12
-  localTriangleStartIndex: 24
-  globalTrianglesStartIndex: 24
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1003,6 +996,7 @@ MonoBehaviour:
   center: {x: 23.599998, y: 1.3899999, z: 1.8199997}
   boundsMax: {x: 24.100002, y: 1.89, z: 2.3199997}
   boundsMin: {x: 23.100002, y: 0.89, z: 1.3199997}
+  layer: 1
 --- !u!65 &144108328
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1116,11 +1110,9 @@ MonoBehaviour:
   meshFilter: {fileID: 148316925}
   meshRenderer: {fileID: 148316924}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 51
+  triangleStartIndex: 612
   triangleCount: 12
-  localTriangleStartIndex: 288
-  globalTrianglesStartIndex: 288
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1129,6 +1121,7 @@ MonoBehaviour:
   center: {x: 37.25, y: 2.9500012, z: -22.210001}
   boundsMax: {x: 37.75, y: 3.4500008, z: -21.710001}
   boundsMin: {x: 36.75, y: 2.4500008, z: -22.710001}
+  layer: 1
 --- !u!65 &148316923
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1242,11 +1235,9 @@ MonoBehaviour:
   meshFilter: {fileID: 149489102}
   meshRenderer: {fileID: 149489101}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 23
+  triangleStartIndex: 276
   triangleCount: 12
-  localTriangleStartIndex: 204
-  globalTrianglesStartIndex: 636
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1255,6 +1246,7 @@ MonoBehaviour:
   center: {x: -16.660002, y: 3.959999, z: -4.409999}
   boundsMax: {x: -16.160002, y: 4.459999, z: -3.9099998}
   boundsMin: {x: -17.160002, y: 3.459999, z: -4.91}
+  layer: 0
 --- !u!65 &149489100
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1431,11 +1423,9 @@ MonoBehaviour:
   meshFilter: {fileID: 167316338}
   meshRenderer: {fileID: 167316337}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 24
+  triangleStartIndex: 288
   triangleCount: 12
-  localTriangleStartIndex: 60
-  globalTrianglesStartIndex: 492
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1444,6 +1434,7 @@ MonoBehaviour:
   center: {x: 3.4699988, y: 3.959999, z: 9.430002}
   boundsMax: {x: 3.9699993, y: 4.459999, z: 9.93}
   boundsMin: {x: 2.9699993, y: 3.459999, z: 8.93}
+  layer: 0
 --- !u!1 &169756949
 GameObject:
   m_ObjectHideFlags: 0
@@ -1494,11 +1485,9 @@ MonoBehaviour:
   meshFilter: {fileID: 169756954}
   meshRenderer: {fileID: 169756953}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 25
+  triangleStartIndex: 300
   triangleCount: 12
-  localTriangleStartIndex: 264
-  globalTrianglesStartIndex: 696
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1507,6 +1496,7 @@ MonoBehaviour:
   center: {x: -17.54, y: 1.3899994, z: -2.3100004}
   boundsMax: {x: -17.04, y: 1.8899994, z: -1.8100004}
   boundsMin: {x: -18.04, y: 0.8899994, z: -2.8100004}
+  layer: 0
 --- !u!65 &169756952
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1620,11 +1610,9 @@ MonoBehaviour:
   meshFilter: {fileID: 179401551}
   meshRenderer: {fileID: 179401550}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 29
+  triangleStartIndex: 348
   triangleCount: 12
-  localTriangleStartIndex: 180
-  globalTrianglesStartIndex: 612
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1633,6 +1621,7 @@ MonoBehaviour:
   center: {x: -19.050001, y: 5.1800013, z: -10.349999}
   boundsMax: {x: -18.550001, y: 5.6800003, z: -9.85}
   boundsMin: {x: -19.550001, y: 4.6800003, z: -10.85}
+  layer: 0
 --- !u!65 &179401549
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1784,10 +1773,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e324b20d47d743a7bd14672f5f25ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useShaderInSceneView: 0
+  useShaderInSceneView: 1
   useRayTracing: 0
-  useImportanceSampling: 0
-  useSimpleShape: 1
+  useImportanceSampling: 1
+  useSimpleShape: 0
   staticObjects: 0
   rayTracingShader: {fileID: 4800000, guid: f5353d7bb0d95459ca2420427d068696, type: 3}
   maxBounceCount: 4
@@ -1799,17 +1788,16 @@ MonoBehaviour:
   skipConstruction: 0
   showBVHDepth: 0
   accumulateBVHColors: 0
-  bvhDepth: 9
+  bvhDepth: 0
   bvhMaxDepth: 16
   bvhMaxDepthReached: 8
   numBVHNodes: 166
   numWrapperObjects: 84
   currentLayer: 0
-  virtualizedCurrentLayer: 0
-  nextLayer: 1
-  singleLayer: 0
-  showIntersectionCount: 0
-  maxIntersectionTests: 500
+  nextLayer: 0
+  singleLayer: 1
+  showIntersectionCount: 1
+  maxIntersectionTests: 121
   showFPSCounter: 1
   fpsCounter: {fileID: 1838646331}
   numRooms: 2
@@ -1824,7 +1812,7 @@ MonoBehaviour:
   skyColourZenith: {r: 0, g: 0, b: 0, a: 0}
   sunFocus: 1
   sunIntensity: 1
-  useAmbientLight: 0
+  useAmbientLight: 1
   ambientLightColor: {r: 1, g: 1, b: 1, a: 1}
   ambientLightIntensity: 0.494
 --- !u!1 &226573019
@@ -1877,11 +1865,9 @@ MonoBehaviour:
   meshFilter: {fileID: 226573024}
   meshRenderer: {fileID: 226573023}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 52
+  triangleStartIndex: 624
   triangleCount: 12
-  localTriangleStartIndex: 132
-  globalTrianglesStartIndex: 132
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1890,6 +1876,7 @@ MonoBehaviour:
   center: {x: 31.239998, y: 1.3899999, z: 7.0599995}
   boundsMax: {x: 31.740002, y: 1.89, z: 7.56}
   boundsMin: {x: 30.740002, y: 0.89, z: 6.56}
+  layer: 1
 --- !u!65 &226573022
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2003,11 +1990,9 @@ MonoBehaviour:
   meshFilter: {fileID: 230277949}
   meshRenderer: {fileID: 230277948}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 28
+  triangleStartIndex: 336
   triangleCount: 12
-  localTriangleStartIndex: 336
-  globalTrianglesStartIndex: 768
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 1, g: 1, b: 1, a: 0}
@@ -2016,6 +2001,7 @@ MonoBehaviour:
   center: {x: 6.24, y: 4.38, z: -19.300001}
   boundsMax: {x: 6.74, y: 4.880001, z: -18.8}
   boundsMin: {x: 5.74, y: 3.880001, z: -19.8}
+  layer: 0
 --- !u!65 &230277947
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2129,11 +2115,9 @@ MonoBehaviour:
   meshFilter: {fileID: 237327702}
   meshRenderer: {fileID: 237327701}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 34
+  triangleStartIndex: 408
   triangleCount: 12
-  localTriangleStartIndex: 72
-  globalTrianglesStartIndex: 504
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -2142,6 +2126,7 @@ MonoBehaviour:
   center: {x: 8.549999, y: 5.2999983, z: 7.25}
   boundsMax: {x: 9.049999, y: 5.799999, z: 7.75}
   boundsMin: {x: 8.049999, y: 4.799999, z: 6.75}
+  layer: 0
 --- !u!65 &237327700
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2335,11 +2320,9 @@ MonoBehaviour:
   meshFilter: {fileID: 254387525}
   meshRenderer: {fileID: 254387524}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 30
+  triangleStartIndex: 360
   triangleCount: 12
-  localTriangleStartIndex: 396
-  globalTrianglesStartIndex: 828
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -2348,6 +2331,7 @@ MonoBehaviour:
   center: {x: 8.119999, y: -1.2299994, z: -14.549999}
   boundsMax: {x: 8.619999, y: -0.54076684, z: -13.860766}
   boundsMin: {x: 7.619999, y: -1.9192322, z: -15.239232}
+  layer: 0
 --- !u!65 &254387523
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2539,11 +2523,9 @@ MonoBehaviour:
   meshFilter: {fileID: 298299798}
   meshRenderer: {fileID: 298299797}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 31
+  triangleStartIndex: 372
   triangleCount: 12
-  localTriangleStartIndex: 240
-  globalTrianglesStartIndex: 672
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -2552,6 +2534,7 @@ MonoBehaviour:
   center: {x: -18.420002, y: -2.9900012, z: -12.28}
   boundsMax: {x: -17.920002, y: -2.4900017, z: -11.780001}
   boundsMin: {x: -18.920002, y: -3.4900017, z: -12.780001}
+  layer: 0
 --- !u!65 &298299796
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2665,11 +2648,9 @@ MonoBehaviour:
   meshFilter: {fileID: 318376822}
   meshRenderer: {fileID: 318376821}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 53
+  triangleStartIndex: 636
   triangleCount: 12
-  localTriangleStartIndex: 396
-  globalTrianglesStartIndex: 396
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -2678,6 +2659,7 @@ MonoBehaviour:
   center: {x: 43.260006, y: -1.2299994, z: -17.18}
   boundsMax: {x: 43.760002, y: -0.54076684, z: -16.490768}
   boundsMin: {x: 42.760002, y: -1.9192322, z: -17.869232}
+  layer: 1
 --- !u!65 &318376820
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2791,11 +2773,9 @@ MonoBehaviour:
   meshFilter: {fileID: 323888692}
   meshRenderer: {fileID: 323888691}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 54
+  triangleStartIndex: 648
   triangleCount: 12
-  localTriangleStartIndex: 96
-  globalTrianglesStartIndex: 96
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -2804,6 +2784,7 @@ MonoBehaviour:
   center: {x: 23.519999, y: -2.9900002, z: -1.5200005}
   boundsMax: {x: 24.02, y: -2.49, z: -1.0200005}
   boundsMin: {x: 23.02, y: -3.49, z: -2.0200005}
+  layer: 1
 --- !u!65 &323888690
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2917,11 +2898,9 @@ MonoBehaviour:
   meshFilter: {fileID: 385239621}
   meshRenderer: {fileID: 385239620}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 55
+  triangleStartIndex: 660
   triangleCount: 12
-  localTriangleStartIndex: 240
-  globalTrianglesStartIndex: 240
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -2930,6 +2909,7 @@ MonoBehaviour:
   center: {x: 16.760002, y: -2.9900002, z: -32.43}
   boundsMax: {x: 17.260002, y: -2.49, z: -31.93}
   boundsMin: {x: 16.260002, y: -3.49, z: -32.93}
+  layer: 1
 --- !u!65 &385239619
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3043,11 +3023,9 @@ MonoBehaviour:
   meshFilter: {fileID: 387809668}
   meshRenderer: {fileID: 387809667}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 56
+  triangleStartIndex: 672
   triangleCount: 12
-  localTriangleStartIndex: 84
-  globalTrianglesStartIndex: 84
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -3056,6 +3034,7 @@ MonoBehaviour:
   center: {x: 27.360004, y: -2.9900002, z: 3.1299999}
   boundsMax: {x: 27.86, y: -2.49, z: 3.6299996}
   boundsMin: {x: 26.86, y: -3.49, z: 2.6299996}
+  layer: 1
 --- !u!65 &387809666
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3247,11 +3226,9 @@ MonoBehaviour:
   meshFilter: {fileID: 417041658}
   meshRenderer: {fileID: 417041657}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 57
+  triangleStartIndex: 684
   triangleCount: 12
-  localTriangleStartIndex: 312
-  globalTrianglesStartIndex: 312
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -3260,6 +3237,7 @@ MonoBehaviour:
   center: {x: 35.399998, y: 1.3899994, z: -17.070004}
   boundsMax: {x: 35.9, y: 1.8899994, z: -16.570002}
   boundsMin: {x: 34.9, y: 0.8899994, z: -17.570002}
+  layer: 1
 --- !u!65 &417041656
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3373,11 +3351,9 @@ MonoBehaviour:
   meshFilter: {fileID: 435844252}
   meshRenderer: {fileID: 435844251}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 58
+  triangleStartIndex: 696
   triangleCount: 12
-  localTriangleStartIndex: 60
-  globalTrianglesStartIndex: 60
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -3386,6 +3362,7 @@ MonoBehaviour:
   center: {x: 25.280005, y: 3.96, z: 6.3500004}
   boundsMax: {x: 25.78, y: 4.46, z: 6.85}
   boundsMin: {x: 24.78, y: 3.46, z: 5.85}
+  layer: 1
 --- !u!65 &435844250
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3499,11 +3476,9 @@ MonoBehaviour:
   meshFilter: {fileID: 453347393}
   meshRenderer: {fileID: 453347392}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 59
+  triangleStartIndex: 708
   triangleCount: 12
-  localTriangleStartIndex: 204
-  globalTrianglesStartIndex: 204
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -3512,6 +3487,7 @@ MonoBehaviour:
   center: {x: 18.52, y: 3.96, z: -24.56}
   boundsMax: {x: 19.02, y: 4.46, z: -24.060001}
   boundsMin: {x: 18.02, y: 3.46, z: -25.060001}
+  layer: 1
 --- !u!65 &453347391
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3719,11 +3695,9 @@ MonoBehaviour:
   meshFilter: {fileID: 479775882}
   meshRenderer: {fileID: 479775881}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 60
+  triangleStartIndex: 720
   triangleCount: 12
-  localTriangleStartIndex: 300
-  globalTrianglesStartIndex: 300
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -3732,6 +3706,7 @@ MonoBehaviour:
   center: {x: 35.5, y: 0, z: -24.699999}
   boundsMax: {x: 36, y: 0.5, z: -24.2}
   boundsMin: {x: 35, y: -0.5, z: -25.2}
+  layer: 1
 --- !u!65 &479775880
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3850,8 +3825,7 @@ MonoBehaviour:
   isLightSource: 1
   boundsMax: {x: 23.060001, y: 1.72, z: -33.65}
   boundsMin: {x: 22.060001, y: 0.72, z: -34.65}
-  layer: 0
-  virtualizedLayer: 0
+  layer: 1
 --- !u!135 &548629482
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4033,8 +4007,7 @@ MonoBehaviour:
   isLightSource: 1
   boundsMax: {x: 8.01, y: 1.7199993, z: 0.34000015}
   boundsMin: {x: 7.01, y: 0.7199993, z: -0.65999985}
-  layer: 1
-  virtualizedLayer: 1
+  layer: 0
 --- !u!1 &602250582
 GameObject:
   m_ObjectHideFlags: 0
@@ -4090,8 +4063,7 @@ MonoBehaviour:
   isLightSource: 1
   boundsMax: {x: 19.350002, y: 1.72, z: 4.2999997}
   boundsMin: {x: 18.350002, y: 0.72, z: 3.2999997}
-  layer: 0
-  virtualizedLayer: 0
+  layer: 1
 --- !u!135 &602250585
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4205,11 +4177,9 @@ MonoBehaviour:
   meshFilter: {fileID: 604923521}
   meshRenderer: {fileID: 604923520}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 2
+  triangleStartIndex: 24
   triangleCount: 12
-  localTriangleStartIndex: 192
-  globalTrianglesStartIndex: 624
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 1, g: 1, b: 1, a: 0}
@@ -4218,6 +4188,7 @@ MonoBehaviour:
   center: {x: -12.3600025, y: 4.38, z: -13.799999}
   boundsMax: {x: -11.860001, y: 4.880001, z: -13.299999}
   boundsMin: {x: -12.860001, y: 3.880001, z: -14.299999}
+  layer: 0
 --- !u!65 &604923519
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4331,11 +4302,9 @@ MonoBehaviour:
   meshFilter: {fileID: 609732122}
   meshRenderer: {fileID: 609732121}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 3
+  triangleStartIndex: 36
   triangleCount: 12
-  localTriangleStartIndex: 324
-  globalTrianglesStartIndex: 756
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -4344,6 +4313,7 @@ MonoBehaviour:
   center: {x: -0.45000076, y: 5.1800013, z: -15.849999}
   boundsMax: {x: 0.049999237, y: 5.6800003, z: -15.35}
   boundsMin: {x: -0.95000076, y: 4.6800003, z: -16.35}
+  layer: 0
 --- !u!65 &609732120
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4598,11 +4568,9 @@ MonoBehaviour:
   meshFilter: {fileID: 620362114}
   meshRenderer: {fileID: 620362113}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 4
+  triangleStartIndex: 48
   triangleCount: 12
-  localTriangleStartIndex: 0
-  globalTrianglesStartIndex: 432
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -4611,6 +4579,7 @@ MonoBehaviour:
   center: {x: 3.6399994, y: 2.9500012, z: -0.23999977}
   boundsMax: {x: 4.1399994, y: 3.4500008, z: 0.26000023}
   boundsMin: {x: 3.1399994, y: 2.4500008, z: -0.7399998}
+  layer: 0
 --- !u!1 &670531203
 GameObject:
   m_ObjectHideFlags: 0
@@ -4661,11 +4630,9 @@ MonoBehaviour:
   meshFilter: {fileID: 670531208}
   meshRenderer: {fileID: 670531207}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 61
+  triangleStartIndex: 732
   triangleCount: 12
-  localTriangleStartIndex: 372
-  globalTrianglesStartIndex: 372
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -4674,6 +4641,7 @@ MonoBehaviour:
   center: {x: 39.159996, y: -2.9900012, z: -15.760001}
   boundsMax: {x: 39.66, y: -2.4900017, z: -15.260002}
   boundsMin: {x: 38.66, y: -3.4900017, z: -16.260002}
+  layer: 1
 --- !u!65 &670531206
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4787,11 +4755,9 @@ MonoBehaviour:
   meshFilter: {fileID: 670765650}
   meshRenderer: {fileID: 670765649}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 62
+  triangleStartIndex: 744
   triangleCount: 12
-  localTriangleStartIndex: 228
-  globalTrianglesStartIndex: 228
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -4800,6 +4766,7 @@ MonoBehaviour:
   center: {x: 20.6, y: -2.9900002, z: -27.780006}
   boundsMax: {x: 21.100002, y: -2.49, z: -27.280003}
   boundsMin: {x: 20.100002, y: -3.49, z: -28.280003}
+  layer: 1
 --- !u!65 &670765648
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4913,11 +4880,9 @@ MonoBehaviour:
   meshFilter: {fileID: 685846068}
   meshRenderer: {fileID: 685846067}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 5
+  triangleStartIndex: 60
   triangleCount: 12
-  localTriangleStartIndex: 288
-  globalTrianglesStartIndex: 720
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -4926,6 +4891,7 @@ MonoBehaviour:
   center: {x: 2.1100006, y: 2.9500012, z: -19.579998}
   boundsMax: {x: 2.6100006, y: 3.4500008, z: -19.08}
   boundsMin: {x: 1.6100006, y: 2.4500008, z: -20.08}
+  layer: 0
 --- !u!65 &685846066
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5000,7 +4966,7 @@ GameObject:
   - component: {fileID: 686275659}
   - component: {fileID: 686275658}
   m_Layer: 0
-  m_Name: Room 1
+  m_Name: Room 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5018,67 +4984,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4057e7150e6ad4523805b3d1b102280c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer: 1
-  virtualizedLayer: 1
+  layer: 0
   numMeshes: 36
-  numTriangles: 432
+  meshIndex: 0
+  numTriangles: 23328
+  trianglesIndex: 0
   numSpheres: 6
+  spheresIndex: 0
   numStencils: 0
-  numLights: 6
-  globalMeshesIndex: 36
-  globalTrianglesIndex: 432
-  globalSpheresIndex: 6
-  globalStencilsIndex: 0
+  stencilIndex: 0
   numWrappers: 42
-  wrappersIndex: 42
+  wrappersIndex: 0
   numbvhNodes: 83
-  bvhNodesIndex: 83
-  meshObjects:
-  - {fileID: 620362115}
-  - {fileID: 1910875268}
-  - {fileID: 805725046}
-  - {fileID: 925798549}
-  - {fileID: 811381419}
-  - {fileID: 167316339}
-  - {fileID: 237327699}
-  - {fileID: 1942476953}
-  - {fileID: 1924734279}
-  - {fileID: 1733731560}
-  - {fileID: 695901364}
-  - {fileID: 1411038387}
-  - {fileID: 1045472923}
-  - {fileID: 1765412934}
-  - {fileID: 691900393}
-  - {fileID: 179401548}
-  - {fileID: 604923518}
-  - {fileID: 149489099}
-  - {fileID: 1476303403}
-  - {fileID: 793786425}
-  - {fileID: 298299795}
-  - {fileID: 1302482244}
-  - {fileID: 169756951}
-  - {fileID: 1547457198}
-  - {fileID: 685846065}
-  - {fileID: 1803718758}
-  - {fileID: 1512637072}
-  - {fileID: 609732119}
-  - {fileID: 230277946}
-  - {fileID: 772006702}
-  - {fileID: 1816287299}
-  - {fileID: 1696173019}
-  - {fileID: 1417604346}
-  - {fileID: 254387522}
-  - {fileID: 1413201208}
-  - {fileID: 1707774871}
-  sphereObjects:
-  - {fileID: 600047062}
-  - {fileID: 1914205960}
-  - {fileID: 1008469181}
-  - {fileID: 101199468}
-  - {fileID: 1064078363}
-  - {fileID: 2064911276}
-  stencilObjects: []
-  isActive: 1
+  bvhNodesIndex: 0
 --- !u!4 &686275659
 Transform:
   m_ObjectHideFlags: 0
@@ -5186,11 +5104,9 @@ MonoBehaviour:
   meshFilter: {fileID: 691900396}
   meshRenderer: {fileID: 691900395}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 6
+  triangleStartIndex: 72
   triangleCount: 12
-  localTriangleStartIndex: 168
-  globalTrianglesStartIndex: 600
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -5199,6 +5115,7 @@ MonoBehaviour:
   center: {x: -18.34, y: 1.3899994, z: -8.9400015}
   boundsMax: {x: -17.84, y: 1.8899994, z: -8.440001}
   boundsMin: {x: -18.84, y: 0.8899994, z: -9.440001}
+  layer: 0
 --- !u!65 &691900394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5312,11 +5229,9 @@ MonoBehaviour:
   meshFilter: {fileID: 695901367}
   meshRenderer: {fileID: 695901366}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 7
+  triangleStartIndex: 84
   triangleCount: 12
-  localTriangleStartIndex: 120
-  globalTrianglesStartIndex: 552
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -5325,6 +5240,7 @@ MonoBehaviour:
   center: {x: 2.5900006, y: 1.3899994, z: 11.53}
   boundsMax: {x: 3.0900002, y: 1.8899994, z: 12.03}
   boundsMin: {x: 2.0900002, y: 0.8899994, z: 11.03}
+  layer: 0
 --- !u!65 &695901365
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5438,11 +5354,9 @@ MonoBehaviour:
   meshFilter: {fileID: 765587525}
   meshRenderer: {fileID: 765587524}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 63
+  triangleStartIndex: 756
   triangleCount: 12
-  localTriangleStartIndex: 252
-  globalTrianglesStartIndex: 252
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -5451,6 +5365,7 @@ MonoBehaviour:
   center: {x: 24.699999, y: -1.23, z: -29.199999}
   boundsMax: {x: 25.2, y: -0.5407673, z: -28.510769}
   boundsMin: {x: 24.2, y: -1.9192327, z: -29.889233}
+  layer: 1
 --- !u!65 &765587523
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5564,11 +5479,9 @@ MonoBehaviour:
   meshFilter: {fileID: 772006705}
   meshRenderer: {fileID: 772006704}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 9
+  triangleStartIndex: 108
   triangleCount: 12
-  localTriangleStartIndex: 348
-  globalTrianglesStartIndex: 780
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -5577,6 +5490,7 @@ MonoBehaviour:
   center: {x: -5.5056596, y: 3.959999, z: -4.7508883}
   boundsMax: {x: -5.005659, y: 4.459999, z: -4.250888}
   boundsMin: {x: -6.005659, y: 3.459999, z: -5.250888}
+  layer: 0
 --- !u!65 &772006703
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5690,11 +5604,9 @@ MonoBehaviour:
   meshFilter: {fileID: 793786428}
   meshRenderer: {fileID: 793786427}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 10
+  triangleStartIndex: 120
   triangleCount: 12
-  localTriangleStartIndex: 228
-  globalTrianglesStartIndex: 660
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -5703,6 +5615,7 @@ MonoBehaviour:
   center: {x: -14.579998, y: -2.9900012, z: -7.6299996}
   boundsMax: {x: -14.080001, y: -2.4900017, z: -7.13}
   boundsMin: {x: -15.080001, y: -3.4900017, z: -8.13}
+  layer: 0
 --- !u!65 &793786426
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5879,11 +5792,9 @@ MonoBehaviour:
   meshFilter: {fileID: 805725045}
   meshRenderer: {fileID: 805725044}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 11
+  triangleStartIndex: 132
   triangleCount: 12
-  localTriangleStartIndex: 24
-  globalTrianglesStartIndex: 456
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -5892,6 +5803,7 @@ MonoBehaviour:
   center: {x: 1.7900009, y: 1.3899994, z: 4.8999996}
   boundsMax: {x: 2.290001, y: 1.8899994, z: 5.4}
   boundsMin: {x: 1.2900009, y: 0.8899994, z: 4.4}
+  layer: 0
 --- !u!1 &811381413
 GameObject:
   m_ObjectHideFlags: 0
@@ -6005,11 +5917,9 @@ MonoBehaviour:
   meshFilter: {fileID: 811381418}
   meshRenderer: {fileID: 811381417}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 0
+  triangleStartIndex: 0
   triangleCount: 12
-  localTriangleStartIndex: 48
-  globalTrianglesStartIndex: 480
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 1, g: 1, b: 1, a: 0}
@@ -6018,6 +5928,7 @@ MonoBehaviour:
   center: {x: 7.77, y: 4.38, z: 0.03999996}
   boundsMax: {x: 8.27, y: 4.880001, z: 0.53999996}
   boundsMin: {x: 7.2700005, y: 3.880001, z: -0.46000004}
+  layer: 0
 --- !u!1 &849093192
 GameObject:
   m_ObjectHideFlags: 0
@@ -6073,8 +5984,7 @@ MonoBehaviour:
   isLightSource: 1
   boundsMax: {x: 12.590001, y: 1.72, z: -26.61}
   boundsMin: {x: 11.590001, y: 0.72, z: -27.61}
-  layer: 0
-  virtualizedLayer: 0
+  layer: 1
 --- !u!135 &849093195
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6193,8 +6103,7 @@ MonoBehaviour:
   isLightSource: 1
   boundsMax: {x: 29.820002, y: 1.72, z: -2.7400005}
   boundsMin: {x: 28.820002, y: 0.72, z: -3.7400005}
-  layer: 0
-  virtualizedLayer: 0
+  layer: 1
 --- !u!135 &893021320
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6371,11 +6280,9 @@ MonoBehaviour:
   meshFilter: {fileID: 925798548}
   meshRenderer: {fileID: 925798547}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 12
+  triangleStartIndex: 144
   triangleCount: 12
-  localTriangleStartIndex: 36
-  globalTrianglesStartIndex: 468
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -6384,6 +6291,7 @@ MonoBehaviour:
   center: {x: 1.0799999, y: 5.1800013, z: 3.4900002}
   boundsMax: {x: 1.5799999, y: 5.6800003, z: 3.99}
   boundsMin: {x: 0.5799999, y: 4.6800003, z: 2.99}
+  layer: 0
 --- !u!1 &956587180
 GameObject:
   m_ObjectHideFlags: 0
@@ -6434,11 +6342,9 @@ MonoBehaviour:
   meshFilter: {fileID: 956587185}
   meshRenderer: {fileID: 956587184}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 65
+  triangleStartIndex: 780
   triangleCount: 12
-  localTriangleStartIndex: 216
-  globalTrianglesStartIndex: 216
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -6447,6 +6353,7 @@ MonoBehaviour:
   center: {x: 23.599998, y: 5.2999997, z: -26.739998}
   boundsMax: {x: 24.100002, y: 5.8, z: -26.240002}
   boundsMin: {x: 23.100002, y: 4.8, z: -27.240002}
+  layer: 1
 --- !u!65 &956587183
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6565,8 +6472,7 @@ MonoBehaviour:
   isLightSource: 1
   boundsMax: {x: -12.120001, y: 1.7199993, z: -13.5}
   boundsMin: {x: -13.120001, y: 0.7199993, z: -14.5}
-  layer: 1
-  virtualizedLayer: 1
+  layer: 0
 --- !u!135 &1008469182
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6758,11 +6664,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1045472926}
   meshRenderer: {fileID: 1045472925}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 13
+  triangleStartIndex: 156
   triangleCount: 12
-  localTriangleStartIndex: 144
-  globalTrianglesStartIndex: 576
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -6771,6 +6675,7 @@ MonoBehaviour:
   center: {x: -16.490002, y: 2.9500012, z: -14.079998}
   boundsMax: {x: -15.990002, y: 3.4500008, z: -13.58}
   boundsMin: {x: -16.990002, y: 2.4500008, z: -14.58}
+  layer: 0
 --- !u!65 &1045472924
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7024,8 +6929,7 @@ MonoBehaviour:
   isLightSource: 1
   boundsMax: {x: 6.4799995, y: 1.7199993, z: -19}
   boundsMin: {x: 5.4799995, y: 0.7199993, z: -20}
-  layer: 1
-  virtualizedLayer: 1
+  layer: 0
 --- !u!135 &1064078364
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7139,11 +7043,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1065706843}
   meshRenderer: {fileID: 1065706842}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 66
+  triangleStartIndex: 792
   triangleCount: 12
-  localTriangleStartIndex: 192
-  globalTrianglesStartIndex: 192
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 1, g: 1, b: 1, a: 0}
@@ -7152,6 +7054,7 @@ MonoBehaviour:
   center: {x: 22.820005, y: 4.38, z: -33.949997}
   boundsMax: {x: 23.320002, y: 4.88, z: -33.45}
   boundsMin: {x: 22.320002, y: 3.88, z: -34.45}
+  layer: 1
 --- !u!65 &1065706841
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7270,8 +7173,7 @@ MonoBehaviour:
   isLightSource: 1
   boundsMax: {x: 31.150002, y: 1.7199993, z: -14.59}
   boundsMin: {x: 30.150002, y: 0.7199993, z: -15.59}
-  layer: 0
-  virtualizedLayer: 0
+  layer: 1
 --- !u!135 &1073391933
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7385,11 +7287,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1075016086}
   meshRenderer: {fileID: 1075016085}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 67
+  triangleStartIndex: 804
   triangleCount: 12
-  localTriangleStartIndex: 180
-  globalTrianglesStartIndex: 180
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -7398,6 +7298,7 @@ MonoBehaviour:
   center: {x: 16.130003, y: 5.1799994, z: -30.500004}
   boundsMax: {x: 16.630001, y: 5.68, z: -30.000002}
   boundsMin: {x: 15.630001, y: 4.68, z: -31.000002}
+  layer: 1
 --- !u!65 &1075016084
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7511,11 +7412,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1103349290}
   meshRenderer: {fileID: 1103349289}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 68
+  triangleStartIndex: 816
   triangleCount: 12
-  localTriangleStartIndex: 360
-  globalTrianglesStartIndex: 360
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -7524,6 +7423,7 @@ MonoBehaviour:
   center: {x: 42.159996, y: 5.2999983, z: -14.720001}
   boundsMax: {x: 42.66, y: 5.799999, z: -14.220001}
   boundsMin: {x: 41.66, y: 4.799999, z: -15.220001}
+  layer: 1
 --- !u!65 &1103349288
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7637,11 +7537,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1107454065}
   meshRenderer: {fileID: 1107454064}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 69
+  triangleStartIndex: 828
   triangleCount: 12
-  localTriangleStartIndex: 12
-  globalTrianglesStartIndex: 12
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -7650,6 +7548,7 @@ MonoBehaviour:
   center: {x: 23.699999, y: 0, z: -5.8099995}
   boundsMax: {x: 24.2, y: 0.5, z: -5.3100004}
   boundsMin: {x: 23.2, y: -0.5, z: -6.3100004}
+  layer: 1
 --- !u!65 &1107454063
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7763,11 +7662,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1140645059}
   meshRenderer: {fileID: 1140645058}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 46
+  triangleStartIndex: 552
   triangleCount: 12
-  localTriangleStartIndex: 420
-  globalTrianglesStartIndex: 420
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -7776,6 +7673,7 @@ MonoBehaviour:
   center: {x: 43.039997, y: 1.3899994, z: -11.83}
   boundsMax: {x: 43.54, y: 1.8899994, z: -11.330002}
   boundsMin: {x: 42.54, y: 0.8899994, z: -12.330002}
+  layer: 1
 --- !u!65 &1140645057
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7889,11 +7787,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1207339205}
   meshRenderer: {fileID: 1207339204}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 70
+  triangleStartIndex: 840
   triangleCount: 12
-  localTriangleStartIndex: 324
-  globalTrianglesStartIndex: 324
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -7902,6 +7798,7 @@ MonoBehaviour:
   center: {x: 34.690002, y: 5.1800013, z: -18.480001}
   boundsMax: {x: 35.190002, y: 5.6800003, z: -17.980001}
   boundsMin: {x: 34.190002, y: 4.6800003, z: -18.980001}
+  layer: 1
 --- !u!65 &1207339203
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7976,7 +7873,7 @@ GameObject:
   - component: {fileID: 1241111234}
   - component: {fileID: 1241111233}
   m_Layer: 0
-  m_Name: Room 0
+  m_Name: Room 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7994,67 +7891,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4057e7150e6ad4523805b3d1b102280c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer: 0
-  virtualizedLayer: 0
+  layer: 1
   numMeshes: 36
-  numTriangles: 432
+  meshIndex: 36
+  numTriangles: 23328
+  trianglesIndex: 432
   numSpheres: 6
+  spheresIndex: 6
   numStencils: 0
-  numLights: 6
-  globalMeshesIndex: 0
-  globalTrianglesIndex: 0
-  globalSpheresIndex: 0
-  globalStencilsIndex: 0
+  stencilIndex: 0
   numWrappers: 42
-  wrappersIndex: 0
+  wrappersIndex: 42
   numbvhNodes: 83
-  bvhNodesIndex: 0
-  meshObjects:
-  - {fileID: 51523437}
-  - {fileID: 1107454062}
-  - {fileID: 144108327}
-  - {fileID: 665269}
-  - {fileID: 2070370011}
-  - {fileID: 435844249}
-  - {fileID: 1566226912}
-  - {fileID: 387809665}
-  - {fileID: 323888689}
-  - {fileID: 1979069010}
-  - {fileID: 2054557543}
-  - {fileID: 226573021}
-  - {fileID: 2015487036}
-  - {fileID: 1822065452}
-  - {fileID: 1542042629}
-  - {fileID: 1075016083}
-  - {fileID: 1065706840}
-  - {fileID: 453347390}
-  - {fileID: 956587182}
-  - {fileID: 670765647}
-  - {fileID: 385239618}
-  - {fileID: 765587522}
-  - {fileID: 2130445239}
-  - {fileID: 1598938663}
-  - {fileID: 148316922}
-  - {fileID: 479775879}
-  - {fileID: 417041655}
-  - {fileID: 1207339202}
-  - {fileID: 1533666890}
-  - {fileID: 52493553}
-  - {fileID: 1103349287}
-  - {fileID: 670531205}
-  - {fileID: 38493018}
-  - {fileID: 318376819}
-  - {fileID: 2015616568}
-  - {fileID: 1140645056}
-  sphereObjects:
-  - {fileID: 893021319}
-  - {fileID: 602250584}
-  - {fileID: 548629481}
-  - {fileID: 849093194}
-  - {fileID: 2063420311}
-  - {fileID: 1073391932}
-  stencilObjects: []
-  isActive: 1
+  bvhNodesIndex: 83
 --- !u!4 &1241111234
 Transform:
   m_ObjectHideFlags: 0
@@ -8162,11 +8011,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1302482247}
   meshRenderer: {fileID: 1302482246}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 35
+  triangleStartIndex: 420
   triangleCount: 12
-  localTriangleStartIndex: 252
-  globalTrianglesStartIndex: 684
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -8175,6 +8022,7 @@ MonoBehaviour:
   center: {x: -10.4800005, y: -1.2299994, z: -9.049999}
   boundsMax: {x: -9.980001, y: -0.54076684, z: -8.360766}
   boundsMin: {x: -10.980001, y: -1.9192322, z: -9.739232}
+  layer: 0
 --- !u!65 &1302482245
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8288,11 +8136,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1411038390}
   meshRenderer: {fileID: 1411038389}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 1
+  triangleStartIndex: 12
   triangleCount: 12
-  localTriangleStartIndex: 132
-  globalTrianglesStartIndex: 564
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -8301,6 +8147,7 @@ MonoBehaviour:
   center: {x: 9.430002, y: 1.3899994, z: 10.140001}
   boundsMax: {x: 9.93, y: 1.8899994, z: 10.64}
   boundsMin: {x: 8.93, y: 0.8899994, z: 9.64}
+  layer: 0
 --- !u!65 &1411038388
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8414,11 +8261,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1413201211}
   meshRenderer: {fileID: 1413201210}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 17
+  triangleStartIndex: 204
   triangleCount: 12
-  localTriangleStartIndex: 408
-  globalTrianglesStartIndex: 840
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -8427,6 +8272,7 @@ MonoBehaviour:
   center: {x: 1.0599995, y: 1.3899994, z: -7.8099995}
   boundsMax: {x: 1.5599995, y: 1.8899994, z: -7.3100004}
   boundsMin: {x: 0.55999947, y: 0.8899994, z: -8.31}
+  layer: 0
 --- !u!65 &1413201209
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8540,11 +8386,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1417604349}
   meshRenderer: {fileID: 1417604348}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 16
+  triangleStartIndex: 192
   triangleCount: 12
-  localTriangleStartIndex: 384
-  globalTrianglesStartIndex: 816
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -8553,6 +8397,7 @@ MonoBehaviour:
   center: {x: 0.1800003, y: -2.9900012, z: -17.780003}
   boundsMax: {x: 0.6800003, y: -2.4900017, z: -17.28}
   boundsMin: {x: -0.3199997, y: -3.4900017, z: -18.28}
+  layer: 0
 --- !u!65 &1417604347
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8666,11 +8511,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1476303406}
   meshRenderer: {fileID: 1476303405}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 15
+  triangleStartIndex: 180
   triangleCount: 12
-  localTriangleStartIndex: 216
-  globalTrianglesStartIndex: 648
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -8679,6 +8522,7 @@ MonoBehaviour:
   center: {x: -11.579999, y: 5.2999983, z: -6.590001}
   boundsMax: {x: -11.080001, y: 5.799999, z: -6.09}
   boundsMin: {x: -12.080001, y: 4.799999, z: -7.09}
+  layer: 0
 --- !u!65 &1476303404
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8792,11 +8636,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1512637075}
   meshRenderer: {fileID: 1512637074}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 14
+  triangleStartIndex: 168
   triangleCount: 12
-  localTriangleStartIndex: 312
-  globalTrianglesStartIndex: 744
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -8805,6 +8647,7 @@ MonoBehaviour:
   center: {x: 0.26000023, y: 1.3899994, z: -14.440001}
   boundsMax: {x: 0.7600002, y: 1.8899994, z: -13.940001}
   boundsMin: {x: -0.23999977, y: 0.8899994, z: -14.940001}
+  layer: 0
 --- !u!65 &1512637073
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8918,11 +8761,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1533666893}
   meshRenderer: {fileID: 1533666892}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 40
+  triangleStartIndex: 480
   triangleCount: 12
-  localTriangleStartIndex: 336
-  globalTrianglesStartIndex: 336
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 1, g: 1, b: 1, a: 0}
@@ -8931,6 +8772,7 @@ MonoBehaviour:
   center: {x: 41.38, y: 4.38, z: -21.929998}
   boundsMax: {x: 41.88, y: 4.880001, z: -21.43}
   boundsMin: {x: 40.88, y: 3.880001, z: -22.43}
+  layer: 1
 --- !u!65 &1533666891
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9044,11 +8886,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1542042632}
   meshRenderer: {fileID: 1542042631}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 38
+  triangleStartIndex: 456
   triangleCount: 12
-  localTriangleStartIndex: 168
-  globalTrianglesStartIndex: 168
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -9057,6 +8897,7 @@ MonoBehaviour:
   center: {x: 16.84, y: 1.3899999, z: -29.090004}
   boundsMax: {x: 17.34, y: 1.89, z: -28.590002}
   boundsMin: {x: 16.34, y: 0.89, z: -29.590002}
+  layer: 1
 --- !u!65 &1542042630
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9170,11 +9011,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1547457201}
   meshRenderer: {fileID: 1547457200}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 8
+  triangleStartIndex: 96
   triangleCount: 12
-  localTriangleStartIndex: 276
-  globalTrianglesStartIndex: 708
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -9183,6 +9022,7 @@ MonoBehaviour:
   center: {x: -10.700001, y: 1.3899994, z: -3.6999998}
   boundsMax: {x: -10.2, y: 1.8899994, z: -3.1999998}
   boundsMin: {x: -11.2, y: 0.8899994, z: -4.2}
+  layer: 0
 --- !u!65 &1547457199
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9296,11 +9136,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1566226915}
   meshRenderer: {fileID: 1566226914}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 36
+  triangleStartIndex: 432
   triangleCount: 12
-  localTriangleStartIndex: 72
-  globalTrianglesStartIndex: 72
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -9309,6 +9147,7 @@ MonoBehaviour:
   center: {x: 30.360003, y: 5.2999997, z: 4.1699986}
   boundsMax: {x: 30.86, y: 5.8, z: 4.6699996}
   boundsMin: {x: 29.86, y: 4.8, z: 3.6699996}
+  layer: 1
 --- !u!65 &1566226913
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9422,11 +9261,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1598938666}
   meshRenderer: {fileID: 1598938665}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 37
+  triangleStartIndex: 444
   triangleCount: 12
-  localTriangleStartIndex: 276
-  globalTrianglesStartIndex: 276
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -9435,6 +9272,7 @@ MonoBehaviour:
   center: {x: 24.480001, y: 1.3899999, z: -23.849998}
   boundsMax: {x: 24.980001, y: 1.89, z: -23.350002}
   boundsMin: {x: 23.980001, y: 0.89, z: -24.350002}
+  layer: 1
 --- !u!65 &1598938664
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9548,11 +9386,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1696173022}
   meshRenderer: {fileID: 1696173021}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 20
+  triangleStartIndex: 240
   triangleCount: 12
-  localTriangleStartIndex: 372
-  globalTrianglesStartIndex: 804
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -9561,6 +9397,7 @@ MonoBehaviour:
   center: {x: 4.02, y: -2.9900012, z: -13.130002}
   boundsMax: {x: 4.5200005, y: -2.4900017, z: -12.630001}
   boundsMin: {x: 3.5200005, y: -3.4900017, z: -13.630001}
+  layer: 0
 --- !u!65 &1696173020
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9674,11 +9511,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1707774874}
   meshRenderer: {fileID: 1707774873}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 18
+  triangleStartIndex: 216
   triangleCount: 12
-  localTriangleStartIndex: 420
-  globalTrianglesStartIndex: 852
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -9687,6 +9522,7 @@ MonoBehaviour:
   center: {x: 7.8999996, y: 1.3899994, z: -9.200001}
   boundsMax: {x: 8.4, y: 1.8899994, z: -8.700001}
   boundsMin: {x: 7.3999996, y: 0.8899994, z: -9.700001}
+  layer: 0
 --- !u!65 &1707774872
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9800,11 +9636,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1733731563}
   meshRenderer: {fileID: 1733731562}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 19
+  triangleStartIndex: 228
   triangleCount: 12
-  localTriangleStartIndex: 108
-  globalTrianglesStartIndex: 540
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -9813,6 +9647,7 @@ MonoBehaviour:
   center: {x: 9.650001, y: -1.2299994, z: 4.79}
   boundsMax: {x: 10.15, y: -0.54076684, z: 5.479233}
   boundsMin: {x: 9.15, y: -1.9192322, z: 4.100767}
+  layer: 0
 --- !u!65 &1733731561
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9926,11 +9761,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1765412937}
   meshRenderer: {fileID: 1765412936}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 26
+  triangleStartIndex: 312
   triangleCount: 12
-  localTriangleStartIndex: 156
-  globalTrianglesStartIndex: 588
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -9939,6 +9772,7 @@ MonoBehaviour:
   center: {x: -18.240004, y: 0, z: -16.57}
   boundsMax: {x: -17.740002, y: 0.5, z: -16.07}
   boundsMin: {x: -18.740002, y: -0.5, z: -17.07}
+  layer: 0
 --- !u!65 &1765412935
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10052,11 +9886,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1803718761}
   meshRenderer: {fileID: 1803718760}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 21
+  triangleStartIndex: 252
   triangleCount: 12
-  localTriangleStartIndex: 300
-  globalTrianglesStartIndex: 732
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -10065,6 +9897,7 @@ MonoBehaviour:
   center: {x: 0.3600006, y: 0, z: -22.070002}
   boundsMax: {x: 0.8600006, y: 0.5, z: -21.57}
   boundsMin: {x: -0.13999939, y: -0.5, z: -22.57}
+  layer: 0
 --- !u!65 &1803718759
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10178,11 +10011,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1816287302}
   meshRenderer: {fileID: 1816287301}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 33
+  triangleStartIndex: 396
   triangleCount: 12
-  localTriangleStartIndex: 360
-  globalTrianglesStartIndex: 792
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -10191,6 +10022,7 @@ MonoBehaviour:
   center: {x: 7.0199995, y: 5.2999983, z: -12.089999}
   boundsMax: {x: 7.5200005, y: 5.799999, z: -11.59}
   boundsMin: {x: 6.5200005, y: 4.799999, z: -12.59}
+  layer: 0
 --- !u!65 &1816287300
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10304,11 +10136,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1822065455}
   meshRenderer: {fileID: 1822065454}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 39
+  triangleStartIndex: 468
   triangleCount: 12
-  localTriangleStartIndex: 156
-  globalTrianglesStartIndex: 156
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -10317,6 +10147,7 @@ MonoBehaviour:
   center: {x: 16.94, y: 0, z: -36.72001}
   boundsMax: {x: 17.44, y: 0.5, z: -36.22}
   boundsMin: {x: 16.44, y: -0.5, z: -37.22}
+  layer: 1
 --- !u!65 &1822065453
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10616,11 +10447,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1910875267}
   meshRenderer: {fileID: 1910875266}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 32
+  triangleStartIndex: 384
   triangleCount: 12
-  localTriangleStartIndex: 12
-  globalTrianglesStartIndex: 444
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -10629,6 +10458,7 @@ MonoBehaviour:
   center: {x: 1.8899994, y: 0, z: -2.73}
   boundsMax: {x: 2.3899994, y: 0.5, z: -2.2299995}
   boundsMin: {x: 1.3899994, y: -0.5, z: -3.2299995}
+  layer: 0
 --- !u!1 &1914205958
 GameObject:
   m_ObjectHideFlags: 0
@@ -10684,8 +10514,7 @@ MonoBehaviour:
   isLightSource: 1
   boundsMax: {x: -2.46, y: 1.7199993, z: 7.38}
   boundsMin: {x: -3.46, y: 0.7199993, z: 6.38}
-  layer: 1
-  virtualizedLayer: 1
+  layer: 0
 --- !u!135 &1914205961
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10799,11 +10628,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1924734282}
   meshRenderer: {fileID: 1924734281}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 27
+  triangleStartIndex: 324
   triangleCount: 12
-  localTriangleStartIndex: 96
-  globalTrianglesStartIndex: 528
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -10812,6 +10639,7 @@ MonoBehaviour:
   center: {x: 1.7099991, y: -2.9900012, z: 1.56}
   boundsMax: {x: 2.209999, y: -2.4900017, z: 2.06}
   boundsMin: {x: 1.2099991, y: -3.4900017, z: 1.06}
+  layer: 0
 --- !u!65 &1924734280
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10925,11 +10753,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1942476956}
   meshRenderer: {fileID: 1942476955}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 22
+  triangleStartIndex: 264
   triangleCount: 12
-  localTriangleStartIndex: 84
-  globalTrianglesStartIndex: 516
-  layer: 1
-  virtualizedLayer: 1
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -10938,6 +10764,7 @@ MonoBehaviour:
   center: {x: 5.5499983, y: -2.9900012, z: 6.210001}
   boundsMax: {x: 6.049999, y: -2.4900017, z: 6.71}
   boundsMin: {x: 5.049999, y: -3.4900017, z: 5.71}
+  layer: 0
 --- !u!65 &1942476954
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11051,11 +10878,9 @@ MonoBehaviour:
   meshFilter: {fileID: 1979069013}
   meshRenderer: {fileID: 1979069012}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 41
+  triangleStartIndex: 492
   triangleCount: 12
-  localTriangleStartIndex: 108
-  globalTrianglesStartIndex: 108
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -11064,6 +10889,7 @@ MonoBehaviour:
   center: {x: 31.460001, y: -1.23, z: 1.7099996}
   boundsMax: {x: 31.960001, y: -0.5407673, z: 2.3992324}
   boundsMin: {x: 30.960001, y: -1.9192327, z: 1.0207669}
+  layer: 1
 --- !u!65 &1979069011
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11177,11 +11003,9 @@ MonoBehaviour:
   meshFilter: {fileID: 2015487039}
   meshRenderer: {fileID: 2015487038}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 42
+  triangleStartIndex: 504
   triangleCount: 12
-  localTriangleStartIndex: 144
-  globalTrianglesStartIndex: 144
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -11190,6 +11014,7 @@ MonoBehaviour:
   center: {x: 18.69, y: 2.9499998, z: -34.230007}
   boundsMax: {x: 19.19, y: 3.45, z: -33.730003}
   boundsMin: {x: 18.19, y: 2.45, z: -34.730003}
+  layer: 1
 --- !u!65 &2015487037
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11303,11 +11128,9 @@ MonoBehaviour:
   meshFilter: {fileID: 2015616571}
   meshRenderer: {fileID: 2015616570}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 43
+  triangleStartIndex: 516
   triangleCount: 12
-  localTriangleStartIndex: 408
-  globalTrianglesStartIndex: 408
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -11316,6 +11139,7 @@ MonoBehaviour:
   center: {x: 36.199997, y: 1.3899994, z: -10.440002}
   boundsMax: {x: 36.7, y: 1.8899994, z: -9.940002}
   boundsMin: {x: 35.7, y: 0.8899994, z: -10.940002}
+  layer: 1
 --- !u!65 &2015616569
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11497,11 +11321,9 @@ MonoBehaviour:
   meshFilter: {fileID: 2054557546}
   meshRenderer: {fileID: 2054557545}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 44
+  triangleStartIndex: 528
   triangleCount: 12
-  localTriangleStartIndex: 120
-  globalTrianglesStartIndex: 120
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -11510,6 +11332,7 @@ MonoBehaviour:
   center: {x: 24.400002, y: 1.3899999, z: 8.449999}
   boundsMax: {x: 24.900002, y: 1.89, z: 8.949999}
   boundsMin: {x: 23.900002, y: 0.89, z: 7.949999}
+  layer: 1
 --- !u!65 &2054557544
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11628,8 +11451,7 @@ MonoBehaviour:
   isLightSource: 1
   boundsMax: {x: 41.620003, y: 1.7199993, z: -21.630001}
   boundsMin: {x: 40.620003, y: 0.7199993, z: -22.630001}
-  layer: 0
-  virtualizedLayer: 0
+  layer: 1
 --- !u!135 &2063420312
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11748,8 +11570,7 @@ MonoBehaviour:
   isLightSource: 1
   boundsMax: {x: -3.9899998, y: 1.7199993, z: -11.959999}
   boundsMin: {x: -4.99, y: 0.7199993, z: -12.959999}
-  layer: 1
-  virtualizedLayer: 1
+  layer: 0
 --- !u!135 &2064911277
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11863,11 +11684,9 @@ MonoBehaviour:
   meshFilter: {fileID: 2070370014}
   meshRenderer: {fileID: 2070370013}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 64
+  triangleStartIndex: 768
   triangleCount: 12
-  localTriangleStartIndex: 48
-  globalTrianglesStartIndex: 48
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 1, g: 1, b: 1, a: 0}
@@ -11876,6 +11695,7 @@ MonoBehaviour:
   center: {x: 29.58, y: 4.38, z: -3.0400007}
   boundsMax: {x: 30.080002, y: 4.88, z: -2.5400004}
   boundsMin: {x: 29.080002, y: 3.88, z: -3.5400004}
+  layer: 1
 --- !u!65 &2070370012
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11989,11 +11809,9 @@ MonoBehaviour:
   meshFilter: {fileID: 2130445242}
   meshRenderer: {fileID: 2130445241}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  meshIndex: 71
+  triangleStartIndex: 852
   triangleCount: 12
-  localTriangleStartIndex: 264
-  globalTrianglesStartIndex: 264
-  layer: 0
-  virtualizedLayer: 0
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -12002,6 +11820,7 @@ MonoBehaviour:
   center: {x: 22.199999, y: 1.3899999, z: -15.599999}
   boundsMax: {x: 22.7, y: 1.89, z: -15.1}
   boundsMin: {x: 21.7, y: 0.89, z: -16.1}
+  layer: 1
 --- !u!65 &2130445240
 BoxCollider:
   m_ObjectHideFlags: 0

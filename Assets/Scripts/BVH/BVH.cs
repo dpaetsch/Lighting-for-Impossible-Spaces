@@ -10,8 +10,8 @@ public class BVH {
     // The leaf BVH nodes will contain a start index and a length of the wrappers that are contained in that node.
     // All BVH nodes will contain a bounding box that encompasses all the triangles and spheres in the scene.
 
-    public List<MeshObject> meshObjects;
-    public List<SphereObject> sphereObjects;
+    public MeshObject[] meshObjects;
+    public SphereObject[] sphereObjects;
 
     public List<WrapperObject> wrapperObjects; //  represent wrappers for triangles and spheres
     public List<BVHNode> bvhNodes; // represents the BVH nodes in the hierarchy
@@ -27,12 +27,11 @@ public class BVH {
     public int roomMeshLength; // number of meshes in the room
     public int roomSphereLength; // number of spheres in the room
 
-    // This is virtualized room layer:
     public int roomLayer; // layer of the room, used for stencil buffer and rendering
 
     public bool useFullObjectsInBVH; // if true, the wrapper objects will point to the full objects (MeshObject or SphereObject) in the BVH, otherwise they will point to triangles and SphereObjects.
 
-    public BVH(List<MeshObject> meshObjects, int roomMeshStartIndex, int roomMeshLength, List<SphereObject> sphereObjects, int roomSphereStartIndex, int roomSphereLength, int maxDepth, int roomLayer, bool useFullObjectsInBVH) {
+    public BVH(MeshObject[] meshObjects, int roomMeshStartIndex, int roomMeshLength, SphereObject[] sphereObjects, int roomSphereStartIndex, int roomSphereLength, int maxDepth, int roomLayer, bool useFullObjectsInBVH) {
         // We assume that the meshObjects and sphereObjects are already populated with the necessary data.
         // And that they only contain objects that are for this BVH (i.e. they are all from the same room).
         // depth is the maximum depth of the BVH tree, which can be used to control the granularity of the hierarchy.
@@ -51,7 +50,7 @@ public class BVH {
         this.roomMeshLength = roomMeshLength;
         this.roomSphereLength = roomSphereLength;
 
-        this.roomLayer = roomLayer; // virtualized
+        this.roomLayer = roomLayer;
 
         this.useFullObjectsInBVH = useFullObjectsInBVH;
         
@@ -81,10 +80,10 @@ public class BVH {
         } else {
             // Create wrapper object for each triangle
             for(int i = roomMeshStartIndex; i < roomMeshStartIndex + roomMeshLength; i++){
-                List<TriangleObject> triangleObjects = meshObjects[i].GetTriangleObjects();
+                List<TriangleInfo> triangles = meshObjects[i].GetTriangles();
                 for(int j = 0; j < meshObjects[i].triangleCount; j++){
-                    TriangleObject triangleObject = triangleObjects[j];
-                    WrapperObject wrapperObject = new WrapperObject(triangleObject, meshIndex, triangleIndex);
+                    TriangleInfo triangle = triangles[j];
+                    WrapperObject wrapperObject = new WrapperObject(triangle, meshIndex, triangleIndex);
                     triangleIndex++;
                     wrapperObject.layer = roomLayer; // Set the layer of the wrapper object
                     wrapperObjects.Add(wrapperObject);
@@ -98,7 +97,7 @@ public class BVH {
             SphereObject sphereObject = sphereObjects[i];
             WrapperObject wrapperObject = new WrapperObject(sphereObject, sphereIndex);
             sphereIndex++;
-            wrapperObject.meshIndex = -1; // -1 since it's a sphere, not a triangle/mesh
+            wrapperObject.meshIndex = -1; // -1 since it's a sphere, not a triangle
             wrapperObject.layer = roomLayer; // Set the layer of the wrapper object
             wrapperObjects.Add(wrapperObject);
         }

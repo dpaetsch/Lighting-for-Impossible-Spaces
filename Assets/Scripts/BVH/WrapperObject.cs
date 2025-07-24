@@ -24,7 +24,7 @@ public class WrapperObject {
 
     public int layer; 
 
-    public WrapperObject(TriangleObject triangle, int meshIndex, int index) {
+    public WrapperObject(TriangleInfo triangle, int meshIndex, int index) {
         minBounds = triangle.v0;
         maxBounds = triangle.v0;
         minBounds = Vector3.Min(minBounds, triangle.v1);
@@ -48,6 +48,8 @@ public class WrapperObject {
         center = (minBounds + maxBounds) / 2;
         layer = meshObject.layer;
     }
+
+
 
 
     public WrapperObject(SphereObject sphere, int index) {

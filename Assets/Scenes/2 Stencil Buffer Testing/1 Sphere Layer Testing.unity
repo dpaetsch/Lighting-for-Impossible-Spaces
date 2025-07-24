@@ -157,19 +157,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshFilter: {fileID: 306197304}
   meshRenderer: {fileID: 306197303}
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  triangleCount: 12
-  localTriangleStartIndex: 12
-  globalTrianglesStartIndex: 36
-  layer: 1
   material:
-    color: {r: 0.09803919, g: 0.18039212, b: 0.7843137, a: 1}
+    color: {r: 0, g: 0, b: 0, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
     emissionStrength: 0
-  isLightSource: 0
-  center: {x: 3, y: 0.95996094, z: -4.789978}
-  boundsMax: {x: 5.231079, y: 1.4599609, z: -1.633667}
-  boundsMin: {x: 4.231079, y: 0.45996094, z: -2.633667}
+  layer: 2
 --- !u!65 &306197302
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -241,12 +233,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 306197300}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 854.49, y: 1743.5037, z: -773.62}
+  m_LocalPosition: {x: 852.7589, y: 1743.5037, z: -776.2763}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 500784601}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &353422901
 GameObject:
@@ -280,15 +272,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263a7e46f329549e48ded9d62de66318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshRenderer: {fileID: 0}
   material:
     color: {r: 1, g: 1, b: 1, a: 1}
     emissionColor: {r: 1, g: 1, b: 1, a: 1}
     emissionStrength: 0
-  isLightSource: 0
-  boundsMax: {x: -0.73999023, y: 1.6800537, z: -3.5300293}
-  boundsMin: {x: -1.7399902, y: 0.6800537, z: -4.5300293}
-  layer: 0
+  materialObjectID: 30168
+  materialInitFlag: 1
+  layer: 1
 --- !u!135 &353422903
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -401,19 +391,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshFilter: {fileID: 411769421}
   meshRenderer: {fileID: 411769420}
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  triangleCount: 12
-  localTriangleStartIndex: 12
-  globalTrianglesStartIndex: 12
-  layer: 0
   material:
-    color: {r: 0.7843137, g: 0.09803919, b: 0.09803919, a: 1}
+    color: {r: 0, g: 0, b: 0, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
     emissionStrength: 0
-  isLightSource: 0
-  center: {x: -3.808899, y: 0.95996094, z: -4.80365}
-  boundsMax: {x: -3.308899, y: 1.4599609, z: -4.30365}
-  boundsMin: {x: -4.308899, y: 0.45996094, z: -5.30365}
+  layer: 1
 --- !u!65 &411769419
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -485,7 +467,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 411769417}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 845.95, y: 1743.5037, z: -776.29}
+  m_LocalPosition: {x: 845.8289, y: 1743.5037, z: -776.5263}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -506,7 +488,7 @@ GameObject:
   - component: {fileID: 419576286}
   - component: {fileID: 419576290}
   m_Layer: 0
-  m_Name: Buffer 0-1
+  m_Name: Buffer 1-2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -583,13 +565,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 419576285}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 852.22, y: 1743.2336, z: -777.58}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.04, y: 0.69, z: -5.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2116079779}
-  m_RootOrder: 3
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &419576290
 MonoBehaviour:
@@ -603,14 +585,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d4ffd91fd0d342278bbbb90d578733a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  material:
+    color: {r: 1, g: 0, b: 0, a: 1}
+    emissionColor: {r: 1, g: 1, b: 1, a: 1}
+    emissionStrength: 0
+  meshRenderer: {fileID: 419576287}
   meshFilter: {fileID: 419576288}
+  materialObjectID: 30192
+  materialInitFlag: 1
   mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
-  layer: 0
-  nextLayer: 1
-  center: {x: 2.4610596, y: 0.6899414, z: -6.093689}
+  center: {x: 1.04, y: 0.69000006, z: -5.13}
   normal: {x: 0, y: 0, z: 1}
   u: {x: 1, y: 0, z: 0}
   v: {x: 0, y: 1, z: 0}
+  layer: 1
+  nextLayer: 2
 --- !u!1 &500784599
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,7 +611,7 @@ GameObject:
   - component: {fileID: 500784601}
   - component: {fileID: 500784600}
   m_Layer: 0
-  m_Name: Room 1
+  m_Name: Room 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -640,27 +629,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4057e7150e6ad4523805b3d1b102280c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer: 1
-  numMeshes: 2
-  numTriangles: 24
+  layer: 2
   numSpheres: 0
+  spheresIndex: 1
+  numMeshes: 1
+  meshIndex: 2
   numStencils: 0
-  numLights: 1
-  globalMeshesIndex: 2
-  globalTrianglesIndex: 48
-  globalSpheresIndex: 1
-  globalStencilsIndex: 1
-  numWrappers: 0
-  wrappersIndex: 0
-  numbvhNodes: 0
-  bvhNodesIndex: 0
-  globalIndexInRoomList: 0
-  meshObjects:
-  - {fileID: 980211315}
-  - {fileID: 306197301}
-  sphereObjects: []
-  stencilObjects: []
-  isActive: 1
+  stencilIndex: 1
 --- !u!4 &500784601
 Transform:
   m_ObjectHideFlags: 0
@@ -673,10 +648,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 980211319}
   - {fileID: 306197305}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!21 &507928293
 Material:
@@ -926,131 +900,6 @@ Material:
     - _Color: {r: 1.78, g: 1.78, b: 1.78, a: 1.78}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
---- !u!1 &980211314
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 980211319}
-  - component: {fileID: 980211317}
-  - component: {fileID: 980211316}
-  - component: {fileID: 980211318}
-  - component: {fileID: 980211315}
-  m_Layer: 0
-  m_Name: Red Cube (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &980211315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 980211314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf498ec1a54cb484eaefbeaf05564807, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meshFilter: {fileID: 980211317}
-  meshRenderer: {fileID: 980211316}
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  triangleCount: 12
-  localTriangleStartIndex: 0
-  globalTrianglesStartIndex: 24
-  layer: 1
-  material:
-    color: {r: 1.7800001, g: 1.7800001, b: 1.7800001, a: 1.78}
-    emissionColor: {r: 1, g: 1, b: 1, a: 0}
-    emissionStrength: 1.13
-  isLightSource: 1
-  center: {x: 4.6710815, y: 0.69628906, z: -5.5636597}
-  boundsMax: {x: 4.941101, y: 1.1962891, z: -4.4936523}
-  boundsMin: {x: 3.941101, y: 0.19628906, z: -5.4936523}
---- !u!23 &980211316
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 980211314}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 808335232}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &980211317
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 980211314}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &980211318
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 980211314}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!4 &980211319
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 980211314}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 854.2, y: 1743.24, z: -776.48}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 500784601}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1012249335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1085,19 +934,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshFilter: {fileID: 1012249339}
   meshRenderer: {fileID: 1012249338}
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  triangleCount: 12
-  localTriangleStartIndex: 0
-  globalTrianglesStartIndex: 0
-  layer: 0
   material:
-    color: {r: 1.7800001, g: 1.7800001, b: 1.7800001, a: 1.78}
+    color: {r: 0, g: 0, b: 0, a: 0}
     emissionColor: {r: 0, g: 0, b: 0, a: 0}
     emissionStrength: 0
-  isLightSource: 0
-  center: {x: -2.3588867, y: 1.2199707, z: -3.9836426}
-  boundsMax: {x: -1.8588867, y: 1.7199707, z: -3.4836426}
-  boundsMin: {x: -2.8588867, y: 0.7199707, z: -4.4836426}
+  layer: 1
 --- !u!65 &1012249337
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1169,7 +1010,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1012249335}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 847.4, y: 1743.7637, z: -775.47}
+  m_LocalPosition: {x: 847.1289, y: 1743.7637, z: -775.30634}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1251,7 +1092,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!1 &1527743218
@@ -1346,7 +1187,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 67.906, y: -1079.635, z: 51.783}
 --- !u!1 &1824970336
 GameObject:
@@ -1431,7 +1272,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 2.133, z: 0}
 --- !u!114 &1824970340
 MonoBehaviour:
@@ -1449,36 +1290,22 @@ MonoBehaviour:
   useRayTracing: 0
   useImportanceSampling: 0
   useSimpleShape: 1
-  staticObjects: 0
   rayTracingShader: {fileID: 4800000, guid: f5353d7bb0d95459ca2420427d068696, type: 3}
   maxBounceCount: 1
   numRaysPerPixel: 1
   fieldOfView: 61.2
-  maxPropagationDepth: 3
   useBVH: 0
-  useFullObjectsInBVH: 0
-  skipConstruction: 1
-  showBVHDepth: 0
-  accumulateBVHColors: 0
-  bvhDepth: 1
-  bvhMaxDepth: 16
-  bvhMaxDepthReached: 0
-  numBVHNodes: 0
-  numWrapperObjects: 0
-  currentLayer: 0
-  virtualizedCurrentLayer: 0
-  nextLayer: 1
-  singleLayer: 0
-  showIntersectionCount: 0
-  maxIntersectionTests: 500
-  showFPSCounter: 0
-  fpsCounter: {fileID: 0}
-  numRooms: 2
-  numMeshes: 4
-  numTriangles: 48
-  numSpheres: 1
+  currentLayer: 1
+  showBounceCount: 0
+  bounceThreshold: 0
+  numMeshInfo: 3
+  numTriangles: 36
+  numMeshObjects: 3
   numStencils: 1
-  numLights: 1
+  numSpheres: 1
+  numRooms: 2
+  numLights: 0
+  numBVHs: 0
   useEnvironmentLight: 0
   groundColour: {r: 0, g: 0, b: 0, a: 0}
   skyColourHorizon: {r: 0, g: 0, b: 0, a: 0}
@@ -1577,7 +1404,7 @@ GameObject:
   - component: {fileID: 2116079779}
   - component: {fileID: 2116079778}
   m_Layer: 0
-  m_Name: Room 0
+  m_Name: Room 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1595,29 +1422,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4057e7150e6ad4523805b3d1b102280c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer: 0
-  numMeshes: 2
-  numTriangles: 24
+  layer: 1
   numSpheres: 1
+  spheresIndex: 0
+  numMeshes: 2
+  meshIndex: 0
   numStencils: 1
-  numLights: 0
-  globalMeshesIndex: 0
-  globalTrianglesIndex: 24
-  globalSpheresIndex: 0
-  globalStencilsIndex: 0
-  numWrappers: 0
-  wrappersIndex: 0
-  numbvhNodes: 0
-  bvhNodesIndex: 0
-  globalIndexInRoomList: 0
-  meshObjects:
-  - {fileID: 1012249336}
-  - {fileID: 411769418}
-  sphereObjects:
-  - {fileID: 353422902}
-  stencilObjects:
-  - {fileID: 419576290}
-  isActive: 1
+  stencilIndex: 0
 --- !u!4 &2116079779
 Transform:
   m_ObjectHideFlags: 0
@@ -1633,7 +1444,6 @@ Transform:
   - {fileID: 1012249340}
   - {fileID: 353422906}
   - {fileID: 411769422}
-  - {fileID: 419576289}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

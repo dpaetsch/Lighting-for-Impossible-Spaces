@@ -17,20 +17,22 @@ public class RoomShifter : MonoBehaviour {
         if (other.CompareTag("Player")) {
             RoomManager roomManager = FindObjectOfType<RoomManager>();
             if (roomManager != null) {
-                //Debug.Log("RoomManager found, setting layers.");
+                Debug.Log("RoomManager found, setting layers.");
                 roomManager.manager.currentLayer = setCurrentLayer;
                 roomManager.manager.nextLayer = setNextLayer;
             }
 
             RoomObject[] roomObjects = FindObjectsOfType<RoomObject>();
             System.Array.Sort(roomObjects, (a, b) => a.layer.CompareTo(b.layer));
+
+
             
             // Deactivate the specified room
             if (deactivateRoom != null) {
                 deactivateRoom.setActive(false);
                 Debug.Log($"Deactivated room: {deactivateRoom.name}");
             } else {
-                //Debug.LogWarning("Deactivate room is not set.");
+                Debug.LogWarning("Deactivate room is not set.");
             }
 
             // Activate the specified room
@@ -38,8 +40,12 @@ public class RoomShifter : MonoBehaviour {
                 activateRoom.setActive(true);
                 Debug.Log($"Activated room: {activateRoom.name}");
             } else {
-               // Debug.LogWarning("Activate room is not set.");
+                Debug.LogWarning("Activate room is not set.");
             }
+
+
+
+
 
         }
     }
