@@ -1,129 +1,116 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MeshObject : MonoBehaviour {
+	[Header("Settings")]
+	public RayTracingMaterial[] materials;
 
-    [Header("Settings")]
-    public MeshFilter meshFilter;
-    public MeshRenderer meshRenderer;
-    public Mesh mesh;
+	[Header("Info")]
+	public MeshRenderer meshRenderer;
+	public MeshFilter meshFilter;
+	public int triangleCount;
 
-    public int meshIndex; // index of the mesh in the total list
+	[SerializeField, HideInInspector] int materialObjectID;
+	[SerializeField] Mesh mesh;
+	[SerializeField] MeshChunk[] localChunks;
+	MeshChunk[] worldChunks;
 
-    [ReadOnly] public int triangleStartIndex;
-    [ReadOnly] public int triangleCount;
-
-    public RayTracingMaterial material;
-
-    [ReadOnly] public bool isLightSource;
-    [ReadOnly] public Vector3 center;
-
-    List<TriangleInfo> localTriangles;
-    List<TriangleInfo> worldTriangles;
-
-    [ReadOnly] public Vector3 boundsMax;
-    [ReadOnly] public Vector3 boundsMin;
-    private Bounds bounds;
-    
-    [Header("Stencil Buffer Info")]
+	[Header("Stencil Buffer Info")]
 	public int layer = 1;
 
-    private void OnValidate() {
-        meshFilter = GetComponent<MeshFilter>();
-        meshRenderer = GetComponent<MeshRenderer>();
+	// Determines if the object is a stencil buffer
+	public bool IsStencilBuffer = false;
 
-        if(meshFilter == null || meshRenderer == null || meshFilter.sharedMesh == null) {
-            Debug.LogError("Some mesh is not assigned."); return;
+	// Determines what is the next layer (given that it is a stencil buffer)
+	public int nextLayerIfBuffer = 2; 
+	// This makes the next layer visible through the stencil buffer on the next layer.
+
+
+
+	public MeshChunk[] GetSubMeshes() {
+        //Debug.Log("GetSubMeshes START");
+		if (mesh.triangles.Length / 3 > RayTracingManager.TriangleLimit) {
+			throw new System.Exception($"Please use a mesh with fewer than {RayTracingManager.TriangleLimit} triangles");
+		}
+
+
+		// Split mesh into chunks (if result is not already cached)
+        //Debug.Log("meshFilter: " + meshFilter);
+        //Debug.Log("mesh: " + mesh);
+        //Debug.Log("localChunks: " + localChunks.Length);
+        //Debug.Log(mesh != meshFilter.sharedMesh);
+		if (meshFilter != null && (mesh != meshFilter.sharedMesh || localChunks == null)) {
+            //Debug.Log("Not Cached, null");
+			mesh = meshFilter.sharedMesh;
+            //Debug.Log("mesh: " + mesh);
+			localChunks = MeshSplitter.CreateChunks(mesh, layer);
+		} else {
+            //Debug.Log("Cached");
         }
+		
 
-        mesh = meshFilter.sharedMesh;
-        InitializeTrianglesAndBounds();
-        updateMaterial();
+		//Debug.Log("DOING MY THING");
+		mesh = meshFilter.sharedMesh;
+		localChunks = MeshSplitter.CreateChunks(mesh, layer);
 
-        isLightSource = material.emissionStrength > 0f && material.emissionColor.maxColorComponent > 0f;
 
-        center = GetCenter();
-    }
+        //Debug.Log("worldChunks: " + worldChunks);
+        
+		if (worldChunks == null || worldChunks.Length != localChunks.Length) {
+            //Debug.Log("New World Chunks");
+            //Debug.Log("localChunks: " + localChunks.Length);
+			worldChunks = new MeshChunk[localChunks.Length];
+		}
 
-    public void InitializeTrianglesAndBounds() {
-        worldTriangles ??= new List<TriangleInfo>();
-        worldTriangles.Clear();
+		// Transform to world space
+		// TODO: upload matrices to gpu to avoid having to contantly upload all mesh data
+		Vector3 pos = transform.position;
+		Quaternion rot = transform.rotation;
+		Vector3 scale = transform.lossyScale;
 
-        meshFilter = GetComponent<MeshFilter>();
-        mesh = meshFilter.sharedMesh;
+        //Debug.Log("worldChunks: " + worldChunks.Length);
+		for (int i = 0; i < worldChunks.Length; i++) {
+			MeshChunk localChunk = localChunks[i];
 
-        // Convert data from local to world space
-        Vector3 pos = transform.position;
-        Quaternion rot = transform.rotation;
-        Vector3 scale = transform.lossyScale;
+			if (worldChunks[i] == null || worldChunks[i].triangles.Length != localChunk.triangles.Length) {
+				worldChunks[i] = new MeshChunk(new Triangle[localChunk.triangles.Length], localChunk.bounds, localChunk.subMeshIndex);
+			}
+			UpdateWorldChunkFromLocal(worldChunks[i], localChunk, pos, rot, scale);
+		}
 
-        Vector3[] vertices = mesh.vertices;
-        Vector3[] normals = mesh.normals;
-        int[] localTriangles = mesh.triangles;
+        //Debug.Log("GetSubMeshes Done");
+        //Debug.Log("worldChunks: " + worldChunks.Length);
+		return worldChunks;
+	} 
 
-        triangleCount = mesh.triangles.Length / 3;
+	// Update the world chunk from the local chunk
+	void UpdateWorldChunkFromLocal(MeshChunk worldChunk, MeshChunk localChunk, Vector3 pos, Quaternion rot, Vector3 scale) {
+		Triangle[] localTris = localChunk.triangles;
 
-        Vector3 first = vertices[localTriangles[0]];
-
-        Vector3 boundsMin = PointLocalToWorld( first, pos, rot, scale);
+		Vector3 boundsMin = PointLocalToWorld(localTris[0].posA, pos, rot, scale);
 		Vector3 boundsMax = boundsMin;
 
-        for (int i = 0; i < localTriangles.Length; i += 3) {
-            // Get local vertices and normals
-            Vector3 v0 = vertices[localTriangles[i]];
-            Vector3 v1 = vertices[localTriangles[i + 1]];
-            Vector3 v2 = vertices[localTriangles[i + 2]];
-            Vector3 n0 = normals[localTriangles[i]];
-            Vector3 n1 = normals[localTriangles[i + 1]];
-            Vector3 n2 = normals[localTriangles[i + 2]];
+		for (int i = 0; i < localTris.Length; i++)
+		{
+			Vector3 worldA = PointLocalToWorld(localTris[i].posA, pos, rot, scale);
+			Vector3 worldB = PointLocalToWorld(localTris[i].posB, pos, rot, scale);
+			Vector3 worldC = PointLocalToWorld(localTris[i].posC, pos, rot, scale);
+			Vector3 worldNormA = DirectionLocalToWorld(localTris[i].normalA, rot);
+			Vector3 worldNormB = DirectionLocalToWorld(localTris[i].normalB, rot);
+			Vector3 worldNormC = DirectionLocalToWorld(localTris[i].normalC, rot);
+			Triangle worldTri = new Triangle(worldA, worldB, worldC, worldNormA, worldNormB, worldNormC);
+			worldChunk.triangles[i] = worldTri;
 
-            // Convert to world space
-            Vector3 worldv0 = PointLocalToWorld(v0, pos, rot, scale);
-            Vector3 worldv1 = PointLocalToWorld(v1, pos, rot, scale);
-            Vector3 worldv2 = PointLocalToWorld(v2, pos, rot, scale);
-            Vector3 worldn0 = DirectionLocalToWorld(n0, rot);
-            Vector3 worldn1 = DirectionLocalToWorld(n1, rot);
-            Vector3 worldn2 = DirectionLocalToWorld(n2, rot);
+			boundsMin = Vector3.Min(boundsMin, worldA);
+			boundsMax = Vector3.Max(boundsMax, worldA);
+			boundsMin = Vector3.Min(boundsMin, worldB);
+			boundsMax = Vector3.Max(boundsMax, worldB);
+			boundsMin = Vector3.Min(boundsMin, worldC);
+			boundsMax = Vector3.Max(boundsMax, worldC);
+		}
 
-            // Create wold triangle
-            TriangleInfo triangle = new TriangleInfo(worldv0, worldv1, worldv2, worldn0, worldn1, worldn2, meshIndex);
-            worldTriangles.Add(triangle);
-
-            boundsMin = Vector3.Min(boundsMin, worldv0);
-			boundsMax = Vector3.Max(boundsMax, worldv0);
-			boundsMin = Vector3.Min(boundsMin, worldv1);
-			boundsMax = Vector3.Max(boundsMax, worldv1);
-			boundsMin = Vector3.Min(boundsMin, worldv2);
-			boundsMax = Vector3.Max(boundsMax, worldv2);
-        }
-        bounds = new Bounds((boundsMin + boundsMax) / 2, boundsMax - boundsMin);
-
-        this.boundsMin = boundsMin;
-        this.boundsMax = boundsMax;
-    }
-
-    public Vector3 GetCenter() {
-        List<TriangleInfo> triangles = GetTriangles();
-        Vector3 center = Vector3.zero;
-        int totalVertices = triangles.Count * 3;
-        for (int i = 0; i < triangles.Count; i++) {
-            center += triangles[i].v0 + triangles[i].v1 + triangles[i].v2;
-        }
-        center /= totalVertices;
-        return center;
-    }
-
-
-    public List<TriangleInfo> GetTriangles() {
-        InitializeTrianglesAndBounds();
-        return worldTriangles;
-    }
-
-    public Bounds GetBounds() {
-        InitializeTrianglesAndBounds();
-        return bounds;
-    }
+		worldChunk.bounds = new Bounds((boundsMin + boundsMax) / 2, boundsMax - boundsMin);
+		worldChunk.subMeshIndex = localChunk.subMeshIndex;
+	}
 
 	static Vector3 PointLocalToWorld(Vector3 p, Vector3 pos, Quaternion rot, Vector3 scale) {
 		return rot * Vector3.Scale(p, scale) + pos;
@@ -133,31 +120,43 @@ public class MeshObject : MonoBehaviour {
 		return rot * dir;
 	}
 
-    public float GetMaxVertexDistanceFromCenter() {
-        List<TriangleInfo> triangles = GetTriangles();
-        float maxDistance = 0f;
+	public RayTracingMaterial GetMaterial(int subMeshIndex) {
+		return materials[Mathf.Min(subMeshIndex, materials.Length - 1)];
+	}
 
-        foreach (var tri in triangles) {
-            maxDistance = Mathf.Max(maxDistance, (tri.v0 - center).magnitude);
-            maxDistance = Mathf.Max(maxDistance, (tri.v1 - center).magnitude);
-            maxDistance = Mathf.Max(maxDistance, (tri.v2 - center).magnitude);
-        }
+	void OnValidate(){
+		if (materials == null || materials.Length == 0) {
+			materials = new RayTracingMaterial[1];
+			materials[0].SetDefaultValues();
+		}
 
-        return maxDistance;
-    }
+		if (meshRenderer == null || meshFilter == null) {
+			meshRenderer = GetComponent<MeshRenderer>();
+			meshFilter = GetComponent<MeshFilter>();
+		}
 
 
+		SetUpMaterialDisplay();
+		triangleCount = meshFilter.sharedMesh.triangles.Length / 3;
+	}
 
-    void updateMaterial() {
-        if (meshRenderer == null) return;
+	void SetUpMaterialDisplay() {
+		if (gameObject.GetInstanceID() != materialObjectID) {
+			materialObjectID = gameObject.GetInstanceID();
+			Material[] originalMaterials = meshRenderer.sharedMaterials;
+			Material[] newMaterials = new Material[originalMaterials.Length];
+			Shader shader = Shader.Find("Standard");
+			for (int i = 0; i < meshRenderer.sharedMaterials.Length; i++) {
+				newMaterials[i] = new Material(shader);
+			}
+			meshRenderer.sharedMaterials = newMaterials;
+		}
 
-        Material unityMat = meshRenderer.sharedMaterial;
-        if (unityMat == null) return;
-
-        // Copy base color
-        if (unityMat.HasProperty("_Color")) {
-            material.color = unityMat.color;
-        } 
-    }
-
+		for (int i = 0; i < meshRenderer.sharedMaterials.Length; i++) {
+			RayTracingMaterial mat = materials[Mathf.Min(i, materials.Length - 1)];
+			bool displayEmissiveCol = mat.color.maxColorComponent < mat.emissionColor.maxColorComponent * mat.emissionStrength;
+			Color displayCol = displayEmissiveCol ? mat.emissionColor * mat.emissionStrength : mat.color;
+			meshRenderer.sharedMaterials[i].color = displayCol;
+		}
+	}
 }

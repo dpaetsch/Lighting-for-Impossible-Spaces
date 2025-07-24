@@ -1,7 +1,8 @@
 using UnityEngine;
 
 [System.Serializable]
-public struct RayTracingMaterial {
+public struct RayTracingMaterial
+{
 	// public enum MaterialFlag {
 	// 	None,
 	// 	CheckerPattern,
@@ -18,7 +19,7 @@ public struct RayTracingMaterial {
 
 	public void SetDefaultValues() {
 		color = Color.white;
-		emissionColor = Color.white;
+		// emissionColor = Color.white;
 		emissionStrength = 0;
 	// 	specularColor = Color.white;
 	// 	smoothness = 0;

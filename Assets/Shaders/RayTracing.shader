@@ -1,24 +1,30 @@
-Shader "Custom/RayTracing" {
-    SubShader {
+Shader "Custom/RayTracing"
+{
+    SubShader
+    {
         Cull Off ZWrite Off ZTest Always
 
-        Pass {
+        Pass
+        {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #include "UnityCG.cginc"
 
-            struct appdata {
+            struct appdata
+            {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
             };
 
-            struct v2f {
+            struct v2f
+            {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
             };
 
-            v2f vert(appdata v) {
+            v2f vert(appdata v)
+            {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex); 
                 o.uv = v.uv;
@@ -28,32 +34,27 @@ Shader "Custom/RayTracing" {
             // --- Settings and constants ---
 			static const float PI = 3.1415;
 
-			int cameraLayer; // Layer of the camera
 
             // RayTracing Settings
+            int MaxBounceCount;
 			int NumRaysPerPixel;
-			int MaxBounceCount;
-			int maxPropagationDepth;
+
+            // Camera Settings
+            float3 ViewParams;
+			float4x4 CamLocalToWorldMatrix;
 
 			// View options
             int UseSimpleShape;
 			int useRayTracing;
 			int useImportanceSampling;
 
-			// BVH Settings
-			int useBVH;
-			int useFullObjectsInBVH; // if true, BVH wrapper nodes will contain full objects (meshes and spherers) instead of individual triangles and spheres
-			int showBVHDepth;
-			int bvhDepth;
-			int bvhMaxDepth;
-			int accumulateBVHColors;
-
 			// Debug Info
-			int ShowIntersectionCount;
-			int maxIntersectionTests; // Maximum number of intersection tests for all traces
-			int numIntersectionTests; // keeps track of number of bounces for each trace (not imported)
+			int ShowBounceCount;
+			int bounceThreshold;
+			int numBounces; // keeps track of number of bounces for each trace
+			int maxNumBounces;  // Keeps track of max number of bounces for all traces
 
-            // Environment Light
+            // Environment Settings
             int useEnvironmentLight;
             float3 GroundColor;
             float3 SkyColorHorizon;
@@ -66,12 +67,15 @@ Shader "Custom/RayTracing" {
 			float3 AmbientLightColor;
 			float AmbientLightIntensity;
 
-			// View Parameters
-            float3 ViewParams;
-			float4x4 CamLocalToWorldMatrix;
 
-
+			// Stencil Buffer Settings
+			int cameraLayer; // Layer of the camera
+            
             // --- Structures ---
+			struct Ray {
+				float3 origin;
+				float3 dir;
+			};
 
             struct RayTracingMaterial {
 				float4 color;
@@ -79,13 +83,14 @@ Shader "Custom/RayTracing" {
 				float emissionStrength;
 			};
 
-			struct Ray {
-				float3 origin;
-				float3 dir;
-				float3 invDir; // Inverse direction for faster calculations
+            struct Sphere {
+				float3 position;
+				float radius;
+				RayTracingMaterial material;
+				int layer;
 			};
 
-			struct HitInfo {
+            struct HitInfo {
 				bool didHit;
 				float dst;
 				float3 hitPoint;
@@ -95,35 +100,7 @@ Shader "Custom/RayTracing" {
 				int layerOfHit;
 			};
 
-			// --- Info Structs ---
-
-			struct MeshInfo {
-				int firstTriangleIndex;
-				int numTriangles;
-				RayTracingMaterial material;
-				float3 boundsMin;
-				float3 boundsMax;
-				int layer;
-			};
-
-			struct TriangleInfo {
-				float3 v0;
-				float3 v1;
-				float3 v2;
-				float3 normal0;
-				float3 normal1;
-				float3 normal2;
-				int meshIndex;
-			};
-
-            struct SphereInfo {
-				float3 position;
-				float radius;
-				RayTracingMaterial material;
-				int layer;
-			};
-
-			 struct StencilInfo {
+			 struct StencilRect {
 				float3 center; // Center position of the rectangle
 				float3 normal; // Normal vector defining orientation
 				float3 u; // First basis vector (width direction)
@@ -132,67 +109,54 @@ Shader "Custom/RayTracing" {
 				int nextLayer; 
 			};
 
-			struct RoomInfo {
+			struct Room {
 				int layer;
-				int meshIndex;
-				int numMeshes;
 				int spheresIndex;    
 				int numSpheres;
-				int stencilIndex;
+				int meshIndex;
+				int numMeshes;
 				int numStencils;
-				int numWrappers;
-				int wrappersIndex;
-				int numbvhNodes;
-				int bvhNodesIndex;
+				int stencilIndex;
+			};
+
+			struct Triangle {
+				float3 posA, posB, posC;
+				float3 normalA, normalB, normalC;
+				//int layer;
+			};
+
+            struct MeshInfo {
+				uint firstTriangleIndex;
+				uint numTriangles;
+				RayTracingMaterial material;
+				float3 boundsMin;
+				float3 boundsMax;
+				int layer;
 			};
 
 			struct LightInfo {
 				float3 position;
-				float radius;
-				int layer;
-			};
-
-			struct BVHNodeInfo {
-				float3 minBounds;
-				float3 maxBounds;
-				int isLeaf; 
-				int startWrapperIndex;
-				int lengthOfWrappers;
-				int leftChildIndex;
-				int rightChildIndex;
-			};
-
-			struct WrapperInfo {
-				float3 minBounds; // minimum corner of the bounding box
-				float3 maxBounds; // maximum corner of the bounding box
-				int isTriangle; // true if this node contains a triangle, false if it contains a sphere 
-				int meshIndex; // index of the mesh this triangle belongs to, or -1 if it's a sphere (relative to room)
-				int index; // index of triangle (in mesh) or sphere (in all spheres list) (relative to room)
 			};
 
 
 
             // --- Buffers ---
-			StructuredBuffer<MeshInfo> MeshInfos;
-            StructuredBuffer<TriangleInfo> TriangleInfos;
-			StructuredBuffer<SphereInfo> SphereInfos;
-			StructuredBuffer<StencilInfo> StencilInfos;
-			StructuredBuffer<RoomInfo> RoomInfos;
-			StructuredBuffer<LightInfo> LightInfos;
-			StructuredBuffer<BVHNodeInfo> BvhNodeInfos;
-			StructuredBuffer<WrapperInfo> WrapperInfos;
-			
+            StructuredBuffer<Sphere> Spheres;
+            int NumSpheres;
 
+            StructuredBuffer<Triangle> Triangles;
+			StructuredBuffer<MeshInfo> AllMeshInfo;
 			int NumMeshes;
-			int NumTriangles;
-			int NumSpheres;
-			int NumStencilInfos;
+
+			StructuredBuffer<StencilRect> StencilRects;
+			int NumStencilRects;
+
+			StructuredBuffer<Room> Rooms;
 			int NumRooms;
+
+			StructuredBuffer<LightInfo> LightInfos;
 			int NumLights;
 
-			int NumBVHNodes;
-			int NumWrappers;
-			// ---------------- 
 
 
 
@@ -249,6 +213,10 @@ Shader "Custom/RayTracing" {
 			}
 
 
+
+
+
+
 			// --- Environment light Function ---
             // Crude sky color function for background light
 			float3 GetEnvironmentLight(Ray ray) {
@@ -271,46 +239,10 @@ Shader "Custom/RayTracing" {
 				return ambientLight;
 			}
 
-			// --- Hash Color Function ---
-			float3 hashColor(int id) {
-				// Simple hash function to generate pseudo-random color from ID
-				float r = frac(sin(id * 12.9898) * 43758.5453);
-				float g = frac(sin(id * 78.233) * 12345.6789);
-				float b = frac(sin(id * 45.164) * 98765.4321);
-				return float3(r, g, b);
-			}
-
-			// HSV to RGB conversion
-			float3 hsv2rgb(float h, float s, float v) {
-				float3 c = float3(h, s, v);
-				float4 K = float4(1.0, 2.0/3.0, 1.0/3.0, 3.0);
-				float3 p = abs(frac(c.xxx + K.xyz) * 6.0 - K.www);
-				return c.z * lerp(K.xxx, saturate(p - K.xxx), c.y);
-			}
-
-			// Deterministic rainbow color based on ID
-			float3 rainbowColor(int id) {
-				float hue = frac(id * 0.15); // Increase for more spacing
-				return hsv2rgb(hue, 1.0, 1.0); // Full saturation, full brightness
-			}
-
-			// Unique Red-to-Blue Color Gradient
-			float3 redToBlueColor(int id, int maxId) {
-				float t = clamp((float)id / (float)maxId, 0.0, 1.0);
-				float r = lerp(1.0, 0.0, t); // Red to 0
-				float g = 0.0;
-				float b = lerp(0.0, 1.0, t); // Blue to 1
-				return float3(r, g, b);
-			}
-
-
-
-
             // --- Ray Intersection Functions ---
 		
 			// Calculate the intersection of a ray with a sphere
-			HitInfo RaySphere(Ray ray, SphereInfo sphere) {
-				numIntersectionTests++;
+			HitInfo RaySphere(Ray ray, Sphere sphere) {
 				float3 sphereCentre = sphere.position;
 				float sphereRadius = sphere.radius;
 
@@ -324,6 +256,7 @@ Shader "Custom/RayTracing" {
 				// Quadratic discriminant
 				float discriminant = b * b - 4 * a * c; 
 
+				
 				// No solution when d < 0 (ray misses sphere)
 				if (discriminant >= 0) {
 					// Distance to nearest intersection point (from quadratic formula)
@@ -343,12 +276,11 @@ Shader "Custom/RayTracing" {
 			}
 
             // Calculate the intersection of a ray with a triangle using Möller–Trumbore algorithm
-			HitInfo RayTriangle(Ray ray, TriangleInfo tri) {
-				numIntersectionTests++;
-				float3 edgeAB = tri.v1 - tri.v0;
-				float3 edgeAC = tri.v2 - tri.v0;
+			HitInfo RayTriangle(Ray ray, Triangle tri) {
+				float3 edgeAB = tri.posB - tri.posA;
+				float3 edgeAC = tri.posC - tri.posA;
 				float3 normalVector = cross(edgeAB, edgeAC);
-				float3 ao = ray.origin - tri.v0;
+				float3 ao = ray.origin - tri.posA;
 				float3 dao = cross(ao, ray.dir);
 
 				float determinant = -dot(ray.dir, normalVector);
@@ -364,7 +296,7 @@ Shader "Custom/RayTracing" {
 				HitInfo hitInfo;
 				hitInfo.didHit = determinant >= 1E-6 && dst >= 0 && u >= 0 && v >= 0 && w >= 0;
 				hitInfo.hitPoint = ray.origin + ray.dir * dst;
-				hitInfo.normal = normalize(tri.normal0 * w + tri.normal1 * u + tri.normal2 * v);
+				hitInfo.normal = normalize(tri.normalA * w + tri.normalB * u + tri.normalC * v);
 				hitInfo.dst = dst;
 				//hitInfo.layerOfHit = tri.layer;
 				return hitInfo;
@@ -372,38 +304,18 @@ Shader "Custom/RayTracing" {
 
 			// Thanks to https://gist.github.com/DomNomNom/46bb1ce47f68d255fd5d
 			bool RayBoundingBox(Ray ray, float3 boxMin, float3 boxMax) {
-				numIntersectionTests++;
-				float3 invDir = ray.invDir;
+				float3 invDir = 1 / ray.dir;
 				float3 tMin = (boxMin - ray.origin) * invDir;
 				float3 tMax = (boxMax - ray.origin) * invDir;
 				float3 t1 = min(tMin, tMax);
 				float3 t2 = max(tMin, tMax);
 				float tNear = max(max(t1.x, t1.y), t1.z);
 				float tFar = min(min(t2.x, t2.y), t2.z);
-				return tNear <= tFar && tFar >= 0; // Return true if the ray intersects the bounding box
-			};
-
-			// Thanks to https://tavianator.com/2011/ray_box.html
-			float RayBoundingBoxDst(Ray ray, float3 boxMin, float3 boxMax) {
-				numIntersectionTests++;
-				float3 invDir = ray.invDir;
-				// float3 tMin = (boxMin - ray.origin) * ray.invDir;
-				// float3 tMax = (boxMax - ray.origin) * ray.invDir;
-				float3 tMin = (boxMin - ray.origin) * invDir;
-				float3 tMax = (boxMax - ray.origin) * invDir;
-				float3 t1 = min(tMin, tMax);
-				float3 t2 = max(tMin, tMax);
-				float tNear = max(max(t1.x, t1.y), t1.z);
-				float tFar = min(min(t2.x, t2.y), t2.z);
-
-				bool hit = tFar >= tNear && tFar > 0;
-				float dst = hit ? tNear > 0 ? tNear : 0 : 1.#INF;
-				return dst;
+				return tNear <= tFar;
 			};
 
 
-			HitInfo RayRectangle(Ray ray, StencilInfo rect) {
-				numIntersectionTests++;
+			HitInfo RayRectangle(Ray ray, StencilRect rect) {
 				float3 center = rect.center;
 				float3 normal = rect.normal;
 				float3 u = rect.u;
@@ -447,24 +359,45 @@ Shader "Custom/RayTracing" {
 
 
 			// --- Closest Hit Calculation (Helpers) ---
-			HitInfo closestMeshHit(Ray ray, int currentLayer){
-				if(NumMeshes == 0) return (HitInfo)0; // No meshes to check			
+			HitInfo closestSphereHit(Ray ray, HitInfo bufferHit, int currentLayer){ 
+				HitInfo closestHit = (HitInfo)0;
+				closestHit.dst = 1.#INF;
+
+				//Raycast against all spheres in the current layer and keep info about the closest hit
+                for (int i = 0; i < NumSpheres; i++) {
+					Sphere sphere = Spheres[i];
+
+					HitInfo hitInfo = RaySphere(ray, sphere);
+
+					// Check if there is something in the current layer that is closer than the buffer (if it's not lighting)
+					if(hitInfo.didHit && hitInfo.dst < closestHit.dst && sphere.layer == currentLayer) {
+						closestHit = hitInfo; // Captures the closest hit location, material, and layer
+					}
+				}
+				//closestHit.material.color = float4(1, 0, 0, 1); // Debug color for the closest hit
+				return closestHit;
+			}
+
+
+			HitInfo closestMeshHit(Ray ray, int currentLayer){			
 				HitInfo closestHit = (HitInfo)0;
 				closestHit.dst = 1.#INF; // We haven't hit anything yet, so 'closest' hit is infinitely far away
 
 				// Raycast against all meshes in the current layer and keep info about the closest hit
 				int layerIndex = currentLayer-1;
-				int numMeshes = RoomInfos[layerIndex].numMeshes;
-				int firstMeshIndex = RoomInfos[layerIndex].meshIndex;
+				int numMeshes = Rooms[layerIndex].numMeshes;
+				int firstMeshIndex = Rooms[layerIndex].meshIndex;
 
 				for(int meshIndex = firstMeshIndex; meshIndex < firstMeshIndex + numMeshes; meshIndex++) {
-					MeshInfo meshInfo = MeshInfos[meshIndex];
-					
+					MeshInfo meshInfo = AllMeshInfo[meshIndex];
+					// Ignore mesh if it is not in the current layer (invisible)
+					if(meshInfo.layer != currentLayer) { continue; }
 					// Skip the mesh if ray doesn't intersect its bounding box.
 					if (!RayBoundingBox(ray, meshInfo.boundsMin, meshInfo.boundsMax)) { continue; }
-
-					for (int triIndex = meshInfo.firstTriangleIndex; triIndex < meshInfo.numTriangles + meshInfo.firstTriangleIndex; triIndex++) {
-						TriangleInfo tri = TriangleInfos[triIndex];
+					//closestHit.material.color = float4(1, 0, 0, 1); // Debug color for the closest hit
+					for (uint i = 0; i < meshInfo.numTriangles; i++) {
+						int triIndex = meshInfo.firstTriangleIndex + i;
+						Triangle tri = Triangles[triIndex];
 						HitInfo hitInfo = RayTriangle(ray, tri);
 						if (hitInfo.didHit && hitInfo.dst < closestHit.dst) {
 							closestHit = hitInfo; // Captures the closest hit location, material, and layer
@@ -476,45 +409,29 @@ Shader "Custom/RayTracing" {
 				return closestHit;
 			}
 
-			HitInfo closestSphereHit(Ray ray, int currentLayer){ 
-				if(NumSpheres == 0) return (HitInfo)0; // No spheres to check
-				HitInfo closestHit = (HitInfo)0;
-				closestHit.dst = 1.#INF;
 
-				//Raycast against all spheres in the current layer and keep info about the closest hit
-				int layerIndex = currentLayer-1;
-				int numSpheres = RoomInfos[layerIndex].numSpheres;
-				int firstSphereIndex = RoomInfos[layerIndex].spheresIndex;
-
-				for(int sphereIndex = firstSphereIndex; sphereIndex < firstSphereIndex + numSpheres; sphereIndex++) {
-					SphereInfo sphere = SphereInfos[sphereIndex];
-					HitInfo hitInfo = RaySphere(ray, sphere);
-					// Check if there is something in the current layer that is closer than the buffer (if it's not lighting)
-					if(hitInfo.didHit && hitInfo.dst < closestHit.dst) {
-						closestHit = hitInfo; // Captures the closest hit location, material, and layer
-					}
-				}
-				return closestHit;
-			}
-
-			// Check if there is a buffer, in the path of the ray, in the current layer 
-			// current layer is the layer the ray is in, previous layer is the layer we came from (so that we don't accidentally go back)
+			// Check if there is a buffer, in the path of the ary, in the current layer 
 			HitInfo checkClosestBuffer(Ray ray, int currentLayer, int previousLayer){
 				// Raycast against all rectangles in the current layer and keep info about the closest hit
 				HitInfo closestHit = (HitInfo)0;
 				closestHit.dst = 1.#INF;  // We haven't hit anything yet, so 'closest' hit is infinitely far away
 
+
 				int layerIndex = currentLayer-1;
-				int numStencils = RoomInfos[layerIndex].numStencils;
-				int firstStencilIndex = RoomInfos[layerIndex].stencilIndex;
+				int numStencils = Rooms[layerIndex].numStencils;
+				int firstStencilIndex = Rooms[layerIndex].stencilIndex;
 
 				for(int stencilIndex = firstStencilIndex; stencilIndex < firstStencilIndex + numStencils; stencilIndex++) {
-					StencilInfo rect = StencilInfos[stencilIndex];
+					StencilRect rect = StencilRects[stencilIndex];
+
+					// We ignore any buffer that is not part of the current layer
+					if(rect.layer != currentLayer) { continue; }
 
 					// We ignore any buffer than brings us back to the previous layer.
 					if(rect.nextLayer == previousLayer) { continue; }
 
 					HitInfo hitInfo = RayRectangle(ray, rect);
+
 					if (hitInfo.didHit && hitInfo.dst < closestHit.dst) {
 						closestHit = hitInfo;
 						closestHit.nextLayerIfBuffer = rect.nextLayer; // Record the next layer if buffer is hit
@@ -524,98 +441,7 @@ Shader "Custom/RayTracing" {
 				return closestHit;
 			}
 
-			HitInfo closestBVHHit(Ray ray, int currentLayer) { 
-				if(NumBVHNodes == 0) return (HitInfo)0; // No BVH to check
-				HitInfo closestHit = (HitInfo)0;
-				closestHit.dst = 1.#INF; // We haven't hit anything yet, so 'closest' hit is infinitely far away
 
-				int layerIndex = currentLayer-1;
-
-				int stack[16]; // Stack to hold BVH node indices (fixed size) 
-				int stackIndex = 0;
-				stack[stackIndex++] = RoomInfos[layerIndex].bvhNodesIndex; // Start with the root node index of the room
-				
-				// Traverse the BVH tree iteratively
-				while(stackIndex > 0){
-					BVHNodeInfo node = BvhNodeInfos[stack[--stackIndex]];
-
-					if(RayBoundingBox(ray, node.minBounds, node.maxBounds)) {
-						if(node.isLeaf){ 
-							// If it's a leaf, we check the wrappers in this node
-							for(int i = 0; i < node.lengthOfWrappers; i++) {
-								int wrapperIndex = node.startWrapperIndex + i;
-								WrapperInfo wrapper = WrapperInfos[wrapperIndex];
-
-								if(useFullObjectsInBVH) { // Wrapper Objects contain full objects (meshes and spheres)
-									if(wrapper.isTriangle) {
-										// Check each triangle in mesh
-										MeshInfo meshInfo = MeshInfos[wrapper.meshIndex];
-
-										for (int triIndex = meshInfo.firstTriangleIndex; triIndex < meshInfo.numTriangles + meshInfo.firstTriangleIndex; triIndex++) {
-											TriangleInfo tri = TriangleInfos[triIndex];
-											HitInfo hitInfo = RayTriangle(ray, tri);
-											if (hitInfo.didHit && hitInfo.dst < closestHit.dst) {
-												closestHit = hitInfo; // Captures the closest hit location, material, and layer
-												closestHit.material = meshInfo.material;
-												closestHit.layerOfHit = meshInfo.layer;
-											}
-										}
-									} else {
-										SphereInfo sphere = SphereInfos[wrapper.index];
-										HitInfo hitInfo = RaySphere(ray, sphere);
-										if(hitInfo.didHit && hitInfo.dst < closestHit.dst) {
-											closestHit = hitInfo; // Captures the closest hit location, material, and layer
-										}
-									}
-								} else {  // Wrapper Objects contain individual triangles and spheres
-									if(wrapper.isTriangle) {
-										TriangleInfo tri = TriangleInfos[wrapper.index];
-										HitInfo hitInfo = RayTriangle(ray, tri);
-										if (hitInfo.didHit && hitInfo.dst < closestHit.dst) {
-											closestHit = hitInfo; // Captures the closest hit location, material, and layer
-											closestHit.material = MeshInfos[tri.meshIndex].material;
-											closestHit.layerOfHit = currentLayer; // The layer of the hit is the current layer
-										}
-									} else {
-										SphereInfo sphere = SphereInfos[wrapper.index];
-										HitInfo hitInfo = RaySphere(ray, sphere);
-										if(hitInfo.didHit && hitInfo.dst < closestHit.dst) {
-											closestHit = hitInfo; // Captures the closest hit location, material, and layer
-										}
-									}
-								}
-								
-							}
-						} else {
-							// If it's not a leaf, we push the children onto the stack
-
-							// See which child node to check first
-							BVHNodeInfo childA = BvhNodeInfos[node.leftChildIndex];
-							BVHNodeInfo childB = BvhNodeInfos[node.rightChildIndex];
-
-							float dstA = RayBoundingBoxDst(ray, childA.minBounds, childA.maxBounds);
-							float dstB = RayBoundingBoxDst(ray, childB.minBounds, childB.maxBounds);
-
-							if(closestHit.dst < dstA && closestHit.dst < dstB) continue; // If we already found a closer hit, skip this node
-							
-							// We want to look at closest child node first, so push it last
-							bool isNearestA = dstA <= dstB;
-							float dstNear = isNearestA ? dstA : dstB;
-							float dstFar = isNearestA ? dstB : dstA;
-							int childIndexNear = isNearestA ? node.leftChildIndex : node.rightChildIndex;
-							int childIndexFar = isNearestA ? node.rightChildIndex : node.leftChildIndex;
-
-							if (dstFar < closestHit.dst) stack[stackIndex++] = childIndexFar;
-							if (dstNear < closestHit.dst) stack[stackIndex++] = childIndexNear;
-						}
-					}
-
-				}				
-				return closestHit; // Return the closest hit found in the BVH
-			}
-
-
-			// --- Iterative Ray Propagation Through Portals ---
 			HitInfo IterativeRayPropagationThroughPortals(int startLayer, Ray ray) {
 				HitInfo closestHit = (HitInfo)0;
 				closestHit.dst = 1.#INF;
@@ -624,39 +450,39 @@ Shader "Custom/RayTracing" {
 				int nextLayer;
 				int previousLayer = 0;
 
-				int maxPropagations = maxPropagationDepth; // Maximum number of times we can go through the layers (for a single ray)
+				int maxIterations = 3; // Maximum number of times we can go through the layers (for a single ray)
 
-				ray.invDir = 1 / ray.dir; // Precompute the inverse direction for faster calculations
+				while (maxIterations-- > 0) {
+					// Find the closest buffer hit in this layer
+					HitInfo bufferHit = checkClosestBuffer(ray, currentLayer, previousLayer);
+					bool thereIsBuffer = bufferHit.didHit;
+					nextLayer = bufferHit.nextLayerIfBuffer;
 
-				while (maxPropagations-- > 0) {
-					
-					if(useBVH){
-						HitInfo closest = closestBVHHit(ray, currentLayer);
-						if(closest.didHit && closest.dst < closestHit.dst) {
-							closestHit = closest; // If we hit something in the BVH, we use that
-						}
-					} else {
-						// Check for objects in the current layer
-						HitInfo closestHitMesh = closestMeshHit(ray, currentLayer);
-						if (closestHitMesh.didHit && closestHitMesh.dst < closestHit.dst) {
-							closestHit = closestHitMesh;
-						}
+					// Check for objects in the current layer
+					HitInfo closestHitMesh = closestMeshHit(ray, currentLayer);
+					if (closestHitMesh.didHit && closestHitMesh.dst < closestHit.dst) {
+						closestHit = closestHitMesh;
+					}
 
-						// Check for spheres in the current layer	
-						HitInfo closestHitSphere = closestSphereHit(ray, currentLayer);
+					// Check for spheres in the current layer	
+					if(NumSpheres > 0){	
+						HitInfo closestHitSphere = closestSphereHit(ray, bufferHit, currentLayer);
 						if (closestHitSphere.didHit && closestHitSphere.dst < closestHit.dst) {
 							closestHit = closestHitSphere;
 						}
-
 					}
 
-					// Find the closest buffer hit in this layer
-					HitInfo bufferHit = checkClosestBuffer(ray, currentLayer, previousLayer);
-					if(!bufferHit.didHit) return closestHit; // No buffer hit, return the closest hit
-					if(closestHit.dst < bufferHit.dst) return closestHit; // If we hit an object before the buffer, return the hit
+					// If no buffer was hit, just do current layer
+					if (!thereIsBuffer) {
+						return closestHit;
+					}
 
-					// If we hit a buffer, get the next layer after the buffer
-					nextLayer = bufferHit.nextLayerIfBuffer;
+					// If we hit an object before the buffer, return the hit
+					if (closestHit.didHit && closestHit.dst < bufferHit.dst) {
+						return closestHit;
+					}
+
+					// If we hit a buffer, check the next layer
 					// Move to the next layer and continue the search
 					previousLayer = currentLayer;
 					currentLayer = nextLayer;
@@ -665,7 +491,7 @@ Shader "Custom/RayTracing" {
 				return closestHit; // Return the closest hit found
 			}
 
-			// --- Ray Tracing Functions ---
+
             float3 Trace(Ray ray, inout uint rngState, int currentLayer) {
 				float3 incomingLight = 0;
 				float3 rayColor = 1;	
@@ -676,7 +502,7 @@ Shader "Custom/RayTracing" {
 
 					HitInfo hitInfo = IterativeRayPropagationThroughPortals(StartOfLightingLayer, ray);
 
-					numIntersectionTests++;
+					numBounces++;
 
 					if (hitInfo.didHit) {
                         ray.origin = hitInfo.hitPoint;
@@ -706,16 +532,8 @@ Shader "Custom/RayTracing" {
 				return incomingLight;
 			}
 
-			float3 RayTrace(Ray ray, inout uint rngState, int currentLayer) {
-				float3 totalIncomingLight = 0;
-				for (int i = 0; i < NumRaysPerPixel; i++) {
-						totalIncomingLight += Trace(ray, rngState, cameraLayer);
-				}
-				return totalIncomingLight;
-			}
 
 
-			// --- Importance Sampling Function ---
 			float3 ImportanceSample(Ray ray, int currentLayer) {
 
 				float3 incomingLight = 0;
@@ -737,11 +555,8 @@ Shader "Custom/RayTracing" {
 				for(int i = 0; i < NumLights; i++) {
 					LightInfo lightInfo = LightInfos[i];
 
-					if(abs(lightInfo.layer - currentLayer) > 1) continue; // Ignore lights that are not in the same layer or the next one
-
 					// Send a ray to the light source
 					float3 lightDir = normalize(lightInfo.position - hitInfo.hitPoint);
-
 					Ray lightRay;
 					lightRay.origin = hitInfo.hitPoint + hitInfo.normal * 0.001;
 					lightRay.dir = lightDir;
@@ -750,68 +565,16 @@ Shader "Custom/RayTracing" {
 					float distanceToLight = length(lightInfo.position - hitInfo.hitPoint);
 					float distanceToHit = length(lightHit.hitPoint - hitInfo.hitPoint);
 
-					// In the case that a light source is in another room, but there is another light on the same ray path
-					if(distanceToHit > distanceToLight) continue;
-					if(distanceToHit + lightInfo.radius + 0.01f < distanceToLight) continue;
-
-					/// The ray is guaranteed to hit something (either light or other), so we can calculate the light
+					/// The ray is guaranteed to hit the light source, so we can calculate the light
 					RayTracingMaterial material2 = lightHit.material;
 					float NdotL = max(dot(hitInfo.normal, lightDir), 0.0);
 					float3 emittedLight2 = material2.emissionColor * material2.emissionStrength;
 					float attenuation = 1.0 / (distanceToLight * distanceToLight + 1e-4);
-					float3 emittedLight3 = emittedLight2 * rayColor * NdotL * attenuation;
-					
-				 	incomingLight += emittedLight3;
+					incomingLight += emittedLight2 * rayColor * NdotL * attenuation;
 					
 				}
-
-				incomingLight += GetAmbientLight(ray) * rayColor;
 				
 				return incomingLight;
-			}
-
-			
-			// --- Show BVH Depth Function ---
-			float4 showBVHDepthColor(Ray ray, float3 pixelCol) {
-				if(!showBVHDepth) return float4(pixelCol, 1); // If we are not showing the BVH depth, return the pixel color
-
-				int2 stack[16]; // Stack to hold BVH node indices
-				int stackIndex = 0; // Stack index to keep track of the current position in the stack
-
-				int layerIndex = cameraLayer-1; // Get the current layer index (0-based)
-
-				stack[stackIndex++] = int2(RoomInfos[layerIndex].bvhNodesIndex, 1); // push root node of room onto the stack with depth 1
-
-				float3 accumulatedColor = pixelCol;
-
-				// Traverse the BVH tree iteratively
-				while(stackIndex > 0) {
-					int2 current = stack[--stackIndex];
-					int nodeIndex = current.x;
-					int depth = current.y;
-
-					BVHNodeInfo node = BvhNodeInfos[nodeIndex];
-
-					if(RayBoundingBox(ray, node.minBounds, node.maxBounds)) {
-						if(accumulateBVHColors){
-							if (depth <= bvhDepth) {
-								accumulatedColor += float3(0.01, 0.01, 0.01); // Use a fixed color for accumulation
-							}
-						} else {
-							if (depth == bvhDepth) {
-								float3 boxColor = redToBlueColor(nodeIndex+2, NumBVHNodes);
-								accumulatedColor = lerp(accumulatedColor, boxColor, 0.5);
-								continue; // Don't push children if we're at the target depth
-							}
-						}
-
-						if(!node.isLeaf) {
-							stack[stackIndex++] = int2(node.leftChildIndex, depth + 1);
-							stack[stackIndex++] = int2(node.rightChildIndex, depth + 1);
-						}
-					}
-				}
-				return float4(accumulatedColor, 1);
 			}
 
 
@@ -820,7 +583,21 @@ Shader "Custom/RayTracing" {
 
             float4 frag(v2f i) : SV_Target {
 
-				// Create seed for random number generator
+				// ------ Simple Shapes Option -----
+				// Just Color:
+                if(UseSimpleShape){
+                    float3 viewPointLocal = float3(i.uv - 0.5, 1) * ViewParams;
+                    float3 viewPoint = mul(CamLocalToWorldMatrix, float4(viewPointLocal, 1));
+                    Ray ray;
+                    ray.origin = _WorldSpaceCameraPos;
+                    ray.dir = normalize(viewPoint - ray.origin);
+					return IterativeRayPropagationThroughPortals(cameraLayer, ray).material.color;
+					//return float4(1, 0, 0, 1); // Debug color
+                }
+
+
+				// ------ Ray Tracing -----
+                // Create seed for random number generator
                 uint2 numPixels = _ScreenParams.xy;
                 uint2 pixelCoord = i.uv * numPixels;
                 uint pixelIndex = pixelCoord.y * numPixels.x + pixelCoord.x;
@@ -829,41 +606,36 @@ Shader "Custom/RayTracing" {
                 // Create Ray
                 float3 viewPointLocal = float3(i.uv - 0.5, 1) * ViewParams;
                 float3 viewPoint = mul(CamLocalToWorldMatrix, float4(viewPointLocal, 1));
+
                 Ray ray;
                 ray.origin = _WorldSpaceCameraPos;
                 ray.dir = normalize(viewPoint - ray.origin);
-				ray.invDir = 1 / ray.dir; // Precompute the inverse direction for faster calculations
 
+				float3 totalIncomingLight = 0;
 				float3 pixelCol = 0;
-				numIntersectionTests = 0;
 
-				// ------ Simple Shapes Option -----
-                if(UseSimpleShape){
-					return IterativeRayPropagationThroughPortals(cameraLayer, ray).material.color;
-                }
+                // Calculate Pixel Color using Ray Tracing
+				if(useRayTracing == 1) {
+					maxNumBounces = 0;
+					for (int i = 0; i < NumRaysPerPixel; i++) {
+						numBounces = 0;
+						totalIncomingLight += Trace(ray, rngState, cameraLayer);
 
-				// ------ Ray Tracing -----
-				if(useRayTracing) {
-					pixelCol += RayTrace(ray, rngState, cameraLayer);
+						if(numBounces > maxNumBounces) maxNumBounces = numBounces;
+					}
+
+					if(ShowBounceCount && maxNumBounces > bounceThreshold) return float4(1,0,0,1);
+
+					pixelCol += totalIncomingLight / NumRaysPerPixel;
 				} 
 				
-				// ------ Importance Sampling -----
-				if(useImportanceSampling) {
-					pixelCol += ImportanceSample(ray, cameraLayer);
-				}
-				
-				// ------ Show BVH Depth -----
-				if(showBVHDepth) {
-					pixelCol += showBVHDepthColor(ray, pixelCol);
+				// Calculate Pixel Color using Importance Sampling
+				if(useImportanceSampling == 1) {
+					totalIncomingLight += ImportanceSample(ray, cameraLayer);
+					pixelCol += totalIncomingLight;
 				}
 
-				// ------ Show Interesection Count (Debug) -----
-				if(ShowIntersectionCount) {
-					float debugColor = numIntersectionTests / float(maxIntersectionTests);
-					return debugColor < 1 ? float4(debugColor, debugColor, debugColor, 1) : float4(1,0,0,1); // Debug color
-				} 
-				
-				return float4(pixelCol, 1); // Return the pixel color			
+				return float4(pixelCol, 1); 
 	        }
 
             ENDCG

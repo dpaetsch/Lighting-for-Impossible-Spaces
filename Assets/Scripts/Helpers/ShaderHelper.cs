@@ -106,7 +106,7 @@ public static class ShaderHelper {
 		// If buffer is null, wrong size, etc., then we'll need to create a new one
 		if (buffer == null || !buffer.IsValid() || buffer.count != length || buffer.stride != stride) {
             if(debug) Debug.Log("MAKING NEW ARRAY BUFFER ");
-			if (buffer != null) { buffer.Release(); }//Debug.Log("Releasing buffer"); }
+			if (buffer != null) { buffer.Release(); Debug.Log("Releasing buffer"); }
             
 			buffer = new ComputeBuffer(length, stride, ComputeBufferType.Structured);
 		}
