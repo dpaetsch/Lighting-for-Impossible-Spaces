@@ -1,56 +1,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Mathf;
-using UnityEngine.Rendering;
+
 
 [ExecuteAlways, ImageEffectAllowedInSceneView]
-public class RayTracingManager : MonoBehaviour {
+public class RayTracingManager : MonoBehaviour
+{
+    public const int TriangleLimit = 1500;
 
-    [Header("View Settings")]
-    [SerializeField] bool useShaderInSceneView; // If true, the shader will be applied in the scene view as well
-    [SerializeField] bool useRayTracing; // If true, the ray tracing shader will be used
-    [SerializeField] bool useImportanceSampling; // If true, the shader will use importance sampling for the rays
+    [SerializeField] bool useShaderInSceneView;
+
     [SerializeField] bool useSimpleShape; // Without raytracing, just getting the shapes of objects
-    [SerializeField] Shader rayTracingShader; 
+
+    [SerializeField] Shader rayTracingShader;
+
     [SerializeField, Range(0, 32)] int maxBounceCount = 4;
     [SerializeField, Range(0, 128)] int numRaysPerPixel = 2;
-    [SerializeField, Range(1e-05f, 179f)] float fieldOfView = 61.2f;
 
-    [Header("Stencil Buffer Info")]
-    [SerializeField] int currentLayer = 1;
-
-    [Header("Debug Info")]
-    [SerializeField] bool showBounceCount; // If true, the bounce count will be shown (red pixels
-    [SerializeField, Range(0, 32)] int bounceThreshold; // If the bounce count for a pixel is greater than this value, the pixel will be red
 
     [Header("Info")]
+    
     [ReadOnly] [SerializeField] int numMeshInfo;
 	[ReadOnly] [SerializeField] int numMeshChunks;
 	[ReadOnly] [SerializeField] int numTriangles;
     [ReadOnly] [SerializeField] int numStencils;
     [ReadOnly] [SerializeField] int numSpheres;
     [ReadOnly] [SerializeField] int numRooms;
-    [ReadOnly] [SerializeField] int numLights;
+
+    List<Triangle> allTriangles;
+	List<MeshInfo> allMeshInfo;
 	
+
     [Header("Environment Settings")]
-    [SerializeField] bool useEnvironmentLight;
-	[SerializeField] Color groundColour;
-	[SerializeField] Color skyColourHorizon;
-	[SerializeField] Color skyColourZenith;
-	[SerializeField] float sunFocus;
-	[SerializeField] float sunIntensity;
+
+    [SerializeField] EnvironmentSettings environmentSettings;
 
     [Header("Ambient Lighting")]
     [SerializeField] bool useAmbientLight = false;
     [SerializeField] Color ambientLightColor = Color.white;
     [SerializeField, Range(0, 1)] float ambientLightIntensity = 1.0f;
 
-    // --- Materials ---
+
+
+
+    [Header("Stencil Buffer Info")]
+    [SerializeField] int currentLayer = 1;
+
+
     Material rayTracingMaterial;
 
-    // --- Lists ---
-    List<Triangle> allTriangles;
-	List<MeshInfo> allMeshInfo;
 
     // --- Buffers ---
 	ComputeBuffer sphereBuffer;
@@ -58,49 +56,48 @@ public class RayTracingManager : MonoBehaviour {
 	ComputeBuffer meshInfoBuffer;
     ComputeBuffer stencilBuffer;
     ComputeBuffer roomBuffer;
-    ComputeBuffer lightInfoBuffer;
-
-    // --- Contants ---
-    public const int TriangleLimit = 1500;
 
 
 
-
-    void Start() { }
-
-    void Update() { }
 
     // Called after each camera (e.g. game or scene camera) has finished rendering into the src texture.
-    void OnRenderImage(RenderTexture src, RenderTexture target) {
-        bool shouldApplyShader = Camera.current.name != "SceneCamera" || useShaderInSceneView;
-        if (shouldApplyShader) {
+    void OnRenderImage(RenderTexture src, RenderTexture target){
+        if(Camera.current.name != "SceneCamera" || useShaderInSceneView){
             InitFrame();
-            Graphics.Blit(null, target, rayTracingMaterial);  // Run the ray tracing shader and draw the result to the screen
-        }  else {
-            Graphics.Blit(src, target); // Copy the source texture to the target texture i.e. do not apply the shader
-        }
+            // Set up a material using the ray tracing shader
+            ShaderHelper.InitMaterial(rayTracingShader, ref rayTracingMaterial);
+            UpdateCameraParams(Camera.current);
+
+            // Run the ray tracing shader and draw the result to the screen
+            Graphics.Blit(null, target, rayTracingMaterial);
+        } else {
+            InitFrame();
+            Graphics.Blit(src, target);
+        } 
     }
 
-    void InitFrame(){
-		ShaderHelper.InitMaterial(rayTracingShader, ref rayTracingMaterial); // Create materials used in blits
-        UpdateCameraParams(Camera.current);
-        CreateRooms();
-        SetShaderParams();
-    }
-
-    // Update the camera parameters in the shader (and change FOV)
     void UpdateCameraParams(Camera cam){
         float planeHeight = cam.nearClipPlane * Tan(cam.fieldOfView * 0.5f * Deg2Rad) * 2;
         float planeWidth = planeHeight * cam.aspect;
         // Send data to shader
         rayTracingMaterial.SetVector("ViewParams", new Vector3(planeWidth, planeHeight, cam.nearClipPlane));
-        rayTracingMaterial.SetMatrix("CamLocalToWorldMatrix", cam.transform.localToWorldMatrix);  
-        // Update camera FOV (only if not scene camera)
-        if(cam.name != "SceneCamera") cam.fieldOfView = fieldOfView;
+        rayTracingMaterial.SetMatrix("CamLocalToWorldMatrix", cam.transform.localToWorldMatrix);    
     }
 
-    // Loop through all objects (meshes and spheres) and create a list of rooms, then send data to the shader
+    void InitFrame(){
+        // Create materials used in blits
+		ShaderHelper.InitMaterial(rayTracingShader, ref rayTracingMaterial);
+
+        // Update Data
+        UpdateCameraParams(Camera.current);
+        SetShaderParams();
+        CreateRooms();
+    }
+
+
+    // Loop through all objects (meshes and spheres) and create a list of rooms
     void CreateRooms(){
+
         // -- Get rooms and sort them
         RoomObject[] roomObjects = FindObjectsOfType<RoomObject>(); 
         System.Array.Sort(roomObjects, (a, b) => a.layer.CompareTo(b.layer));
@@ -109,12 +106,10 @@ public class RayTracingManager : MonoBehaviour {
         // create abstract rooms to send to the shader
         Room[] rooms = new Room[roomObjects.Length];
 
-        // -- Get all the meshes and sort them
+        // -- Get all the meshes
         MeshObject[] meshObjects = FindObjectsOfType<MeshObject>();
         System.Array.Sort(meshObjects, (a, b) => a.layer.CompareTo(b.layer));
-
-        // -- Initialize the lists ( if list is null, create a new list, otherwise use the existing one)
-		allTriangles ??= new List<Triangle>(); 
+		allTriangles ??= new List<Triangle>();
 		allMeshInfo ??= new List<MeshInfo>();
         allTriangles.Clear();
 		allMeshInfo.Clear();
@@ -128,11 +123,6 @@ public class RayTracingManager : MonoBehaviour {
         StencilObject[] stencilObjects = FindObjectsOfType<StencilObject>();
         System.Array.Sort(stencilObjects, (a, b) => a.layer.CompareTo(b.layer));
         StencilRect[] stencilRects = new StencilRect[stencilObjects.Length];
-
-
-        // Light Info
-        List<LightInfo> allLightInfos = new List<LightInfo>();
-        int numLights = 0; // number of triangles that are ligths (i.e. are emissive)
 
 
         // -- Initialize the rooms 
@@ -150,39 +140,15 @@ public class RayTracingManager : MonoBehaviour {
         // -- Add meshes to Rooms:
 		for (int i = 0; i < meshObjects.Length; i++) {
 
-            int tempLayer = meshObjects[i].layer;
+            int templayer = meshObjects[i].layer;
 
             MeshChunk[] chunks = meshObjects[i].GetSubMeshes();
 			foreach (MeshChunk chunk in chunks) {
 				RayTracingMaterial material = meshObjects[i].GetMaterial(chunk.subMeshIndex);
-
-                // Check if material is emissive
-                bool isEmissive = material.emissionStrength > 0f && material.emissionColor.maxColorComponent > 0f;
-                if (isEmissive) {
-                    Vector3 sumCenter = Vector3.zero;
-                    int triCount = chunk.triangles.Length;
-
-                    foreach (Triangle t in chunk.triangles) {
-                        Vector3 center = (t.posA + t.posB + t.posC) / 3f;
-                        sumCenter += center;
-                    }
-                    if (triCount > 0) {
-                        Vector3 avgCenter = sumCenter / triCount;
-                        allLightInfos.Add(new LightInfo { position = avgCenter });
-                        numLights++;
-                    }
-
-                    //allLightInfos.Add(new LightInfo { position = chunk.triangles[0].posA + chunk.triangles[0].posB + chunk.triangles[0].posC / 3f });
-                    //numLights++;    
-
-                }
-
-
-
 				allMeshInfo.Add(new MeshInfo(allTriangles.Count, chunk.triangles.Length, material, chunk.bounds, meshObjects[i].layer));
 				allTriangles.AddRange(chunk.triangles);
-                rooms[tempLayer-1].numMeshes++;
-                roomObjects[tempLayer-1].numMeshes++;
+                rooms[templayer-1].numMeshes++;
+                roomObjects[templayer-1].numMeshes++;
 			}   
 		}
 
@@ -243,7 +209,6 @@ public class RayTracingManager : MonoBehaviour {
         }
 
 
-
         // -- SEND DATA TO SHADER -- 
         
         // Send mesh data to the shader
@@ -267,42 +232,39 @@ public class RayTracingManager : MonoBehaviour {
         ShaderHelper.CreateStructuredBuffer(ref roomBuffer, rooms);
         rayTracingMaterial.SetBuffer("Rooms", roomBuffer);
         rayTracingMaterial.SetInt("NumRooms", numRooms);
-
-        // Send light data to the shader
-        ShaderHelper.CreateStructuredBuffer(ref lightInfoBuffer, allLightInfos);
-        rayTracingMaterial.SetBuffer("LightInfos", lightInfoBuffer);
-        rayTracingMaterial.SetInt("NumLights", numLights);
        
         // ----------------------------
 
     } 
 
+
+
+
+
+
+
+        
+
     void SetShaderParams() {
 		rayTracingMaterial.SetInt("MaxBounceCount", maxBounceCount);
 		rayTracingMaterial.SetInt("NumRaysPerPixel", numRaysPerPixel);
+
         rayTracingMaterial.SetInt("UseSimpleShape", useSimpleShape ? 1 : 0);
+
+        rayTracingMaterial.SetInteger("EnvironmentEnabled", environmentSettings.enabled ? 1 : 0);
+		rayTracingMaterial.SetColor("GroundColour", environmentSettings.groundColour);
+		rayTracingMaterial.SetColor("SkyColourHorizon", environmentSettings.skyColourHorizon);
+		rayTracingMaterial.SetColor("SkyColourZenith", environmentSettings.skyColourZenith);
+		rayTracingMaterial.SetFloat("SunFocus", environmentSettings.sunFocus);
+		rayTracingMaterial.SetFloat("SunIntensity", environmentSettings.sunIntensity);
+
         rayTracingMaterial.SetInt("cameraLayer", currentLayer);
 
-        // View options
-        rayTracingMaterial.SetInt("useRayTracing", useRayTracing ? 1 : 0);
-        rayTracingMaterial.SetInt("useImportanceSampling", useImportanceSampling ? 1 : 0);
-
-        // Debug Info
-        rayTracingMaterial.SetInt("ShowBounceCount", showBounceCount ? 1 : 0);
-        rayTracingMaterial.SetInt("bounceThreshold", bounceThreshold);
-
-        // Environment Light 
-        rayTracingMaterial.SetInteger("useEnvironmentLight", useEnvironmentLight ? 1 : 0);
-		rayTracingMaterial.SetColor("GroundColour", groundColour);
-		rayTracingMaterial.SetColor("SkyColourHorizon", skyColourHorizon);
-		rayTracingMaterial.SetColor("SkyColourZenith", skyColourZenith);
-		rayTracingMaterial.SetFloat("SunFocus", sunFocus);
-		rayTracingMaterial.SetFloat("SunIntensity", sunIntensity);
-        // Ambient Light 
-        rayTracingMaterial.SetInt("useAmbientLight", useAmbientLight ? 1 : 0);
+        rayTracingMaterial.SetInt("UseAmbientLight", useAmbientLight ? 1 : 0);
         rayTracingMaterial.SetColor("AmbientLightColor", ambientLightColor);
         rayTracingMaterial.SetFloat("AmbientLightIntensity", ambientLightIntensity);
 	}
+
 
 
     // Called when the script instance is being loaded
@@ -311,19 +273,18 @@ public class RayTracingManager : MonoBehaviour {
         ShaderHelper.Release(sphereBuffer);
         ShaderHelper.Release(stencilBuffer);
         ShaderHelper.Release(roomBuffer);
-        ShaderHelper.Release(lightInfoBuffer);
-    }
-
-    void OnDestroy() {
-    }
+	}
 
     // Called when the script is loaded or a value is changed in the inspector (Called in the editor only)
     void OnValidate(){
 		maxBounceCount = Mathf.Max(0, maxBounceCount);
 		numRaysPerPixel = Mathf.Max(1, numRaysPerPixel);
-		sunFocus = Mathf.Max(1, sunFocus);
-		sunIntensity = Mathf.Max(0, sunIntensity);
+		environmentSettings.sunFocus = Mathf.Max(1, environmentSettings.sunFocus);
+		environmentSettings.sunIntensity = Mathf.Max(0, environmentSettings.sunIntensity);
+
 	}
+
+
 
 
 }

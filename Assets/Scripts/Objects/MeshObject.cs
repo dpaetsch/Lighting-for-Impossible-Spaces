@@ -82,8 +82,9 @@ public class MeshObject : MonoBehaviour {
 		return worldChunks;
 	} 
 
-	// Update the world chunk from the local chunk
 	void UpdateWorldChunkFromLocal(MeshChunk worldChunk, MeshChunk localChunk, Vector3 pos, Quaternion rot, Vector3 scale) {
+        //Debug.Log("UpdateWorldChunkFromLocal");
+
 		Triangle[] localTris = localChunk.triangles;
 
 		Vector3 boundsMin = PointLocalToWorld(localTris[0].posA, pos, rot, scale);
@@ -97,7 +98,7 @@ public class MeshObject : MonoBehaviour {
 			Vector3 worldNormA = DirectionLocalToWorld(localTris[i].normalA, rot);
 			Vector3 worldNormB = DirectionLocalToWorld(localTris[i].normalB, rot);
 			Vector3 worldNormC = DirectionLocalToWorld(localTris[i].normalC, rot);
-			Triangle worldTri = new Triangle(worldA, worldB, worldC, worldNormA, worldNormB, worldNormC);
+			Triangle worldTri = new Triangle(worldA, worldB, worldC, worldNormA, worldNormB, worldNormC, layer);
 			worldChunk.triangles[i] = worldTri;
 
 			boundsMin = Vector3.Min(boundsMin, worldA);

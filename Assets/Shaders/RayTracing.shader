@@ -43,19 +43,11 @@ Shader "Custom/RayTracing"
             float3 ViewParams;
 			float4x4 CamLocalToWorldMatrix;
 
-			// View options
             int UseSimpleShape;
-			int useRayTracing;
-			int useImportanceSampling;
 
-			// Debug Info
-			int ShowBounceCount;
-			int bounceThreshold;
-			int numBounces; // keeps track of number of bounces for each trace
-			int maxNumBounces;  // Keeps track of max number of bounces for all traces
 
             // Environment Settings
-            int useEnvironmentLight;
+            int EnvironmentEnabled;
             float3 GroundColor;
             float3 SkyColorHorizon;
             float3 SkyColorZenith;
@@ -63,7 +55,7 @@ Shader "Custom/RayTracing"
             float SunFocus;
 
 			// Ambient Light
-			int useAmbientLight;
+			int useAmientLight;
 			float3 AmbientLightColor;
 			float AmbientLightIntensity;
 
@@ -79,8 +71,12 @@ Shader "Custom/RayTracing"
 
             struct RayTracingMaterial {
 				float4 color;
-				float4 emissionColor;
+                float4 emissionColor;
+				float4 specularColor;
 				float emissionStrength;
+				float smoothness;
+				float specularProbability;
+				int flag;
 			};
 
             struct Sphere {
@@ -109,6 +105,7 @@ Shader "Custom/RayTracing"
 				int nextLayer; 
 			};
 
+
 			struct Room {
 				int layer;
 				int spheresIndex;    
@@ -119,10 +116,11 @@ Shader "Custom/RayTracing"
 				int stencilIndex;
 			};
 
+
 			struct Triangle {
 				float3 posA, posB, posC;
 				float3 normalA, normalB, normalC;
-				//int layer;
+				int layer;
 			};
 
             struct MeshInfo {
@@ -132,10 +130,6 @@ Shader "Custom/RayTracing"
 				float3 boundsMin;
 				float3 boundsMax;
 				int layer;
-			};
-
-			struct LightInfo {
-				float3 position;
 			};
 
 
@@ -153,12 +147,6 @@ Shader "Custom/RayTracing"
 
 			StructuredBuffer<Room> Rooms;
 			int NumRooms;
-
-			StructuredBuffer<LightInfo> LightInfos;
-			int NumLights;
-
-
-
 
 
             // --- Random Number Generator ----
@@ -206,21 +194,10 @@ Shader "Custom/RayTracing"
                 return dir*sign(dot(dir, normal));
             }
 
-			// --- Ray to light source Function ---
-			float3 GetRayToLightSource(float3 lightPos, float3 hitPoint) {
-				float3 rayToLight = lightPos - hitPoint;
-				return normalize(rayToLight);
-			}
 
-
-
-
-
-
-			// --- Environment light Function ---
             // Crude sky color function for background light
 			float3 GetEnvironmentLight(Ray ray) {
-				if (!useEnvironmentLight) { return 0; }
+				if (!EnvironmentEnabled) { return 0; }
 
 				float skyGradientT = pow(smoothstep(0, 0.4, ray.dir.y), 0.35);
 				float groundToSkyT = smoothstep(-0.01, 0, ray.dir.y);
@@ -232,12 +209,16 @@ Shader "Custom/RayTracing"
 				return composite;
 			}
 
-			// --- Ambient Light Function ---
-			float3 GetAmbientLight(Ray ray){
-				if(!useAmbientLight) { return 0; }
+
+			float3 GetAmbientLight(){
+				if(!useAmientLight) { return 0; }
 				float3 ambientLight = AmbientLightColor * AmbientLightIntensity;
 				return ambientLight;
 			}
+
+
+
+
 
             // --- Ray Intersection Functions ---
 		
@@ -276,6 +257,7 @@ Shader "Custom/RayTracing"
 			}
 
             // Calculate the intersection of a ray with a triangle using Möller–Trumbore algorithm
+			// Thanks to https://stackoverflow.com/a/42752998
 			HitInfo RayTriangle(Ray ray, Triangle tri) {
 				float3 edgeAB = tri.posB - tri.posA;
 				float3 edgeAC = tri.posC - tri.posA;
@@ -298,7 +280,8 @@ Shader "Custom/RayTracing"
 				hitInfo.hitPoint = ray.origin + ray.dir * dst;
 				hitInfo.normal = normalize(tri.normalA * w + tri.normalB * u + tri.normalC * v);
 				hitInfo.dst = dst;
-				//hitInfo.layerOfHit = tri.layer;
+				//hitInfo.material = tri.material;
+				hitInfo.layerOfHit = tri.layer;
 				return hitInfo;
 			}
 
@@ -372,6 +355,8 @@ Shader "Custom/RayTracing"
 					// Check if there is something in the current layer that is closer than the buffer (if it's not lighting)
 					if(hitInfo.didHit && hitInfo.dst < closestHit.dst && sphere.layer == currentLayer) {
 						closestHit = hitInfo; // Captures the closest hit location, material, and layer
+						//closestHit.material = sphere.material;
+						//closestHit.layerOfHit = sphere.layer;
 					}
 				}
 				//closestHit.material.color = float4(1, 0, 0, 1); // Debug color for the closest hit
@@ -402,6 +387,7 @@ Shader "Custom/RayTracing"
 						if (hitInfo.didHit && hitInfo.dst < closestHit.dst) {
 							closestHit = hitInfo; // Captures the closest hit location, material, and layer
 							closestHit.material = meshInfo.material;
+							//closestHit.material.color = float4(1, 1, 0, 1); // Debug color for the closest hit
 							closestHit.layerOfHit = meshInfo.layer;
 						}
 					}
@@ -450,7 +436,7 @@ Shader "Custom/RayTracing"
 				int nextLayer;
 				int previousLayer = 0;
 
-				int maxIterations = 3; // Maximum number of times we can go through the layers (for a single ray)
+				int maxIterations = 3;
 
 				while (maxIterations-- > 0) {
 					// Find the closest buffer hit in this layer
@@ -502,8 +488,6 @@ Shader "Custom/RayTracing"
 
 					HitInfo hitInfo = IterativeRayPropagationThroughPortals(StartOfLightingLayer, ray);
 
-					numBounces++;
-
 					if (hitInfo.didHit) {
                         ray.origin = hitInfo.hitPoint;
 
@@ -520,7 +504,7 @@ Shader "Custom/RayTracing"
                         rayColor *= material.color; //* lightStrength * 2;
 
 						if(bounceIndex == 0){
-							incomingLight += GetAmbientLight(ray) * rayColor;
+							incomingLight += GetAmbientLight() * rayColor;
 						}
 
 					} else {
@@ -529,51 +513,6 @@ Shader "Custom/RayTracing"
 					}
 				}
 
-				return incomingLight;
-			}
-
-
-
-			float3 ImportanceSample(Ray ray, int currentLayer) {
-
-				float3 incomingLight = 0;
-				float3 rayColor = 1;	
-				
-				// First, we need to find the object of the pixel
-				HitInfo hitInfo = IterativeRayPropagationThroughPortals(currentLayer, ray);
-
-				if (!hitInfo.didHit) return incomingLight;
-				
-				// Get the material of the object
-				RayTracingMaterial material = hitInfo.material;
-				float3 emittedLight = material.emissionColor * material.emissionStrength;
-				incomingLight += emittedLight * rayColor;
-				rayColor *= material.color;
-
-				
-				// Loop over all lights in the scene and sample them
-				for(int i = 0; i < NumLights; i++) {
-					LightInfo lightInfo = LightInfos[i];
-
-					// Send a ray to the light source
-					float3 lightDir = normalize(lightInfo.position - hitInfo.hitPoint);
-					Ray lightRay;
-					lightRay.origin = hitInfo.hitPoint + hitInfo.normal * 0.001;
-					lightRay.dir = lightDir;
-					HitInfo lightHit = IterativeRayPropagationThroughPortals(hitInfo.layerOfHit, lightRay);
-
-					float distanceToLight = length(lightInfo.position - hitInfo.hitPoint);
-					float distanceToHit = length(lightHit.hitPoint - hitInfo.hitPoint);
-
-					/// The ray is guaranteed to hit the light source, so we can calculate the light
-					RayTracingMaterial material2 = lightHit.material;
-					float NdotL = max(dot(hitInfo.normal, lightDir), 0.0);
-					float3 emittedLight2 = material2.emissionColor * material2.emissionStrength;
-					float attenuation = 1.0 / (distanceToLight * distanceToLight + 1e-4);
-					incomingLight += emittedLight2 * rayColor * NdotL * attenuation;
-					
-				}
-				
 				return incomingLight;
 			}
 
@@ -591,6 +530,8 @@ Shader "Custom/RayTracing"
                     Ray ray;
                     ray.origin = _WorldSpaceCameraPos;
                     ray.dir = normalize(viewPoint - ray.origin);
+                    //return CalculateRayCollision(ray, false).material.color;
+					//return IterativeRayPropagationThroughPortals(currentLayer, ray).material.color;
 					return IterativeRayPropagationThroughPortals(cameraLayer, ray).material.color;
 					//return float4(1, 0, 0, 1); // Debug color
                 }
@@ -611,32 +552,18 @@ Shader "Custom/RayTracing"
                 ray.origin = _WorldSpaceCameraPos;
                 ray.dir = normalize(viewPoint - ray.origin);
 
-				float3 totalIncomingLight = 0;
-				float3 pixelCol = 0;
+                //Calculate Pixel Color
+                float3 totalIncomingLight = 0;
 
-                // Calculate Pixel Color using Ray Tracing
-				if(useRayTracing == 1) {
-					maxNumBounces = 0;
-					for (int i = 0; i < NumRaysPerPixel; i++) {
-						numBounces = 0;
-						totalIncomingLight += Trace(ray, rngState, cameraLayer);
+                for (int i = 0; i < NumRaysPerPixel; i++) {
+                    totalIncomingLight += Trace(ray, rngState, cameraLayer);
+                }
 
-						if(numBounces > maxNumBounces) maxNumBounces = numBounces;
-					}
+                float3 pixelCol = totalIncomingLight / NumRaysPerPixel;
+                return float4(pixelCol, 1); 
+               
 
-					if(ShowBounceCount && maxNumBounces > bounceThreshold) return float4(1,0,0,1);
-
-					pixelCol += totalIncomingLight / NumRaysPerPixel;
-				} 
-				
-				// Calculate Pixel Color using Importance Sampling
-				if(useImportanceSampling == 1) {
-					totalIncomingLight += ImportanceSample(ray, cameraLayer);
-					pixelCol += totalIncomingLight;
-				}
-
-				return float4(pixelCol, 1); 
-	        }
+            }
 
             ENDCG
 

@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public struct MeshInfo {
+public struct MeshInfo
+{
 	public int triangleStartIndex;
 	public int triangleCount;
 	public RayTracingMaterial material;

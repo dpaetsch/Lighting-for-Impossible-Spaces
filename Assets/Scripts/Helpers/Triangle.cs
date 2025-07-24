@@ -13,15 +13,15 @@ public struct Triangle
 	public Vector3 normalB;
 	public Vector3 normalC;
 
-	//public int layer;
+	public int layer;
 
-	public Triangle(Vector3 posA, Vector3 posB, Vector3 posC, Vector3 normalA, Vector3 normalB, Vector3 normalC) {
+	public Triangle(Vector3 posA, Vector3 posB, Vector3 posC, Vector3 normalA, Vector3 normalB, Vector3 normalC, int layer) {
 		this.posA = posA;
 		this.posB = posB;
 		this.posC = posC;
 		this.normalA = normalA;
 		this.normalB = normalB;
 		this.normalC = normalC;
-		//this.layer = layer;
+		this.layer = layer;
 	}
 }

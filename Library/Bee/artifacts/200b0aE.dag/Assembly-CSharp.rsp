@@ -320,9 +320,9 @@
 -r:"/Users/dominic/2021.3.17f1/Unity.app/Contents/NetStandard/compat/2.1.0/shims/netstandard/System.Xml.XPath.XDocument.dll"
 -r:"/Users/dominic/2021.3.17f1/Unity.app/Contents/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll"
 -r:"/Users/dominic/2021.3.17f1/Unity.app/Contents/NetStandard/ref/2.1.0/netstandard.dll"
--r:"/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/Newtonsoft.Json.dll"
--r:"/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/PackageCache/com.unity.testtools.codecoverage@1.2.2/lib/ReportGenerator/ReportGeneratorMerged.dll"
--r:"/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
+-r:"/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/Newtonsoft.Json.dll"
+-r:"/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/PackageCache/com.unity.testtools.codecoverage@1.2.2/lib/ReportGenerator/ReportGeneratorMerged.dll"
+-r:"/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/Unity.EditorCoroutines.Editor.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/Unity.Performance.Profile-Analyzer.Editor.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/Unity.PlasticSCM.Editor.ref.dll"
@@ -349,7 +349,7 @@
 -r:"Library/Bee/artifacts/200b0aE.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/UnityEngine.UI.ref.dll"
-"Assets/Scripts/Helpers/LightInfo.cs"
+"Assets/Scripts/Helpers/EnvironmentSettings.cs"
 "Assets/Scripts/Helpers/MeshChunk.cs"
 "Assets/Scripts/Helpers/MeshInfo.cs"
 "Assets/Scripts/Helpers/MeshSplitter.cs"
@@ -365,8 +365,6 @@
 "Assets/Scripts/Objects/RoomObject.cs"
 "Assets/Scripts/Objects/SphereObject.cs"
 "Assets/Scripts/Objects/StencilObject.cs"
-"Assets/Scripts/Player/PlayerMovement.cs"
-"Assets/Scripts/UI Statistics/FPSCounter.cs"
 -langversion:9.0
 
 /deterministic

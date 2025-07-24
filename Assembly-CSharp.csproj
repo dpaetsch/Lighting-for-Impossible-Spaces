@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{ddc5c36f-a094-f35a-d704-7103a409cead}</ProjectGuid>
+    <ProjectGuid>{9cc5708f-b8e6-5d3c-06d5-2f12692cda29}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -38,44 +38,21 @@
   <ItemGroup>
      <Compile Include="Assets/Scripts/Objects/StencilObject.cs" />
      <Compile Include="Assets/Scripts/Helpers/Triangle.cs" />
+     <Compile Include="Assets/Scripts/Helpers/EnvironmentSettings.cs" />
      <Compile Include="Assets/Scripts/Helpers/StencilRect.cs" />
      <Compile Include="Assets/Scripts/Helpers/RayTracingMaterial.cs" />
-     <Compile Include="Assets/Scripts/Helpers/LightInfo.cs" />
      <Compile Include="Assets/Scripts/Objects/RoomObject.cs" />
      <Compile Include="Assets/Scripts/Helpers/Room.cs" />
      <Compile Include="Assets/Scripts/Helpers/ReadOnlyAttribute.cs" />
-     <Compile Include="Assets/Scripts/UI Statistics/FPSCounter.cs" />
      <Compile Include="Assets/Scripts/Manager/RayTracingManager.cs" />
      <Compile Include="Assets/Scripts/Objects/SphereObject.cs" />
-     <Compile Include="Assets/Scripts/Player/PlayerMovement.cs" />
      <Compile Include="Assets/Scripts/Objects/MeshObject.cs" />
      <Compile Include="Assets/Scripts/Helpers/MeshChunk.cs" />
      <Compile Include="Assets/Scripts/Helpers/Sphere.cs" />
      <Compile Include="Assets/Scripts/Helpers/MeshSplitter.cs" />
      <Compile Include="Assets/Scripts/Helpers/MeshInfo.cs" />
      <Compile Include="Assets/Scripts/Helpers/ShaderHelper.cs" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets/Shaders/RayTracing.shader" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader" />
-     <None Include="Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF.shader" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader" />
-     <None Include="Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc" />
-     <None Include="Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader" />
-     <None Include="Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_Sprite.shader" />
     <Reference Include="UnityEngine">
         <HintPath>/Users/dominic/2021.3.17f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -323,13 +300,13 @@
         <HintPath>/Users/dominic/2021.3.17f1/Unity.app/Contents/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="ReportGeneratorMerged">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/PackageCache/com.unity.testtools.codecoverage@1.2.2/lib/ReportGenerator/ReportGeneratorMerged.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/PackageCache/com.unity.testtools.codecoverage@1.2.2/lib/ReportGenerator/ReportGeneratorMerged.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/Newtonsoft.Json.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
         <HintPath>/Users/dominic/2021.3.17f1/Unity.app/Contents/NetStandard/ref/2.1.0/netstandard.dll</HintPath>
@@ -698,82 +675,82 @@
         <HintPath>/Users/dominic/2021.3.17f1/Unity.app/Contents/NetStandard/compat/2.1.0/shims/netfx/mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Flow.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.VisualScripting.Flow.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.VisualScripting.Flow.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Performance.Profile-Analyzer.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.Performance.Profile-Analyzer.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.Performance.Profile-Analyzer.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Core.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.VisualScripting.Core.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.VisualScripting.Core.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.State.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.VisualScripting.State.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.VisualScripting.State.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Flow">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.VisualScripting.Flow.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.VisualScripting.Flow.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Services.Core">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.Services.Core.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.Services.Core.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Core">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.VisualScripting.Core.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.VisualScripting.Core.dll</HintPath>
     </Reference>
     <Reference Include="Unity.EditorCoroutines.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.EditorCoroutines.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.EditorCoroutines.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Services.Core.Analytics">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.Services.Core.Analytics.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.Services.Core.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Shared.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.VisualScripting.Shared.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.VisualScripting.Shared.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Services.Core.Environments">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.Services.Core.Environments.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.Services.Core.Environments.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
-        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 3)/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
+        <HintPath>/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

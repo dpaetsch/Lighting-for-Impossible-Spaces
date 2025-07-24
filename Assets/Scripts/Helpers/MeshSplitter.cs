@@ -50,7 +50,7 @@ public static class MeshSplitter {
 			Vector3 normalB = normals[b];
 			Vector3 normalC = normals[c];
 
-			Triangle triangle = new Triangle(posA, posB, posC, normalA, normalB, normalC);
+			Triangle triangle = new Triangle(posA, posB, posC, normalA, normalB, normalC, layer);
 			triangles[i / 3] = triangle;
 		}
 
