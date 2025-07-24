@@ -104,7 +104,6 @@
 -define:ENABLE_UNITY_COLLECTIONS_CHECKS
 -define:ENABLE_BURST_AOT
 -define:UNITY_TEAM_LICENSE
--define:UNITY_PRO_LICENSE
 -define:ENABLE_CUSTOM_RENDER_TEXTURE
 -define:ENABLE_DIRECTOR
 -define:ENABLE_LOCALIZATION
@@ -320,9 +319,9 @@
 -r:"/Users/dominic/2021.3.17f1/Unity.app/Contents/NetStandard/compat/2.1.0/shims/netstandard/System.Xml.XPath.XDocument.dll"
 -r:"/Users/dominic/2021.3.17f1/Unity.app/Contents/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll"
 -r:"/Users/dominic/2021.3.17f1/Unity.app/Contents/NetStandard/ref/2.1.0/netstandard.dll"
--r:"/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/Newtonsoft.Json.dll"
--r:"/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/PackageCache/com.unity.testtools.codecoverage@1.2.2/lib/ReportGenerator/ReportGeneratorMerged.dll"
--r:"/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 2)/Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
+-r:"/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 1)/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/Newtonsoft.Json.dll"
+-r:"/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 1)/Library/PackageCache/com.unity.testtools.codecoverage@1.2.2/lib/ReportGenerator/ReportGeneratorMerged.dll"
+-r:"/Users/dominic/Unity Projects/Ray Tracing with Stencil Buffers in Unity (Optimized 1)/Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/Unity.EditorCoroutines.Editor.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/Unity.Performance.Profile-Analyzer.Editor.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/Unity.PlasticSCM.Editor.ref.dll"
@@ -354,16 +353,13 @@
 "Assets/Scripts/Helpers/MeshInfo.cs"
 "Assets/Scripts/Helpers/MeshSplitter.cs"
 "Assets/Scripts/Helpers/RayTracingMaterial.cs"
-"Assets/Scripts/Helpers/ReadOnlyAttribute.cs"
-"Assets/Scripts/Helpers/Room.cs"
 "Assets/Scripts/Helpers/ShaderHelper.cs"
 "Assets/Scripts/Helpers/Sphere.cs"
 "Assets/Scripts/Helpers/StencilRect.cs"
 "Assets/Scripts/Helpers/Triangle.cs"
 "Assets/Scripts/Manager/RayTracingManager.cs"
-"Assets/Scripts/Objects/MeshObject.cs"
-"Assets/Scripts/Objects/RoomObject.cs"
-"Assets/Scripts/Objects/SphereObject.cs"
+"Assets/Scripts/Objects/RayTracedMesh.cs"
+"Assets/Scripts/Objects/RayTracedSphere.cs"
 "Assets/Scripts/Objects/StencilObject.cs"
 -langversion:9.0
 

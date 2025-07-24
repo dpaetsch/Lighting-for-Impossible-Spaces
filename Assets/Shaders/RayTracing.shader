@@ -54,14 +54,12 @@ Shader "Custom/RayTracing"
             float SunIntensity;
             float SunFocus;
 
-			// Ambient Light
-			int useAmientLight;
-			float3 AmbientLightColor;
-			float AmbientLightIntensity;
-
 
 			// Stencil Buffer Settings
-			int cameraLayer; // Layer of the camera
+			int currentLayer; // Layer of the camera
+			int currentLightingLayer; // Layer that we are currently in, in order to calculate bounce light
+
+
             
             // --- Structures ---
 			struct Ray {
@@ -86,6 +84,22 @@ Shader "Custom/RayTracing"
 				int layer;
 			};
 
+            struct Triangle {
+				float3 posA, posB, posC;
+				float3 normalA, normalB, normalC;
+				int layer;
+				int IsStencilBuffer;
+				int nextLayerIfBuffer;
+			};
+
+            struct MeshInfo {
+				uint firstTriangleIndex;
+				uint numTriangles;
+				RayTracingMaterial material;
+				float3 boundsMin;
+				float3 boundsMax;
+			};
+
             struct HitInfo {
 				bool didHit;
 				float dst;
@@ -101,6 +115,7 @@ Shader "Custom/RayTracing"
 				float3 normal; // Normal vector defining orientation
 				float3 u; // First basis vector (width direction)
 				float3 v; // Second basis vector (height direction)
+				//RayTracingMaterial material; 
 				int layer;
 				int nextLayer; 
 			};
@@ -108,28 +123,10 @@ Shader "Custom/RayTracing"
 
 			struct Room {
 				int layer;
-				int spheresIndex;    
+				int firstSphereIndex;  // Start index in Spheres buffer
 				int numSpheres;
-				int meshIndex;
+				int firstMeshIndex; // Start index in Triangles buffer
 				int numMeshes;
-				int numStencils;
-				int stencilIndex;
-			};
-
-
-			struct Triangle {
-				float3 posA, posB, posC;
-				float3 normalA, normalB, normalC;
-				int layer;
-			};
-
-            struct MeshInfo {
-				uint firstTriangleIndex;
-				uint numTriangles;
-				RayTracingMaterial material;
-				float3 boundsMin;
-				float3 boundsMax;
-				int layer;
 			};
 
 
@@ -142,14 +139,19 @@ Shader "Custom/RayTracing"
 			StructuredBuffer<MeshInfo> AllMeshInfo;
 			int NumMeshes;
 
+
 			StructuredBuffer<StencilRect> StencilRects;
 			int NumStencilRects;
 
-			StructuredBuffer<Room> Rooms;
-			int NumRooms;
+
+			// StructuredBuffer<Room> Rooms;
+			// int NumRooms;
+			
+
 
 
             // --- Random Number Generator ----
+
             uint NextRandom(inout uint state) {
 				state = state * 747796405 + 2891336453;
 				uint result = ((state >> ((state >> 28) + 4)) ^ state) * 277803737;
@@ -210,11 +212,9 @@ Shader "Custom/RayTracing"
 			}
 
 
-			float3 GetAmbientLight(){
-				if(!useAmientLight) { return 0; }
-				float3 ambientLight = AmbientLightColor * AmbientLightIntensity;
-				return ambientLight;
-			}
+
+
+
 
 
 
@@ -342,85 +342,107 @@ Shader "Custom/RayTracing"
 
 
 			// --- Closest Hit Calculation (Helpers) ---
-			HitInfo closestSphereHit(Ray ray, HitInfo bufferHit, int currentLayer){ 
-				HitInfo closestHit = (HitInfo)0;
-				closestHit.dst = 1.#INF;
-
-				//Raycast against all spheres in the current layer and keep info about the closest hit
-                for (int i = 0; i < NumSpheres; i++) {
-					Sphere sphere = Spheres[i];
-
-					HitInfo hitInfo = RaySphere(ray, sphere);
-
-					// Check if there is something in the current layer that is closer than the buffer (if it's not lighting)
-					if(hitInfo.didHit && hitInfo.dst < closestHit.dst && sphere.layer == currentLayer) {
-						closestHit = hitInfo; // Captures the closest hit location, material, and layer
-						//closestHit.material = sphere.material;
-						//closestHit.layerOfHit = sphere.layer;
-					}
-				}
-				//closestHit.material.color = float4(1, 0, 0, 1); // Debug color for the closest hit
-				return closestHit;
-			}
-
-
-			HitInfo closestMeshHit(Ray ray, int currentLayer){			
-				HitInfo closestHit = (HitInfo)0;
-				closestHit.dst = 1.#INF; // We haven't hit anything yet, so 'closest' hit is infinitely far away
-
-				// Raycast against all meshes in the current layer and keep info about the closest hit
-				int layerIndex = currentLayer-1;
-				int numMeshes = Rooms[layerIndex].numMeshes;
-				int firstMeshIndex = Rooms[layerIndex].meshIndex;
-
-				for(int meshIndex = firstMeshIndex; meshIndex < firstMeshIndex + numMeshes; meshIndex++) {
-					MeshInfo meshInfo = AllMeshInfo[meshIndex];
-					// Ignore mesh if it is not in the current layer (invisible)
-					if(meshInfo.layer != currentLayer) { continue; }
-					// Skip the mesh if ray doesn't intersect its bounding box.
-					if (!RayBoundingBox(ray, meshInfo.boundsMin, meshInfo.boundsMax)) { continue; }
-					//closestHit.material.color = float4(1, 0, 0, 1); // Debug color for the closest hit
-					for (uint i = 0; i < meshInfo.numTriangles; i++) {
-						int triIndex = meshInfo.firstTriangleIndex + i;
-						Triangle tri = Triangles[triIndex];
-						HitInfo hitInfo = RayTriangle(ray, tri);
-						if (hitInfo.didHit && hitInfo.dst < closestHit.dst) {
-							closestHit = hitInfo; // Captures the closest hit location, material, and layer
-							closestHit.material = meshInfo.material;
-							//closestHit.material.color = float4(1, 1, 0, 1); // Debug color for the closest hit
-							closestHit.layerOfHit = meshInfo.layer;
-						}
-					}
-				}
-				return closestHit;
-			}
-
 
 			// Check if there is a buffer, in the path of the ary, in the current layer 
-			HitInfo checkClosestBuffer(Ray ray, int currentLayer, int previousLayer){
+			HitInfo checkClosestBuffer(Ray ray, int currentLightingLayer){
 				// Raycast against all rectangles in the current layer and keep info about the closest hit
 				HitInfo closestHit = (HitInfo)0;
-				closestHit.dst = 1.#INF;  // We haven't hit anything yet, so 'closest' hit is infinitely far away
 
+				// We haven't hit anything yet, so 'closest' hit is infinitely far away
+				closestHit.dst = 1.#INF;
 
-				int layerIndex = currentLayer-1;
-				int numStencils = Rooms[layerIndex].numStencils;
-				int firstStencilIndex = Rooms[layerIndex].stencilIndex;
+				for (int i = 0; i < NumStencilRects; i++) {
+					StencilRect rect = StencilRects[i];
 
-				for(int stencilIndex = firstStencilIndex; stencilIndex < firstStencilIndex + numStencils; stencilIndex++) {
-					StencilRect rect = StencilRects[stencilIndex];
-
-					// We ignore any buffer that is not part of the current layer
-					if(rect.layer != currentLayer) { continue; }
-
-					// We ignore any buffer than brings us back to the previous layer.
-					if(rect.nextLayer == previousLayer) { continue; }
+					if(rect.layer != currentLightingLayer) { continue; }
 
 					HitInfo hitInfo = RayRectangle(ray, rect);
 
 					if (hitInfo.didHit && hitInfo.dst < closestHit.dst) {
 						closestHit = hitInfo;
+						//closestHit.material = rect.material;
 						closestHit.nextLayerIfBuffer = rect.nextLayer; // Record the next layer if buffer is hit
+					}
+				}
+
+				return closestHit;
+			}
+
+
+
+
+			HitInfo closestSphereHit (Ray ray, HitInfo bufferHit, bool isLighting, int tempNextLightingLayer){ 
+				HitInfo closestHit = (HitInfo)0;
+
+				bool thereIsBuffer = bufferHit.didHit;	
+
+				// We haven't hit anything yet, so 'closest' hit is infinitely far away
+				closestHit.dst = 1.#INF;
+				//Raycast against all spheres in the current layer and keep info about the closest hit
+                for (int i = 0; i < NumSpheres; i++) {
+					Sphere sphere = Spheres[i];
+
+
+					if(!isLighting){ // if ray is just used to determine objects from the camera's view
+						if(!thereIsBuffer){ // there is no buffer in the direction of the ray ( => Display everything in the current layer)
+							if(sphere.layer != currentLayer) { continue; } // ignore spheres in other layers
+
+							HitInfo hitInfo = RaySphere(ray, sphere);
+
+							if (hitInfo.didHit && hitInfo.dst < closestHit.dst ) {
+								closestHit = hitInfo;
+								//closestHit.material = sphere.material;
+								//closestHit.layerOfHit = sphere.layer;
+							}
+						} else { // There is a buffer in the direction of the ray
+
+							HitInfo hitInfo = RaySphere(ray, sphere);
+
+							// Check if there is something in the current layer that is closer than the buffer (if it's not lighting)
+							if(hitInfo.didHit && hitInfo.dst < closestHit.dst && sphere.layer == currentLayer) {
+								closestHit = hitInfo; // Captures the closest hit location, material, and layer
+								//closestHit.material = sphere.material;
+								//closestHit.layerOfHit = sphere.layer;
+							}
+							// Check if hits triangle, it is farther away than buffer, and it is the closest hit, and it is not buffer
+							else if (hitInfo.didHit && hitInfo.dst > bufferHit.dst &&  hitInfo.dst < closestHit.dst && sphere.layer == bufferHit.nextLayerIfBuffer) {
+								closestHit = hitInfo; // Captures the closest hit location, material, and layer
+								//closestHit.material = sphere.material;
+								//closestHit.layerOfHit = sphere.layer;
+							} 
+						}
+					} else { // Ray is used for coloring of a pixel (light propagation)
+						if(!thereIsBuffer){ // There is no buffer in the direction of the ray and it is lighting ( => Get Cloests Hit of the object if it is in the current lighting layer)
+							if(sphere.layer != currentLightingLayer ) { continue; }
+
+							HitInfo hitInfo = RaySphere(ray, sphere);
+
+							if (hitInfo.didHit && hitInfo.dst < closestHit.dst) {
+								closestHit = hitInfo; // Captures the closest hit location, material, and layer
+								//closestHit.material = sphere.material;
+								//closestHit.layerOfHit = sphere.layer;
+							}
+
+						} else { // There is a buffer in the direction of the ray (and it is lighting)
+							//if(tri.IsStencilBuffer) { continue; } // ignore any buffers.
+
+							HitInfo hitInfo = RaySphere(ray, sphere);
+
+							// Check if while in current lighting  layer, there is something closer than buffer and it is in the same layer and it is not buffer and it is closest hit
+							if (hitInfo.didHit && hitInfo.dst < closestHit.dst && hitInfo.dst < bufferHit.dst && sphere.layer == currentLightingLayer) {
+								closestHit = hitInfo; // Captures the closest hit location, material, and layer
+								//closestHit.material = sphere.material;
+								//closestHit.layerOfHit = sphere.layer;
+							}
+
+							//Check if while in current lighting layer, if hits triangle that is farther away than the buffer, and it is the closest hit, and it is not buffer
+							else if (hitInfo.didHit && hitInfo.dst < closestHit.dst && hitInfo.dst > bufferHit.dst && sphere.layer == bufferHit.nextLayerIfBuffer && sphere.layer != currentLightingLayer) {
+								closestHit = hitInfo; // Captures the closest hit location, material, and layer
+								//closestHit.material = sphere.material;
+								// closestHit.layerOfHit = sphere.layer;
+							}
+							
+						}
 					}
 
 				}
@@ -428,72 +450,172 @@ Shader "Custom/RayTracing"
 			}
 
 
-			HitInfo IterativeRayPropagationThroughPortals(int startLayer, Ray ray) {
+			HitInfo closestMeshHit(Ray ray, HitInfo bufferHit, bool isLighting, int tempNextLightingLayer){			
 				HitInfo closestHit = (HitInfo)0;
-				closestHit.dst = 1.#INF;
+				closestHit.dst = 1.#INF; // We haven't hit anything yet, so 'closest' hit is infinitely far away
 
-				int currentLayer = startLayer;
-				int nextLayer;
-				int previousLayer = 0;
+				bool thereIsBuffer = bufferHit.didHit; 
 
-				int maxIterations = 3;
+                // Raycast against all meshes and keep info about the closest hit
+				for (int meshIndex = 0; meshIndex < NumMeshes; meshIndex++) {
+					MeshInfo meshInfo = AllMeshInfo[meshIndex];
 
-				while (maxIterations-- > 0) {
-					// Find the closest buffer hit in this layer
-					HitInfo bufferHit = checkClosestBuffer(ray, currentLayer, previousLayer);
-					bool thereIsBuffer = bufferHit.didHit;
-					nextLayer = bufferHit.nextLayerIfBuffer;
+                    // Skip the mesh if ray doesn't intersect its bounding box.
+					if (!RayBoundingBox(ray, meshInfo.boundsMin, meshInfo.boundsMax)) { continue; }
 
-					// Check for objects in the current layer
-					HitInfo closestHitMesh = closestMeshHit(ray, currentLayer);
-					if (closestHitMesh.didHit && closestHitMesh.dst < closestHit.dst) {
-						closestHit = closestHitMesh;
+					for (uint i = 0; i < meshInfo.numTriangles; i++) {
+						int triIndex = meshInfo.firstTriangleIndex + i;
+						Triangle tri = Triangles[triIndex];
+
+						if(!isLighting){ // if ray is just used to determine objects from the camera's view
+							if(!thereIsBuffer){ // there is no buffer in the direction of the ray ( => Display everything in the current layer)
+								if(tri.layer != currentLayer) { continue; }
+
+								HitInfo hitInfo = RayTriangle(ray, tri);
+
+								if (hitInfo.didHit && hitInfo.dst < closestHit.dst ) {
+									closestHit = hitInfo; // Captures the closest hit location, material, and layer
+									closestHit.material = meshInfo.material;
+									//closestHit.layerOfHit = tri.layer;
+									//tempNextLightingLayer = tri.layer;
+								}
+							} else { // There is a buffer in the direction of the ray
+								//if(tri.IsStencilBuffer) { continue; } // ignore any buffers.
+
+								HitInfo hitInfo = RayTriangle(ray, tri);
+
+								// Check if there is something in the current layer that is closer than the buffer (if it's not lighting)
+								if(hitInfo.didHit && hitInfo.dst < closestHit.dst && tri.layer == currentLayer) {
+									closestHit = hitInfo; // Captures the closest hit location, material, and layer
+									closestHit.material = meshInfo.material;
+									// closestHit.layerOfHit = tri.layer;
+									//tempNextLightingLayer = tri.layer;
+								}
+								// Check if hits triangle, it is farther away than buffer, and it is the closest hit, and it is not buffer
+								else if (hitInfo.didHit && hitInfo.dst > bufferHit.dst &&  hitInfo.dst < closestHit.dst && tri.layer == bufferHit.nextLayerIfBuffer && !tri.IsStencilBuffer) {
+									closestHit = hitInfo; // Captures the closest hit location, material, and layer
+									closestHit.material = meshInfo.material;
+									//closestHit.layerOfHit = tri.layer;
+									//tempNextLightingLayer = tri.layer; // This is the layer after on the other side of buffer
+								} 
+							}
+						} else { // Ray is used for coloring of a pixel (light propagation)
+							if(!thereIsBuffer){ // There is no buffer in the direction of the ray and it is lighting ( => Get Cloests Hit of the object if it is in the current lighting layer)
+								if(tri.layer != currentLightingLayer ) { continue; }
+
+								HitInfo hitInfo = RayTriangle(ray, tri);
+
+								if (hitInfo.didHit && hitInfo.dst < closestHit.dst) {
+									closestHit = hitInfo; // Captures the closest hit location, material, and layer
+									closestHit.material = meshInfo.material;
+									// closestHit.layerOfHit = tri.layer;
+								}
+
+							} else { // There is a buffer in the direction of the ray (and it is lighting)
+								//if(tri.IsStencilBuffer) { continue; } // ignore any buffers.
+
+								HitInfo hitInfo = RayTriangle(ray, tri);
+
+								// Check if while in current lighting  layer, there is something closer than buffer and it is in the same layer and it is not buffer and it is closest hit
+								if (hitInfo.didHit && hitInfo.dst < closestHit.dst && hitInfo.dst < bufferHit.dst && tri.layer == currentLightingLayer) {
+									closestHit = hitInfo; // Captures the closest hit location, material, and layer
+									closestHit.material = meshInfo.material;
+									// closestHit.layerOfHit = tri.layer;
+								}
+
+								//Check if while in current lighting layer, if hits triangle that is farther away than the buffer, and it is the closest hit, and it is not buffer
+								else if (hitInfo.didHit && hitInfo.dst < closestHit.dst && hitInfo.dst > bufferHit.dst && tri.layer == bufferHit.nextLayerIfBuffer && tri.layer != currentLightingLayer) {
+									closestHit = hitInfo; // Captures the closest hit location, material, and layer
+									closestHit.material = meshInfo.material;
+									// closestHit.layerOfHit = tri.layer;
+								}
+								
+							}
+						}	
 					}
-
-					// Check for spheres in the current layer	
-					if(NumSpheres > 0){	
-						HitInfo closestHitSphere = closestSphereHit(ray, bufferHit, currentLayer);
-						if (closestHitSphere.didHit && closestHitSphere.dst < closestHit.dst) {
-							closestHit = closestHitSphere;
-						}
-					}
-
-					// If no buffer was hit, just do current layer
-					if (!thereIsBuffer) {
-						return closestHit;
-					}
-
-					// If we hit an object before the buffer, return the hit
-					if (closestHit.didHit && closestHit.dst < bufferHit.dst) {
-						return closestHit;
-					}
-
-					// If we hit a buffer, check the next layer
-					// Move to the next layer and continue the search
-					previousLayer = currentLayer;
-					currentLayer = nextLayer;
-
 				}
-				return closestHit; // Return the closest hit found
+
+
+				return closestHit;
 			}
+
+
+		
+
+
+
+
+
+
+
+			// --- Ray Collision Calculation ---
+
+            // Find the first point that the given ray collides with, and return hit info
+            HitInfo CalculateRayCollision(Ray ray, bool isLighting) {
+
+				// Closest hit (objects)
+                HitInfo closestHit = (HitInfo)0;
+				closestHit.dst = 1.#INF;
+				
+				// Cloest hit (buffer) -> so we know what's in front and what's behind
+				HitInfo bufferHit = (HitInfo)0;
+				bufferHit.dst = 1.#INF;
+				bool thereIsBuffer;
+
+				int nextLayerIfBuffer = 0;
+
+				// Temporary variable to store the next lighting layer (if there is a buffer)
+				int tempNextLightingLayer = currentLightingLayer;
+				
+				
+				// Check if there is buffer (in the current lighting layer)
+				bufferHit = checkClosestBuffer(ray, currentLightingLayer); // First pass, it is currentLayer, but it will be updated to currentLightingLayer in the next pass
+				thereIsBuffer = bufferHit.didHit;
+				nextLayerIfBuffer = bufferHit.nextLayerIfBuffer;
+				
+				// Check if there is a sphere in the current layer
+				if(NumSpheres > 0){
+					HitInfo closestHitSphere = closestSphereHit(ray, bufferHit, isLighting, nextLayerIfBuffer);
+					if(closestHitSphere.didHit && closestHitSphere.dst < closestHit.dst){
+						closestHit = closestHitSphere;
+						tempNextLightingLayer = closestHitSphere.layerOfHit;
+					}
+				}
+				
+				// Check if there is a mesh in the current layer
+				HitInfo closestHitMesh = closestMeshHit(ray, bufferHit, isLighting, nextLayerIfBuffer);
+				if(closestHitMesh.didHit && closestHitMesh.dst < closestHit.dst){
+					closestHit = closestHitMesh;
+					tempNextLightingLayer = closestHitMesh.layerOfHit;
+				}
+				
+				currentLightingLayer = tempNextLightingLayer;
+
+                return closestHit;
+            }
+
+
 
 
             float3 Trace(Ray ray, inout uint rngState, int currentLayer) {
 				float3 incomingLight = 0;
-				float3 rayColor = 1;	
+				float3 rayColor = 1;
 
-				int StartOfLightingLayer = cameraLayer;
+				// Boolean to check if the ray is used for lighting or just object visibility
+				bool isLighting = false;
+
+				// reset the lighting layer to current layer (no necessarily true for all pixels, but good for now)
+				currentLightingLayer = currentLayer;
 
 				for (int bounceIndex = 0; bounceIndex <= MaxBounceCount; bounceIndex++) {
 
-					HitInfo hitInfo = IterativeRayPropagationThroughPortals(StartOfLightingLayer, ray);
+					// Check if the ray is for lighting or if it is just for object visibility
+					if(bounceIndex > 0) isLighting = true; 
+
+					HitInfo hitInfo = CalculateRayCollision(ray, isLighting);
 
 					if (hitInfo.didHit) {
                         ray.origin = hitInfo.hitPoint;
-
-						// This is for future iterations, we need to know what layer we are in to be able to calculate the light
-						StartOfLightingLayer = hitInfo.layerOfHit;
-
                         //ray.dir = RandomHemisphereDirection(hitInfo.normal, rngState);
                         ray.dir = normalize(hitInfo.normal + RandomDirection(rngState));
                         
@@ -502,11 +624,6 @@ Shader "Custom/RayTracing"
                         //float lightStrength = dot(hitInfo.normal,ray.dir); 
                         incomingLight += emittedLight * rayColor;
                         rayColor *= material.color; //* lightStrength * 2;
-
-						if(bounceIndex == 0){
-							incomingLight += GetAmbientLight() * rayColor;
-						}
-
 					} else {
                         incomingLight += GetEnvironmentLight(ray) * rayColor;
 						break;
@@ -523,17 +640,14 @@ Shader "Custom/RayTracing"
             float4 frag(v2f i) : SV_Target {
 
 				// ------ Simple Shapes Option -----
-				// Just Color:
+				                // Just Color:
                 if(UseSimpleShape){
                     float3 viewPointLocal = float3(i.uv - 0.5, 1) * ViewParams;
                     float3 viewPoint = mul(CamLocalToWorldMatrix, float4(viewPointLocal, 1));
                     Ray ray;
                     ray.origin = _WorldSpaceCameraPos;
                     ray.dir = normalize(viewPoint - ray.origin);
-                    //return CalculateRayCollision(ray, false).material.color;
-					//return IterativeRayPropagationThroughPortals(currentLayer, ray).material.color;
-					return IterativeRayPropagationThroughPortals(cameraLayer, ray).material.color;
-					//return float4(1, 0, 0, 1); // Debug color
+                    return CalculateRayCollision(ray, false).material.color;
                 }
 
 
@@ -556,7 +670,7 @@ Shader "Custom/RayTracing"
                 float3 totalIncomingLight = 0;
 
                 for (int i = 0; i < NumRaysPerPixel; i++) {
-                    totalIncomingLight += Trace(ray, rngState, cameraLayer);
+                    totalIncomingLight += Trace(ray, rngState, currentLayer);
                 }
 
                 float3 pixelCol = totalIncomingLight / NumRaysPerPixel;

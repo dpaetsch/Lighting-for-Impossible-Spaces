@@ -7,7 +7,7 @@ public static class MeshSplitter {
 	const int maxDepth = 6;
 	const int maxTrisPerChunk = 48;
 
-	public static MeshChunk[] CreateChunks(Mesh mesh, int layer) {
+	public static MeshChunk[] CreateChunks(Mesh mesh, int layer, bool IsStencilBuffer, int nextLayerIfBuffer) {
 		
 		MeshChunk[] subMeshes = new MeshChunk[mesh.subMeshCount]; 
 
@@ -18,7 +18,7 @@ public static class MeshSplitter {
 		for (int i = 0; i < subMeshes.Length; i++) {
 			UnityEngine.Rendering.SubMeshDescriptor subMeshInfo = mesh.GetSubMesh(i);
 			var subMeshIndices = indices.AsSpan(subMeshInfo.indexStart, subMeshInfo.indexCount);
-			subMeshes[i] = CreateSubMesh(verts, normals, subMeshIndices, i, layer);
+			subMeshes[i] = CreateSubMesh(verts, normals, subMeshIndices, i, layer, IsStencilBuffer, nextLayerIfBuffer);
 		}
 
 		List<MeshChunk> splitChunksList = new List<MeshChunk>();
@@ -29,7 +29,7 @@ public static class MeshSplitter {
 		return splitChunksList.ToArray();
 	}
 
-	static MeshChunk CreateSubMesh(Vector3[] verts, Vector3[] normals, Span<int> indices, int subMeshIndex, int layer) {
+	static MeshChunk CreateSubMesh(Vector3[] verts, Vector3[] normals, Span<int> indices, int subMeshIndex, int layer, bool IsStencilBuffer, int nextLayerIfBuffer) {
 
 		Triangle[] triangles = new Triangle[indices.Length / 3];
 		Bounds bounds = new Bounds(verts[indices[0]], Vector3.one * 0.01f);
@@ -50,7 +50,7 @@ public static class MeshSplitter {
 			Vector3 normalB = normals[b];
 			Vector3 normalC = normals[c];
 
-			Triangle triangle = new Triangle(posA, posB, posC, normalA, normalB, normalC, layer);
+			Triangle triangle = new Triangle(posA, posB, posC, normalA, normalB, normalC, layer, IsStencilBuffer ? 1 : 0, nextLayerIfBuffer);
 			triangles[i / 3] = triangle;
 		}
 
